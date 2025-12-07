@@ -1,115 +1,248 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>Property Portfolio | 360° Virtual Tours</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8" />
+<title>Property Portfolio | Formaspace Studio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: #f7f7f7;
-    }
-    h1 {
-      text-align: center;
-      padding: 20px;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 16px;
-      padding: 20px;
-    }
-    .card {
-      background: #fff;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0,0,0,.1);
-    }
-    .card img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-    }
-    .card-body {
-      padding: 14px;
-    }
-    .card h3 {
-      margin: 0 0 8px;
-    }
-    .btn {
-      display: inline-block;
-      padding: 8px 12px;
-      margin-top: 8px;
-      background: #0077ff;
-      color: #fff;
-      border-radius: 4px;
-      text-decoration: none;
-      font-size: 14px;
-    }
-    .links a {
-      margin-right: 10px;
-      font-size: 14px;
-      text-decoration: none;
-    }
+<style>
+:root{
+  --dark:#1c1c1c;
+  --blue:#6fa7c9;
+  --light:#ffffff;
+  --text:#dddddd;
+  --whatsapp:#25D366;
+}
 
-    /* Modal */
-    .modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.8);
-      z-index: 100;
-    }
-    .modal iframe {
-      width: 100%;
-      height: 80vh;
-      border: 0;
-    }
-    .modal-content {
-      background: #000;
-      margin: 5% auto;
-      max-width: 900px;
-    }
-    .close {
-      color: #fff;
-      text-align: right;
-      padding: 6px 10px;
-      cursor: pointer;
-    }
-  </style>
+body{
+  margin:0;
+  font-family:"Segoe UI",Arial,sans-serif;
+  background:var(--dark);
+  color:var(--text);
+}
+
+/* HEADER */
+header{
+  padding:40px 20px;
+  background:linear-gradient(135deg,#111,#1c1c1c);
+  text-align:center;
+}
+header img{
+  max-width:140px;
+  margin-bottom:15px;
+}
+header h1{
+  margin:0;
+  font-size:2.2rem;
+  color:var(--light);
+}
+header p{
+  margin-top:6px;
+  color:#aaa;
+  font-size:.85rem;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+
+/* FILTERS */
+.filters{
+  text-align:center;
+  padding:20px;
+}
+.filters button{
+  background:none;
+  border:1px solid var(--blue);
+  color:var(--blue);
+  padding:8px 16px;
+  margin:5px;
+  border-radius:20px;
+  cursor:pointer;
+  font-size:.85rem;
+}
+.filters button.active,
+.filters button:hover{
+  background:var(--blue);
+  color:#000;
+}
+
+/* GRID */
+.grid{
+  padding:30px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  gap:25px;
+}
+
+/* CARD */
+.card{
+  background:var(--light);
+  color:#333;
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow:0 15px 40px rgba(0,0,0,.45);
+  border:2px solid transparent;
+  transition:transform .3s,border-color .3s;
+}
+.card:hover{
+  transform:translateY(-6px);
+  border-color:var(--blue);
+}
+
+.card img{
+  width:100%;
+  height:220px;
+  object-fit:cover;
+}
+
+.card-body{
+  padding:20px;
+}
+
+.card h3{
+  margin:0;
+  font-size:1.3rem;
+}
+
+.card p{
+  margin:6px 0 12px;
+  color:#666;
+  font-size:.9rem;
+}
+
+.btn{
+  background:var(--blue);
+  color:#000;
+  padding:10px 16px;
+  border-radius:6px;
+  text-decoration:none;
+  font-size:.9rem;
+  font-weight:600;
+  display:inline-block;
+}
+
+.links{
+  margin-top:12px;
+}
+.links a{
+  margin-right:14px;
+  font-size:.85rem;
+  color:#444;
+  text-decoration:none;
+}
+
+/* FOOTER */
+footer{
+  margin-top:40px;
+  padding:25px;
+  background:#111;
+  text-align:center;
+  font-size:.85rem;
+  color:#aaa;
+}
+footer strong{color:#fff}
+
+/* MODAL */
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.9);
+  z-index:100;
+}
+.modal-content{
+  max-width:1000px;
+  background:#000;
+  margin:4% auto;
+  border-radius:12px;
+  overflow:hidden;
+}
+.modal iframe{
+  width:100%;
+  height:80vh;
+  border:0;
+}
+.close{
+  color:#fff;
+  text-align:right;
+  padding:10px 15px;
+  cursor:pointer;
+}
+
+/* WHATSAPP */
+.whatsapp{
+  position:fixed;
+  right:22px;
+  bottom:22px;
+  width:60px;
+  height:60px;
+  background:var(--whatsapp);
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:28px;
+  box-shadow:0 12px 25px rgba(0,0,0,.45);
+  text-decoration:none;
+  color:#000;
+  z-index:200;
+}
+</style>
 </head>
 
 <body>
 
-<h1>Our Property Portfolio</h1>
+<header>
+  <img src="logo.png" alt="Formaspace Studio Logo">
+  <h1>Formaspace Studio</h1>
+  <p>Design · Build · Visualization</p>
+</header>
+
+<div class="filters">
+  <button class="active" onclick="filterProjects('all',this)">All</button>
+  <button onclick="filterProjects('residential',this)">Residential</button>
+  <button onclick="filterProjects('commercial',this)">Commercial</button>
+</div>
 
 <div class="grid">
 
-  <!-- CARD 1 -->
-  <div class="card">
-    <img src="https://lh3.googleusercontent.com/gps-cs-s/AG0ilSwzmUtsbDw-8amqoYmp7_28SuaTxNoJTgoteqi71gVFu94xy_kJrD8s0V6OpK8GEBhhNh64J3FqMQ5fOC7_HGb6mA9iL2pRzgk4h1NBgBhLvzIfQ6UcOYPZOK1wh7ihVIU7heM=s680-w680-h510-rw" alt="">
+  <!-- RESIDENTIAL -->
+  <div class="card residential">
+    <img src="https://lh3.googleusercontent.com/gps-cs-s/AG0ilSwzmUtsbDw-8amqoYmp7_28SuaTxNoJTgoteqi71gVFu94xy_kJrD8s0V6OpK8GEBhhNh64J3FqMQ5fOC7_HGb6mA9iL2pRzgk4h1NBgBhLvzIfQ6UcOYPZOK1wh7ihVIU7heM=s680-w680-h510-rw">
     <div class="card-body">
       <h3>Houseboat Canberra</h3>
-      <p>3 Bed · 2000 sqft · Houseboat Canberra</p>
-
+      <p>Residential · 2000 sqft</p>
       <a class="btn" onclick="openTour('https://tour.panoee.net/690596e5eac32b09e73f0ee0')">
         View 360° Tour
       </a>
-
       <div class="links">
-        <a href="https://maps.google.com/?q=Dubai+Marina" target="_blank">📍 Map</a>
-        <a href="https://wa.me/971XXXXXXXXX?text=Interested in Skyline Residency" target="_blank">💬 WhatsApp</a>
+        <a href="https://maps.google.com/?q=Houseboat Canberra" target="_blank">📍 Map</a>
+        <a href="https://wa.me/919149670483" target="_blank">💬 WhatsApp</a>
       </div>
     </div>
   </div>
 
-  <!-- Duplicate this card 9 more times -->
+  <!-- COMMERCIAL EXAMPLE -->
+  <div class="card commercial">
+    <img src="https://picsum.photos/600/400?office">
+    <div class="card-body">
+      <h3>Office Interior Concept</h3>
+      <p>Commercial · Visualization</p>
+      <a class="btn" onclick="openTour('https://tour.panoee.net/')">
+        View 360° Tour
+      </a>
+    </div>
+  </div>
 
 </div>
 
-<!-- MODAL -->
+<footer>
+  © 2025 <strong>Formaspace Studio</strong> — Design · Build · Visualization
+</footer>
+
+<a class="whatsapp"
+href="https://wa.me/919149670483?text=Hello%20Formaspace%20Studio,%20I%20am%20interested%20in%20your%20projects"
+target="_blank">💬</a>
+
 <div id="modal" class="modal" onclick="closeTour()">
   <div class="modal-content" onclick="event.stopPropagation()">
     <div class="close" onclick="closeTour()">✕ Close</div>
@@ -118,14 +251,21 @@
 </div>
 
 <script>
-  function openTour(url){
-    document.getElementById('tourFrame').src = url;
-    document.getElementById('modal').style.display = 'block';
-  }
-  function closeTour(){
-    document.getElementById('tourFrame').src = '';
-    document.getElementById('modal').style.display = 'none';
-  }
+function openTour(url){
+  document.getElementById("tourFrame").src=url;
+  document.getElementById("modal").style.display="block";
+}
+function closeTour(){
+  document.getElementById("tourFrame").src="";
+  document.getElementById("modal").style.display="none";
+}
+function filterProjects(type,btn){
+  document.querySelectorAll('.filters button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.card').forEach(card=>{
+    card.style.display = (type==='all'||card.classList.contains(type)) ? 'block' : 'none';
+  });
+}
 </script>
 
 </body>
