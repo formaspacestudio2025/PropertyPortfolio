@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Property Portfolio | 360° Virtual Tours</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f7f7f7;
+    }
+    h1 {
+      text-align: center;
+      padding: 20px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      padding: 20px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,.1);
+    }
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+    .card-body {
+      padding: 14px;
+    }
+    .card h3 {
+      margin: 0 0 8px;
+    }
+    .btn {
+      display: inline-block;
+      padding: 8px 12px;
+      margin-top: 8px;
+      background: #0077ff;
+      color: #fff;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .links a {
+      margin-right: 10px;
+      font-size: 14px;
+      text-decoration: none;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.8);
+      z-index: 100;
+    }
+    .modal iframe {
+      width: 100%;
+      height: 80vh;
+      border: 0;
+    }
+    .modal-content {
+      background: #000;
+      margin: 5% auto;
+      max-width: 900px;
+    }
+    .close {
+      color: #fff;
+      text-align: right;
+      padding: 6px 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>Our Property Portfolio</h1>
+
+<div class="grid">
+
+  <!-- CARD 1 -->
+  <div class="card">
+    <img src="https://lh3.googleusercontent.com/gps-cs-s/AG0ilSwzmUtsbDw-8amqoYmp7_28SuaTxNoJTgoteqi71gVFu94xy_kJrD8s0V6OpK8GEBhhNh64J3FqMQ5fOC7_HGb6mA9iL2pRzgk4h1NBgBhLvzIfQ6UcOYPZOK1wh7ihVIU7heM=s680-w680-h510-rw" alt="">
+    <div class="card-body">
+      <h3>Houseboat Canberra</h3>
+      <p>3 Bed · 2000 sqft · Houseboat Canberra</p>
+
+      <a class="btn" onclick="openTour('https://tour.panoee.net/690596e5eac32b09e73f0ee0')">
+        View 360° Tour
+      </a>
+
+      <div class="links">
+        <a href="https://maps.google.com/?q=Dubai+Marina" target="_blank">📍 Map</a>
+        <a href="https://wa.me/971XXXXXXXXX?text=Interested in Skyline Residency" target="_blank">💬 WhatsApp</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Duplicate this card 9 more times -->
+
+</div>
+
+<!-- MODAL -->
+<div id="modal" class="modal" onclick="closeTour()">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <div class="close" onclick="closeTour()">✕ Close</div>
+    <iframe id="tourFrame" allowfullscreen loading="lazy"></iframe>
+  </div>
+</div>
+
+<script>
+  function openTour(url){
+    document.getElementById('tourFrame').src = url;
+    document.getElementById('modal').style.display = 'block';
+  }
+  function closeTour(){
+    document.getElementById('tourFrame').src = '';
+    document.getElementById('modal').style.display = 'none';
+  }
+</script>
+
+</body>
+</html>
