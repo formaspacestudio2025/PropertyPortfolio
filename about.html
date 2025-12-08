@@ -1,8 +1,47 @@
-<link rel="stylesheet" href="/assets/css/style.css">
-<script src="/assets/js/menu.js" defer></script>
-<h1>About Us</h1>
-<p>
-Formaspace Studio is a multidisciplinary design studio delivering
-architecture, interiors, and visualization solutions.
-</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>About Us | Formaspace Studio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="assets/js/menu.js" defer></script>
+</head>
+
+<body>
+
+  <!-- REUSABLE MENU -->
+  <div class="hamburger" onclick="toggleMenu()">☰</div>
+
+  <nav id="sideMenu" class="side-menu">
+    <span class="close-btn" onclick="toggleMenu()">✕</span>
+
+    <a href="about.html">About</a>
+    <a href="offerings.html">Offerings</a>
+    <a href="testimonials.html">Testimonials</a>
+
+    <div class="side-dropdown">
+      <span onclick="toggleDropdown()">Property Portfolio ▾</span>
+      <div id="portfolioMenu" class="side-submenu">
+        <a href="index.html">All Projects</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE CONTENT -->
+  <main class="page-content">
+    <h1>About Us</h1>
+    <p>
+      Formaspace Studio is a multidisciplinary design studio delivering
+      architecture, interiors, and visualization solutions.
+    </p>
+
+    <p>
+      We focus on functional design, premium aesthetics, and modern digital
+      workflows to deliver meaningful spaces.
+    </p>
+  </main>
+
+</body>
+</html>
