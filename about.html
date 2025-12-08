@@ -1,158 +1,193 @@
-<main class="page-content">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>About Us | Formaspace Studio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <h1>Who We Are</h1>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="assets/js/menu.js" defer></script>
+</head>
 
-  <p>
-    <strong>Formaspace Studio</strong> is a digital-engineering and construction solutions
-    company built on real project experience and advanced technology.
-    Founded by Syed Sajid Kirmani and Nadeem, we combine industry-proven
-    engineering methods with modern tools like BIM, LiDAR, and high-fidelity
-    3D visualization.
-  </p>
+<body>
 
-  <p>
-    From multimillion-euro cleanrooms to complex structural builds, our mission
-    is to deliver accuracy, clarity, and control across every stage of a project.
-  </p>
+  <!-- REUSABLE MENU -->
+  <div class="hamburger" onclick="toggleMenu()">☰</div>
 
-  <hr>
+  <nav id="sideMenu" class="side-menu">
+    <span class="close-btn" onclick="toggleMenu()">✕</span>
 
-  <h2>Nadeem – BIM Lead & Digital Engineering Specialist</h2>
+    <a href="about.html" class="active">About</a>
+    <a href="offerings.html">Offerings</a>
+    <a href="testimonials.html">Testimonials</a>
 
-  <p>
-    Nadeem brings deep expertise in BIM, Revit, digital modelling, and coordination.
-    His work ensures accurate, clash-free, and fully integrated digital environments
-    that save clients time, cost, and risk.
-  </p>
+    <div class="side-dropdown">
+      <span onclick="toggleDropdown()">Property Portfolio ▾</span>
+      <div id="portfolioMenu" class="side-submenu">
+        <a href="index.html">All Projects</a>
+      </div>
+    </div>
+  </nav>
 
-  <h3>Core Expertise</h3>
+  <!-- PAGE CONTENT -->
+  <main class="page-content">
 
-  <ul>
-    <li><strong>BIM Modelling & Coordination</strong>
-      <ul>
-        <li>Architectural, Structural & MEP BIM Models</li>
-        <li>NAVISworks clash detection</li>
-        <li>Digital coordination meetings</li>
-        <li>As-built modelling and documentation</li>
-      </ul>
-    </li>
+    <h1>Who We Are</h1>
 
-    <li><strong>Technical Drafting & Engineering Support</strong>
-      <ul>
-        <li>Shop drawings, details, cross-sections</li>
-        <li>Revit families, schedules, and data-rich deliverables</li>
-        <li>Quantity takeoff support</li>
-      </ul>
-    </li>
+    <p>
+      <strong>Formaspace Studio</strong> is a digital-engineering and construction
+      solutions company built on real project experience and advanced technology.
+      Founded by Syed Sajid Kirmani and Nadeem, we combine industry-proven
+      engineering methods with modern tools like BIM, LiDAR, and high-fidelity
+      3D visualization.
+    </p>
 
-    <li><strong>Field-to-Model Accuracy</strong>
-      <ul>
-        <li>Converting LiDAR scans into parametric BIM models</li>
-        <li>Updating live site conditions into Revit</li>
-        <li>Ensuring real-world precision for decision making</li>
-      </ul>
-    </li>
-  </ul>
+    <p>
+      From multimillion-euro cleanrooms to complex structural builds, our mission
+      is to deliver accuracy, clarity, and control across every stage of a project.
+    </p>
 
-  <hr>
+    <hr>
 
-  <h2>Sajid – Project Controls & Construction Management Lead</h2>
+    <h2>Nadeem – BIM Lead & Digital Engineering Specialist</h2>
 
-  <p>
-    With experience shaped at Hill International, Daicchi, and multiple
-    large-scale European projects, Sajid leads the project controls and
-    construction management division of Formaspace Studio.
-  </p>
+    <p>
+      Nadeem brings deep expertise in BIM, Revit, digital modelling, and coordination.
+      His work ensures accurate, clash-free, and fully integrated digital environments
+      that save clients time, cost, and risk.
+    </p>
 
-  <h3>Core Expertise</h3>
+    <h3>Core Expertise</h3>
 
-  <ul>
-    <li><strong>Project Controls (Cost, Time, Scope)</strong>
-      <ul>
-        <li>Cost budgeting, tracking, and forecasting</li>
-        <li>Schedule alignment & S-curves</li>
-        <li>KPIs, dashboards, performance reporting</li>
-        <li>Risk analysis & change control (PMP methodology)</li>
-      </ul>
-    </li>
+    <ul>
+      <li><strong>BIM Modelling & Coordination</strong>
+        <ul>
+          <li>Architectural, Structural & MEP BIM Models</li>
+          <li>NAVISworks clash detection</li>
+          <li>Digital coordination meetings</li>
+          <li>As-built modelling and documentation</li>
+        </ul>
+      </li>
 
-    <li><strong>Construction Control & Quality Oversight</strong>
-      <ul>
-        <li>Daily site supervision</li>
-        <li>Contractor performance monitoring</li>
-        <li>QA/QC, compliance & documentation</li>
-        <li>Civil + MEP coordination</li>
-        <li>Progress & issue resolution reporting</li>
-      </ul>
-    </li>
+      <li><strong>Technical Drafting & Engineering Support</strong>
+        <ul>
+          <li>Shop drawings, details, cross-sections</li>
+          <li>Revit families, schedules, and data-rich deliverables</li>
+          <li>Quantity takeoff support</li>
+        </ul>
+      </li>
 
-    <li><strong>Financial Control & Procurement</strong>
-      <ul>
-        <li>BOQ preparation & review</li>
-        <li>Vendor evaluation, negotiation & onboarding</li>
-        <li>Purchase workflows & approval systems</li>
-        <li>Cost compliance & material planning</li>
-      </ul>
-    </li>
+      <li><strong>Field-to-Model Accuracy</strong>
+        <ul>
+          <li>Converting LiDAR scans into parametric BIM models</li>
+          <li>Updating live site conditions into Revit</li>
+          <li>Ensuring real-world precision for decision making</li>
+        </ul>
+      </li>
+    </ul>
 
-    <li><strong>Vendor & Stakeholder Management</strong>
-      <ul>
-        <li>Communication with PMC, consultants & contractors</li>
-        <li>RFIs, submittals, approvals & documentation control</li>
-        <li>Aligning project teams with timelines and budgets</li>
-      </ul>
-    </li>
-  </ul>
+    <hr>
 
-  <p>
-    <strong>Summary:</strong> Sajid ensures every project is delivered with
-    financial discipline, technical precision, and complete construction control.
-  </p>
+    <h2>Sajid – Project Controls & Construction Management Lead</h2>
 
-  <hr>
+    <p>
+      With experience shaped at Hill International, Daicchi, and multiple
+      large-scale European projects, Sajid leads the project controls and
+      construction management division of Formaspace Studio.
+    </p>
 
-  <h2>What We Do</h2>
+    <h3>Core Expertise</h3>
 
-  <p>
-    Formaspace Studio delivers an end-to-end blend of engineering control
-    and digital clarity.
-  </p>
+    <ul>
+      <li><strong>Project Controls (Cost, Time, Scope)</strong>
+        <ul>
+          <li>Cost budgeting, tracking, and forecasting</li>
+          <li>Schedule alignment & S-curves</li>
+          <li>KPIs, dashboards, performance reporting</li>
+          <li>Risk analysis & change control (PMP methodology)</li>
+        </ul>
+      </li>
 
-  <ul>
-    <li><strong>3D LiDAR Scanning & Reality Capture</strong> — Highly accurate digital twins for construction, architecture, and inspection.</li>
-    <li><strong>BIM Modelling & Coordination</strong> — Integrated, clash-free BIM models for civil, structural, and MEP systems.</li>
-    <li><strong>360° Virtual Walkthroughs & Visual Content</strong> — Immersive walkthroughs, aerial views, and photorealistic visuals.</li>
-    <li><strong>Project Controls & Construction Management</strong> — Budgeting, progress control, risk management, QA/QC, and reporting.</li>
-    <li><strong>Procurement & Vendor Management</strong> — BOQ preparation, vendor evaluation, negotiation & procurement oversight.</li>
-    <li><strong>Technical Reporting & Engineering Documentation</strong> — Site reports, dashboards, RFIs & approval workflows.</li>
-  </ul>
+      <li><strong>Construction Control & Quality Oversight</strong>
+        <ul>
+          <li>Daily site supervision</li>
+          <li>Contractor performance monitoring</li>
+          <li>QA/QC, compliance & documentation</li>
+          <li>Civil + MEP coordination</li>
+          <li>Progress & issue resolution reporting</li>
+        </ul>
+      </li>
 
-  <hr>
+      <li><strong>Financial Control & Procurement</strong>
+        <ul>
+          <li>BOQ preparation & review</li>
+          <li>Vendor evaluation, negotiation & onboarding</li>
+          <li>Purchase workflows & approval systems</li>
+          <li>Cost compliance & material planning</li>
+        </ul>
+      </li>
 
-  <h2>Why Work With Us</h2>
+      <li><strong>Vendor & Stakeholder Management</strong>
+        <ul>
+          <li>Communication with PMC, consultants & contractors</li>
+          <li>RFIs, submittals, approvals & documentation control</li>
+          <li>Aligning project teams with timelines and budgets</li>
+        </ul>
+      </li>
+    </ul>
 
-  <p>
-    <strong>Technology + Real Engineering Experience</strong><br>
-    We are not just a digital studio. We are engineers who have worked on
-    real sites, real deadlines, and real budgets.
-  </p>
+    <p>
+      <strong>Summary:</strong> Sajid ensures every project is delivered with
+      financial discipline, technical precision, and complete construction control.
+    </p>
 
-  <p>
-    <strong>Accuracy That Saves Cost</strong><br>
-    Our scans, BIM models, and control systems eliminate errors
-    before they become costly problems.
-  </p>
+    <hr>
 
-  <p>
-    <strong>From Site to Model to Delivery</strong><br>
-    We integrate reality capture, BIM, and construction control into
-    one unified workflow.
-  </p>
+    <h2>What We Do</h2>
 
-  <p>
-    <strong>Future-Focused Vision</strong><br>
-    Formaspace Studio is built to support the next generation of
-    engineering, architecture, and infrastructure with digital precision.
-  </p>
+    <p>
+      Formaspace Studio delivers an end-to-end blend of engineering control
+      and digital clarity.
+    </p>
 
-</main>
+    <ul>
+      <li><strong>3D LiDAR Scanning & Reality Capture</strong> — Highly accurate digital twins for construction, architecture, and inspection.</li>
+      <li><strong>BIM Modelling & Coordination</strong> — Integrated, clash-free BIM models for civil, structural, and MEP systems.</li>
+      <li><strong>360° Virtual Walkthroughs & Visual Content</strong> — Immersive walkthroughs, aerial views, and photorealistic visuals.</li>
+      <li><strong>Project Controls & Construction Management</strong> — Budgeting, progress control, risk management, QA/QC, and reporting.</li>
+      <li><strong>Procurement & Vendor Management</strong> — BOQ preparation, vendor evaluation, negotiation & procurement oversight.</li>
+      <li><strong>Technical Reporting & Engineering Documentation</strong> — Site reports, dashboards, RFIs & approval workflows.</li>
+    </ul>
+
+    <hr>
+
+    <h2>Why Work With Us</h2>
+
+    <p>
+      <strong>Technology + Real Engineering Experience</strong><br>
+      We are not just a digital studio. We are engineers who have worked on
+      real sites, real deadlines, and real budgets.
+    </p>
+
+    <p>
+      <strong>Accuracy That Saves Cost</strong><br>
+      Our scans, BIM models, and control systems eliminate errors
+      before they become costly problems.
+    </p>
+
+    <p>
+      <strong>From Site to Model to Delivery</strong><br>
+      We integrate reality capture, BIM, and construction control into
+      one unified workflow.
+    </p>
+
+    <p>
+      <strong>Future-Focused Vision</strong><br>
+      Formaspace Studio is built to support the next generation of
+      engineering, architecture, and infrastructure with digital precision.
+    </p>
+
+  </main>
+
+</body>
+</html>
