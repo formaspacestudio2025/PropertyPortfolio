@@ -23,24 +23,6 @@ body{
 
 /* HEADER */
 header{
-  <nav class="nav">
-  <div class="nav-logo">☰</div>
-
-  <ul class="nav-menu">
-    <li><a href="/about.html">About</a></li>
-    <li><a href="/offering.html">Offering</a></li>
-    <li><a href="/testimonials.html">Testimonials</a></li>
-
-    <li class="dropdown">
-      <a href="#">Property Portfolio ▾</a>
-      <ul class="dropdown-menu">
-        <li><a href="/index.html">All Projects</a></li>
-        <li><a href="#" onclick="filterProjects('residential',this)">Residential</a></li>
-        <li><a href="#" onclick="filterProjects('commercial',this)">Commercial</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
   padding:40px 20px;
   background:linear-gradient(135deg,#111,#1c1c1c);
   text-align:center;
@@ -210,6 +192,24 @@ footer strong{color:#fff}
 <body>
 
 <header>
+  <nav class="nav">
+  <div class="nav-logo">☰</div>
+
+  <ul class="nav-menu">
+    <li><a href="/about.html">About</a></li>
+    <li><a href="/offering.html">Offering</a></li>
+    <li><a href="/testimonials.html">Testimonials</a></li>
+
+    <li class="dropdown">
+      <a href="#">Property Portfolio ▾</a>
+      <ul class="dropdown-menu">
+        <li><a href="/index.html">All Projects</a></li>
+        <li><a href="#" onclick="filterProjects('residential',this)">Residential</a></li>
+        <li><a href="#" onclick="filterProjects('commercial',this)">Commercial</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
   <img src="logo.png" alt="Formaspace Studio Logo">
   <h1>Formaspace Studio</h1>
   <p>Design · Build · Visualization</p>
@@ -288,4 +288,5 @@ function filterProjects(type,btn){
 
 </body>
 </html>
+
 
