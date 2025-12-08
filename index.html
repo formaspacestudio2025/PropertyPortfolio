@@ -186,10 +186,100 @@ footer strong{color:#fff}
   color:#000;
   z-index:200;
 }
+  /* HAMBURGER */
+.hamburger{
+  position:fixed;
+  top:20px;
+  right:20px;
+  font-size:26px;
+  cursor:pointer;
+  z-index:300;
+  color:#fff;
+}
+
+/* SIDE MENU */
+.side-menu{
+  position:fixed;
+  top:0;
+  right:-280px;
+  width:260px;
+  height:100%;
+  background:#111;
+  padding:70px 25px;
+  box-shadow:-10px 0 40px rgba(0,0,0,.6);
+  transition:.35s ease;
+  z-index:400;
+}
+
+.side-menu a,
+.side-menu span{
+  display:block;
+  color:#eee;
+  text-decoration:none;
+  font-size:1rem;
+  padding:12px 0;
+  cursor:pointer;
+}
+
+.side-menu a:hover,
+.side-menu span:hover{
+  color:var(--blue);
+}
+
+/* CLOSE */
+.close-btn{
+  position:absolute;
+  top:18px;
+  right:18px;
+  font-size:20px;
+  cursor:pointer;
+}
+
+/* SUBMENU */
+.side-submenu{
+  display:none;
+  padding-left:15px;
+}
+
+.side-submenu a{
+  font-size:.9rem;
+  color:#bbb;
+}
+
+/* ACTIVE */
+.side-menu.open{
+  right:0;
+}
+
+.side-submenu.open{
+  display:block;
+}
+
 </style>
 </head>
 
 <body>
+  <!-- HAMBURGER BUTTON -->
+<div class="hamburger" onclick="toggleMenu()">☰</div>
+
+<!-- SIDE MENU -->
+<div id="sideMenu" class="side-menu">
+  <span class="close-btn" onclick="toggleMenu()">✕</span>
+
+  <a href="/about.html">About</a>
+  <a href="/offering.html">Offering</a>
+  <a href="/testimonials.html">Testimonials</a>
+
+  <div class="side-dropdown">
+    <span onclick="toggleDropdown()">Property Portfolio ▾</span>
+    <div id="portfolioMenu" class="side-submenu">
+      <a href="/index.html">All Projects</a>
+      <a href="#" onclick="filterProjects('residential',this)">Residential</a>
+      <a href="#" onclick="filterProjects('commercial',this)">Commercial</a>
+    </div>
+  </div>
+</div>
+
 <header>
   <img src="logo.png" alt="Formaspace Studio Logo">
   <h1>Formaspace Studio</h1>
@@ -250,6 +340,20 @@ target="_blank">💬</a>
 </div>
 
 <script>
+
+function toggleMenu(){
+  document.getElementById("sideMenu").classList.toggle("open");
+}
+
+function toggleDropdown(){
+  document.getElementById("portfolioMenu").classList.toggle("open");
+}
+document.querySelectorAll('.side-menu a').forEach(link=>{
+  link.addEventListener('click',()=>{
+    document.getElementById("sideMenu").classList.remove("open");
+  });
+});
+
 function openTour(url){
   document.getElementById("tourFrame").src=url;
   document.getElementById("modal").style.display="block";
@@ -269,6 +373,7 @@ function filterProjects(type,btn){
 
 </body>
 </html>
+
 
 
 
