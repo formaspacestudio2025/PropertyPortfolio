@@ -1,0 +1,65 @@
+/* HAMBURGER */
+.hamburger{
+  position:fixed;
+  top:20px;
+  right:20px;
+  font-size:26px;
+  color:#fff;
+  cursor:pointer;
+  z-index:1000;
+}
+
+/* SIDE MENU */
+.side-menu{
+  position:fixed;
+  top:0;
+  right:-280px;
+  width:260px;
+  height:100%;
+  background:#111;
+  padding:80px 25px;
+  box-shadow:-10px 0 40px rgba(0,0,0,.6);
+  transition:.35s ease;
+  z-index:999;
+}
+
+.side-menu.open{
+  right:0;
+}
+
+.side-menu a,
+.side-menu span{
+  display:block;
+  color:#eee;
+  text-decoration:none;
+  font-size:1rem;
+  padding:12px 0;
+}
+
+.side-menu a:hover,
+.side-menu span:hover{
+  color:var(--blue);
+}
+
+/* CLOSE */
+.close-btn{
+  position:absolute;
+  top:20px;
+  right:20px;
+  cursor:pointer;
+}
+
+/* SUB MENU */
+.side-submenu{
+  display:none;
+  padding-left:15px;
+}
+
+.side-submenu.open{
+  display:block;
+}
+
+.side-submenu a{
+  font-size:.9rem;
+  color:#bbb;
+}
