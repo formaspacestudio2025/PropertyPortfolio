@@ -190,27 +190,6 @@ footer strong{color:#fff}
 </head>
 
 <body>
-<!-- HAMBURGER BUTTON -->
-<div class="hamburger" onclick="toggleMenu()">☰</div>
-
-<!-- SIDE MENU -->
-<div id="sideMenu" class="side-menu">
-  <span class="close-btn" onclick="toggleMenu()">✕</span>
-
-  <a href="/about.html">About</a>
-  <a href="/offering.html">Offering</a>
-  <a href="/testimonials.html">Testimonials</a>
-
-  <div class="side-dropdown">
-    <span onclick="toggleDropdown()">Property Portfolio ▾</span>
-    <div id="portfolioMenu" class="side-submenu">
-      <a href="/index.html">All Projects</a>
-      <a href="#" onclick="filterProjects('residential',this)">Residential</a>
-      <a href="#" onclick="filterProjects('commercial',this)">Commercial</a>
-    </div>
-  </div>
-</div>
-
 <header>
   <img src="logo.png" alt="Formaspace Studio Logo">
   <h1>Formaspace Studio</h1>
@@ -290,6 +269,7 @@ function filterProjects(type,btn){
 
 </body>
 </html>
+
 
 
 
