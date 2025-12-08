@@ -113,9 +113,10 @@
     <div class="card-body">
       <h3>Houseboat Canberra</h3>
       <p>Residential · 2000 sqft</p>
-      <a class="btn" onclick="openTour('https://tour.panoee.net/690596e5eac32b09e73f0ee0')">
-        View 360° Tour
-      </a>
+      <a class="btn" href="property/houseboat-canberra.html">
+  View 360° Tour
+</a>
+
       <a class="btn" href="https://tour.panoee.net/690596e5eac32b09e73f0ee0" target="_blank">
         Open in New Tab
       </a>
@@ -149,28 +150,8 @@
   </svg>
 </a>
 
-<!-- MODAL -->
-<div id="modal" class="modal" onclick="closeTour()">
-  <div class="modal-content" onclick="event.stopPropagation()">
-    <div class="close" onclick="closeTour()">✕ Close</div>
-    <iframe id="tourFrame" allowfullscreen loading="lazy"></iframe>
-  </div>
-</div>
-
 <!-- PAGE SCRIPT -->
 <script>
-function openTour(url){
-  const modal = document.getElementById("modal");
-  const iframe = document.getElementById("tourFrame");
-  iframe.src = url;
-  modal.style.display = "flex"; // centered
-}
-function closeTour(){
-  const modal = document.getElementById("modal");
-  const iframe = document.getElementById("tourFrame");
-  iframe.src = "";
-  modal.style.display = "none";
-}
 function filterProjects(type, btn){
   // Remove active from all buttons
   document.querySelectorAll('.filters button').forEach(b=>b.classList.remove('active'));
@@ -204,3 +185,4 @@ function searchProjects(){
 
 </body>
 </html>
+
