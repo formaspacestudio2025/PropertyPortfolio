@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script src="../assets/js/menu.js" defer></script>
+
   <meta charset="utf-8">
 
   <title>Houseboat Canberra | 360° Virtual Tour</title>
@@ -17,23 +19,24 @@
 </head>
 
 <body>
- <!-- REUSABLE MENU -->
-  <div class="hamburger" onclick="toggleMenu()">☰</div>
+<!-- REUSABLE MENU -->
+<div class="hamburger" onclick="toggleMenu()">☰</div>
 
-  <nav id="sideMenu" class="side-menu">
-    <span class="close-btn" onclick="toggleMenu()">✕</span>
+<nav id="sideMenu" class="side-menu">
+  <span class="close-btn" onclick="toggleMenu()">✕</span>
 
-    <a href="about.html" class="active">About</a>
-    <a href="offerings.html">Offerings</a>
-    <a href="testimonials.html">Testimonials</a>
+  <a href="../about.html">About</a>
+  <a href="../offerings.html">Offerings</a>
+  <a href="../testimonials.html">Testimonials</a>
 
-    <div class="side-dropdown">
-      <span onclick="toggleDropdown()">Property Portfolio ▾</span>
-      <div id="portfolioMenu" class="side-submenu">
-        <a href="index.html">All Projects</a>
-      </div>
+  <div class="side-dropdown">
+    <span onclick="toggleDropdown()">Property Portfolio ▾</span>
+    <div id="portfolioMenu" class="side-submenu">
+      <a href="../index.html">All Projects</a>
     </div>
-  </nav>
+  </div>
+</nav>
+
 <header>
   <img src="../logo.png" alt="Formaspace Studio">
   <h1>Houseboat Canberra</h1>
