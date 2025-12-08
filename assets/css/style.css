@@ -58,6 +58,28 @@
 .side-submenu.open{
   display:block;
 }
+.testimonial{
+  max-width:700px;
+  padding:25px;
+  margin-top:25px;
+  background:#111;
+  border-left:4px solid var(--blue);
+  border-radius:10px;
+  box-shadow:0 15px 35px rgba(0,0,0,.5);
+}
+
+.testimonial p{
+  font-style:italic;
+  color:#ccc;
+  line-height:1.7;
+}
+
+.testimonial strong{
+  display:block;
+  margin-top:10px;
+  color:#fff;
+}
+
 
 .side-submenu a{
   font-size:.9rem;
