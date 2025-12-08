@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Houseboat Canberra | 360° Virtual Tour</title>
+  <meta name="description" content="360° virtual walkthrough of Houseboat Canberra by Formaspace Studio">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- WhatsApp & Social -->
+  <meta property="og:title" content="Houseboat Canberra – 360° Tour">
+  <meta property="og:description" content="Explore this project in immersive 360°">
+  <meta property="og:image" content="../logo.png">
+  <meta property="og:url" content="https://yourdomain.com/property/houseboat-canberra.html">
+
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+
+<body>
+
+<header>
+  <img src="../logo.png" alt="Formaspace Studio">
+  <h1>Houseboat Canberra</h1>
+  <p>Residential · 360° Walkthrough</p>
+</header>
+
+<!-- 360 TOUR -->
+<iframe
+  src="https://tour.panoee.net/690596e5eac32b09e73f0ee0"
+  style="width:100%;height:80vh;border:none;"
+  allowfullscreen
+></iframe>
+
+<!-- ACTIONS -->
+<div style="margin:20px 0; display:flex; gap:15px; flex-wrap:wrap;">
+
+  <!-- GOOGLE MAP -->
+  <a class="btn" target="_blank"
+     href="https://www.google.com/maps?q=9.9312,76.2673">
+    📍 View Location
+  </a>
+
+  <!-- DIRECTIONS -->
+  <a class="btn" target="_blank"
+     href="https://www.google.com/maps/dir/?api=1&destination=9.9312,76.2673">
+    🚗 Directions
+  </a>
+
+  <!-- STREET VIEW -->
+  <a class="btn" target="_blank"
+     href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=9.9312,76.2673">
+    👁 Street View
+  </a>
+
+  <!-- WHATSAPP SHARE -->
+  <a class="btn" style="background:#25D366;color:#fff;"
+     target="_blank"
+     href="https://wa.me/?text=Check this 360° tour 👉 https://yourdomain.com/property/houseboat-canberra.html">
+    💬 Share on WhatsApp
+  </a>
+
+</div>
+
+<footer>
+  © 2025 Formaspace Studio
+</footer>
+
+</body>
+</html>
