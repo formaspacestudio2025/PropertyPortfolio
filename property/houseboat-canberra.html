@@ -17,7 +17,23 @@
 </head>
 
 <body>
+ <!-- REUSABLE MENU -->
+  <div class="hamburger" onclick="toggleMenu()">☰</div>
 
+  <nav id="sideMenu" class="side-menu">
+    <span class="close-btn" onclick="toggleMenu()">✕</span>
+
+    <a href="about.html" class="active">About</a>
+    <a href="offerings.html">Offerings</a>
+    <a href="testimonials.html">Testimonials</a>
+
+    <div class="side-dropdown">
+      <span onclick="toggleDropdown()">Property Portfolio ▾</span>
+      <div id="portfolioMenu" class="side-submenu">
+        <a href="index.html">All Projects</a>
+      </div>
+    </div>
+  </nav>
 <header>
   <img src="../logo.png" alt="Formaspace Studio">
   <h1>Houseboat Canberra</h1>
