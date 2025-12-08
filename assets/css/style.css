@@ -6,8 +6,9 @@
   --accent:#6fa7c9;      /* logo blue */
   --accent-soft:#3d5f78; /* darker blue */
 }
-.text-bright {
-  color: #ffffff; /* full bright white */
+.page-content {
+  color: #111; /* darker gray */
+  font-weight: 500; /* slightly bolder text */
 }
 
 *{
