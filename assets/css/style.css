@@ -6,11 +6,26 @@
   --accent:#6fa7c9;      /* logo blue */
   --accent-soft:#3d5f78; /* darker blue */
 }
+
+/* ABOUT PAGE CONTENT FIX */
 .page-content {
-  color: #111; /* darker gray */
-  font-weight: 500; /* slightly bolder text */
+  color: var(--text);   /* ✅ bright readable text */
+  font-weight: 500;
 }
 
+.page-content p,
+.page-content li {
+  color: #e0e0e0;
+}
+
+.page-content h1,
+.page-content h2,
+.page-content h3,
+.page-content h4 {
+  color: #ffffff;
+}
+
+/* RESET */
 *{
   box-sizing:border-box;
   margin:0;
