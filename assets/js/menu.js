@@ -12,3 +12,5 @@ document.querySelectorAll('.side-menu a').forEach(link=>{
     document.getElementById("sideMenu").classList.remove("open");
   });
 });
+
+
