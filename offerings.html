@@ -7,23 +7,157 @@
 
   <link rel="stylesheet" href="assets/css/style.css">
   <script src="assets/js/menu.js" defer></script>
+
+  <style>
+    /* Page layout */
+    body {
+      background: #0d0d0d;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      text-align: center;
+      padding: 40px 20px 10px;
+    }
+
+    header img {
+      width: 120px;
+      margin-bottom: 10px;
+    }
+
+    header h1 {
+      font-size: 32px;
+      letter-spacing: 1px;
+      margin: 0;
+    }
+
+    header p {
+      margin-top: 6px;
+      opacity: 0.7;
+      font-size: 14px;
+    }
+
+    .page-content {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 16px;
+      line-height: 1.7;
+    }
+
+    .page-content h1 {
+      font-size: 36px;
+      margin-bottom: 40px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-align: center;
+    }
+
+    .offer-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .offer-item {
+      margin-bottom: 60px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .offer-item strong {
+      font-size: 20px;
+      display: block;
+      margin-bottom: 10px;
+      color: #fff;
+    }
+
+    /* Video thumbnail */
+    .video-thumb {
+      position: relative;
+      margin-top: 16px;
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      background: #111;
+    }
+
+    .video-thumb img {
+      width: 100%;
+      display: block;
+      opacity: 0.9;
+    }
+
+    .video-thumb:hover img {
+      opacity: 0.7;
+    }
+
+    .play-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 48px;
+      background: rgba(0,0,0,0.6);
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Modal video */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.85);
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .modal video {
+      width: 100%;
+      max-width: 900px;
+      border-radius: 12px;
+    }
+
+    .close {
+      position: absolute;
+      top: 40px;
+      right: 40px;
+      font-size: 40px;
+      cursor: pointer;
+      color: #fff;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px;
+      opacity: 0.7;
+      font-size: 13px;
+    }
+  </style>
 </head>
-<header>
-  <img src="logo.webp" alt="Formaspace Studio Logo">
-  <h1>Formaspace Studio</h1>
-  <p>Design · Build · Visualization</p>
-</header>
-  
+
 <body>
 
-  <!-- REUSABLE MENU -->
+  <!-- GLOBAL MENU -->
   <div class="hamburger" onclick="toggleMenu()">☰</div>
 
   <nav id="sideMenu" class="side-menu">
     <span class="close-btn" onclick="toggleMenu()">✕</span>
 
     <a href="about.html">About</a>
-    <a href="offerings.html">Offerings</a>
+    <a href="offerings.html" class="active">Offerings</a>
     <a href="testimonials.html">Testimonials</a>
 
     <div class="side-dropdown">
@@ -34,191 +168,131 @@
     </div>
   </nav>
 
-  <!-- PAGE CONTENT -->
+  <!-- HEADER -->
+  <header>
+    <img src="logo.webp" alt="Formaspace Studio Logo">
+    <h1>Formaspace Studio</h1>
+    <p>Design · Build · Visualization</p>
+  </header>
+
+  <!-- CONTENT -->
   <main class="page-content">
+
     <h1>Our Offerings</h1>
 
     <ul class="offer-list">
 
-  <!-- 1 — LiDAR Scanning -->
-  <li class="offer-item">
-    <strong>3D LiDAR Scanning & Reality Capture</strong> — Generation of highly precise digital twins for construction, architectural, and infrastructure projects, enabling dimensional verification, as-built documentation, and inspection workflows.
+      <!-- One service item -->
+      <li class="offer-item">
+        <strong>3D LiDAR Scanning & Reality Capture</strong>
+        Generation of high-precision digital twins for construction, architectural, and infrastructure environments.
 
-    <div class="video-thumb" data-video="3D LiDAR Scanning & Reality Capture.mp4">
-      <img src="logo.webp" width="200" alt="3D LiDAR Scanning video thumbnail">
-      <div class="play-btn">▶</div>
-    </div>
-  </li>
+        <div class="video-thumb" data-video="3D LiDAR Scanning & Reality Capture.mp4">
+          <img src="logo.webp">
+          <div class="play-btn">▶</div>
+        </div>
+      </li>
 
-  <!-- 2 — BIM -->
-  <li class="offer-item">
-    <strong>BIM Modelling & Coordination</strong> — Development of fully integrated, clash-resolved BIM models for civil, structural, and MEP disciplines, supporting design coordination and multidisciplinary collaboration.
+      <li class="offer-item">
+        <strong>BIM Modelling & Coordination</strong>
+        Fully integrated, clash-free BIM environments supporting multidisciplinary design teams.
 
-    <div class="video-thumb" data-video="BIM Modelling & Coordination.mp4">
-      <img src="logo.webp" width="200" alt="BIM Modelling video thumbnail">
-      <div class="play-btn">▶</div>
-    </div>
-  </li>
+        <div class="video-thumb" data-video="BIM Modelling & Coordination.mp4">
+          <img src="logo.webp">
+          <div class="play-btn">▶</div>
+        </div>
+      </li>
 
-  <!-- 3 — Virtual Walkthroughs -->
-  <li class="offer-item">
-    <strong>360° Virtual Walkthroughs & Visualisation</strong> — Delivery of immersive virtual walkthroughs, aerial perspectives, and photorealistic renderings.
+      <li class="offer-item">
+        <strong>360° Walkthroughs & Visualisation</strong>
+        Immersive virtual tours, aerial perspectives, and photorealistic rendering.
 
-    <div class="video-thumb" data-video="360° Virtual Walkthroughs & Visualisation.mp4">
-      <img src="logo.webp" width="200" alt="360 walkthrough video thumbnail">
-      <div class="play-btn">▶</div>
-    </div>
-  </li>
+        <div class="video-thumb" data-video="360° Virtual Walkthroughs & Visualisation.mp4">
+          <img src="logo.webp">
+          <div class="play-btn">▶</div>
+        </div>
+      </li>
 
-  <!-- 4 — Project Controls -->
-  <li class="offer-item">
-    <strong>Project Controls & Construction Management</strong> — Comprehensive project controls: cost estimation, scheduling, QA/QC, risk, performance reporting.
+      <li class="offer-item">
+        <strong>Project Controls & Construction Management</strong>
+        Scheduling, budgeting, risk, cost control, and QA/QC workflows.
 
-    <div class="video-thumb" data-video="Project Controls & Construction Management.mp4">
-      <img src="logo.webp" width="200" alt="Project controls video thumbnail">
-      <div class="play-btn">▶</div>
-    </div>
-  </li>
+        <div class="video-thumb" data-video="Project Controls & Construction Management.mp4">
+          <img src="logo.webp">
+          <div class="play-btn">▶</div>
+        </div>
+      </li>
 
-  <!-- 5 — Procurement -->
-  <li class="offer-item">
-    <strong>Procurement & Vendor Management</strong> — BOQ preparation, vendor prequalification, tender evaluation, negotiation, oversight.
+      <li class="offer-item">
+        <strong>Procurement & Vendor Management</strong>
+        BOQ preparation, vendor screening, tender analysis, negotiation frameworks.
 
-    <div class="video-thumb" data-video="Procurement & Vendor Management.mp4">
-      <img src="logo.webp" width="200" alt="Procurement video thumbnail">
-      <div class="play-btn">▶</div>
-    </div>
-  </li>
+        <div class="video-thumb" data-video="Procurement & Vendor Management.mp4">
+          <img src="logo.webp">
+          <div class="play-btn">▶</div>
+        </div>
+      </li>
 
-  <!-- 6 — Documentation -->
-  <li class="offer-item">
-    <strong>Technical Reporting & Engineering Documentation</strong> — Structured documentation, RFIs, dashboards, approval workflows.
+      <li class="offer-item">
+        <strong>Technical Reporting & Engineering Documentation</strong>
+        RFIs, dashboards, progress reporting, and approval workflows.
 
-    <div class="video-thumb" data-video="Technical Reporting & Engineering Documentation.mp4">
-      <img src="logo.webp" width="200" alt="Technical reporting video thumbnail">
-      <div class="play-btn">▶</div>
-    </div>
-  </li>
+        <div class="video-thumb" data-video="Technical Reporting & Engineering Documentation.mp4">
+          <img src="logo.webp">
+          <div class="play-btn">▶</div>
+        </div>
+      </li>
 
-</ul>
+    </ul>
 
-<!-- Modal -->
-<div id="videoModal" class="modal">
-  <div class="modal-content">
+  </main>
+
+  <!-- MODAL VIDEO -->
+  <div id="videoModal" class="modal">
     <span class="close">&times;</span>
     <video id="modalVideo" controls autoplay></video>
   </div>
-</div>
-    
-  </main>
+
+  <!-- FOOTER -->
   <footer>
-  © 2025 <strong>Formaspace Studio</strong> — Design · Build · Visualization
-</footer>
-<a href="https://wa.me/919149670483" target="_blank" class="whatsapp-float">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#25D366" width="50" height="50">
-    <path d="M20.52 3.48C18.37 1.33 15.29 0 12 0 5.37 0 0 5.37 0 12c0 2.12.55 4.09 1.52 5.81L0 24l6.43-1.5C8.2 23.45 10.08 24 12 24c6.63 0 12-5.37 12-12 0-3.29-1.33-6.37-3.48-8.52zM12 21.82c-1.85 0-3.66-.5-5.22-1.44l-.37-.22-3.82.89.81-3.72-.24-.38C2.68 15.66 2.18 13.85 2.18 12 2.18 6.49 6.49 2.18 12 2.18c5.51 0 9.82 4.31 9.82 9.82 0 5.51-4.31 9.82-9.82 9.82zm5.31-7.88c-.18-.09-1.06-.52-1.22-.58-.16-.06-.28-.09-.4.09-.12.18-.46.58-.56.7-.1.12-.2.14-.37.05-.18-.09-.75-.28-1.42-.88-.52-.46-.87-1.03-.97-1.2-.1-.18-.01-.28.08-.37.08-.08.18-.2.27-.3.09-.1.12-.18.18-.3.06-.12.03-.22-.01-.31-.05-.09-.4-.97-.55-1.32-.14-.35-.28-.3-.4-.31-.1-.01-.22-.01-.34-.01-.12 0-.31.05-.47.22-.16.18-.61.59-.61 1.44 0 .85.62 1.67.71 1.78.09.12 1.22 1.86 2.96 2.6 1.73.73 1.73.49 2.04.46.31-.03 1.02-.42 1.16-.83.14-.41.14-.76.1-.83-.03-.06-.12-.1-.22-.18z"/>
-  </svg>
-</a>
-  
-<style>
-.offer-item {
-  margin-bottom: 40px;
-}
+    © 2025 <strong>Formaspace Studio</strong> — Design · Build · Visualization
+  </footer>
 
-.video-thumb {
-  position: relative;
-  max-width: 900px;
-  margin-top: 12px;
-  cursor: pointer;
-}
+  <!-- WHATSAPP FLOAT -->
+  <a href="https://wa.me/919149670483" target="_blank" class="whatsapp-float">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#25D366" width="50" height="50">
+      <path d="M20.52 3.48C18.37 1.33 15.29 0 12 0 5.37 0 0 5.37 0 12c0 2.12.55 4.09 1.52 5.81L0 24l6.43-1.5C8.2 23.45 10.08 24 12 24c6.63 0 12-5.37 12-12 0-3.29-1.33-6.37-3.48-8.52z"/>
+    </svg>
+  </a>
 
-.video-thumb img {
-  width: 100%;
-  border-radius: 10px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-}
+  <script>
+    // Video modal logic
+    document.querySelectorAll('.video-thumb').forEach(thumb => {
+      thumb.addEventListener('click', () => {
+        const modal = document.getElementById('videoModal');
+        const video = document.getElementById('modalVideo');
+        video.src = thumb.getAttribute('data-video');
+        modal.style.display = "flex";
+        video.play();
+      });
+    });
 
-.play-btn {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(0,0,0,0.6);
-  color: #fff;
-  font-size: 40px;
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  pointer-events: none;
-}
+    document.querySelector('.close').onclick = () => {
+      const modal = document.getElementById('videoModal');
+      const video = document.getElementById('modalVideo');
+      modal.style.display = "none";
+      video.pause();
+      video.src = "";
+    };
 
-/* Modal */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 9999;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.75);
-  justify-content: center;
-  align-items: center;
-}
+    window.onclick = (e) => {
+      const modal = document.getElementById('videoModal');
+      if (e.target === modal) {
+        modal.style.display = "none";
+        document.getElementById('modalVideo').src = "";
+      }
+    };
+  </script>
 
-.modal-content {
-  position: relative;
-  width: 90%;
-  max-width: 900px;
-}
-
-.modal video {
-  width: 100%;
-  border-radius: 10px;
-}
-
-.close {
-  position: absolute;
-  top: -40px;
-  right: 0;
-  font-size: 35px;
-  color: white;
-  cursor: pointer;
-}
-</style>
-<script>
-document.querySelectorAll('.video-thumb').forEach(thumb => {
-  thumb.addEventListener('click', () => {
-    const videoSrc = thumb.getAttribute('data-video');
-    const modal = document.getElementById('videoModal');
-    const modalVideo = document.getElementById('modalVideo');
-
-    modal.style.display = "flex";
-    modalVideo.src = videoSrc;
-    modalVideo.play();
-  });
-});
-
-document.querySelector('.close').onclick = function() {
-  const modal = document.getElementById('videoModal');
-  const modalVideo = document.getElementById('modalVideo');
-
-  modal.style.display = "none";
-  modalVideo.pause();
-  modalVideo.src = ""; // unload for performance
-};
-
-window.onclick = function(event) {
-  const modal = document.getElementById('videoModal');
-  if (event.target === modal) {
-    modal.style.display = "none";
-    document.getElementById('modalVideo').src = "";
-  }
-};
-</script>
- 
 </body>
 </html>
