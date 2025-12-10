@@ -7,7 +7,7 @@ function toggleDropdown() {
   document.getElementById("portfolioMenu").classList.toggle("open");
 }
 
-// Auto-close menu when clicking a link
+// Auto-close side menu when clicking a link
 document.querySelectorAll('.side-menu a').forEach(link => {
   link.addEventListener('click', () => {
     document.getElementById("sideMenu").classList.remove("open");
@@ -17,17 +17,17 @@ document.querySelectorAll('.side-menu a').forEach(link => {
 
 /* ---------------- FILTER SYSTEM ---------------- */
 
-// Show top-level filter + reveal correct subfilters
+// MAIN FILTER CLICK
 function showMainFilter(category, btn) {
 
-  // Highlight active main button
+  // Highlight active main filter
   document.querySelectorAll('.filters button').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
 
-  // Hide subfilters
+  // Hide all subfilter groups
   document.querySelectorAll(".subfilters").forEach(sf => sf.classList.remove("show"));
 
-  // Show relevant subfilter section
+  // Show correct subfilter group
   if (category === "residential") {
     document.getElementById("residential-sub").classList.add("show");
   }
@@ -35,33 +35,41 @@ function showMainFilter(category, btn) {
     document.getElementById("commercial-sub").classList.add("show");
   }
 
+  // Filter cards
   filterProjects(category);
 }
 
 
-// Filter projects by category + keyword
+// FILTER PROJECTS BY CATEGORY + KEYWORD
 function filterProjects(category) {
   const keyword = document.getElementById("projectSearch").value.toLowerCase();
   const cards = document.querySelectorAll('.card');
 
   cards.forEach(card => {
-    const matchesCategory = (category === 'all' || card.classList.contains(category));
 
+    // Check matches by category
+    const matchesCategory =
+      category === 'all' ||
+      card.classList.contains(category);
+
+    // Check keyword match
     const title = card.querySelector("h3").textContent.toLowerCase();
     const desc = card.querySelector("p").textContent.toLowerCase();
     const matchesKeyword = title.includes(keyword) || desc.includes(keyword);
 
+    // Display logic
     card.style.display = (matchesCategory && matchesKeyword) ? 'block' : 'none';
   });
 }
 
 
-// Keyword search that respects the active main filter
+// SEARCH FIELD (keeps active category)
 function searchProjects() {
   const activeButton = document.querySelector('.filters button.active');
+
   const activeCategory = activeButton
     ? activeButton.getAttribute('onclick').match(/'(.+?)'/)[1]
-    : "all";
+    : "all"; // default behavior
 
   filterProjects(activeCategory);
 }
