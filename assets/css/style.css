@@ -136,10 +136,17 @@ header p{
   color:#000;
   border-color:var(--accent);
 }
+
+/* ------- FIXED SUBFILTERS ------- */
 .subfilters {
   margin-top: 10px;
-  display: flex;
+  display: none;               /* hidden by default */
   gap: 10px;
+  justify-content: center;
+}
+
+.subfilters.show {
+  display: flex !important;    /* shown when JS adds .show */
 }
 
 .subfilters button {
@@ -313,6 +320,7 @@ header p{
   margin-top:10px;
   color:#fff;
 }
+
 .whatsapp-float {
   position: fixed;
   width: 60px;
@@ -335,7 +343,6 @@ header p{
 .whatsapp-float:hover {
   transform: scale(1.1);
 }
-
 
 /* =========================
    MOBILE
