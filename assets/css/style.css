@@ -8,7 +8,11 @@
 }
 
 /* RESET */
-*{ margin:0; padding:0; box-sizing:border-box; }
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
 
 body{
   background:linear-gradient(180deg,#0d0f11,#15181c);
@@ -17,7 +21,9 @@ body{
   line-height:1.6;
 }
 
-a, button, .hamburger{ transition:.25s ease; }
+a, button, .hamburger{
+  transition:.25s ease;
+}
 
 /* HEADER */
 header{
@@ -30,7 +36,9 @@ header img{
   margin-bottom:18px;
 }
 
-header h1{ font-size:2.6rem; }
+header h1{
+  font-size:2.6rem;
+}
 header p{
   margin-top:8px;
   font-size:.9rem;
@@ -39,7 +47,8 @@ header p{
   text-transform:uppercase;
 }
 
-/* FILTERS */
+/* ---------------- FILTERS ---------------- */
+
 .filters{
   text-align:center;
   padding:20px;
@@ -63,25 +72,41 @@ header p{
   border-color:var(--accent);
 }
 
-/* SUBFILTERS FIXED */
+/* ---------------- SUBFILTERS (FIXED) ---------------- */
+
+/* Hidden by default */
 .subfilters{
-  margin-top:10px;
   display:none;
+  margin-top:10px;
   gap:10px;
   justify-content:center;
 }
 
+/* Shown when JS adds .show */
 .subfilters.show{
   display:flex !important;
 }
 
+/* Subfilter button styling */
 .subfilters button{
+  background:#222;
+  color:#fff;
+  border:1px solid #444;
   padding:6px 14px;
   border-radius:6px;
-  border:1px solid #ccc;
+  font-size:.8rem;
+  cursor:pointer;
 }
 
-/* GRID */
+.subfilters button:hover,
+.subfilters button.active{
+  background:var(--accent);
+  color:#000;
+  border-color:var(--accent);
+}
+
+/* ---------------- GRID ---------------- */
+
 .grid{
   max-width:1300px;
   margin:auto;
@@ -91,7 +116,8 @@ header p{
   gap:30px;
 }
 
-/* CARD */
+/* ---------------- CARD ---------------- */
+
 .card{
   background:var(--panel);
   border-radius:14px;
@@ -99,11 +125,22 @@ header p{
   box-shadow:0 25px 60px rgba(0,0,0,.6);
 }
 
-.card-body{ padding:22px; }
-.card h3{ font-size:1.3rem; color:#fff; }
-.card p{ color:var(--muted); font-size:.9rem; }
+.card-body{
+  padding:22px;
+}
 
-/* BUTTON */
+.card h3{
+  font-size:1.3rem;
+  color:#fff;
+}
+
+.card p{
+  color:var(--muted);
+  font-size:.9rem;
+}
+
+/* ---------------- BUTTON ---------------- */
+
 .btn{
   background:var(--accent);
   color:#000;
@@ -114,7 +151,8 @@ header p{
   text-decoration:none;
 }
 
-/* HAMBURGER */
+/* ---------------- HAMBURGER ---------------- */
+
 .hamburger{
   position:fixed;
   top:20px;
@@ -124,7 +162,8 @@ header p{
   z-index:1000;
 }
 
-/* SIDE MENU */
+/* ---------------- SIDE MENU ---------------- */
+
 .side-menu{
   position:fixed;
   top:0;
@@ -137,15 +176,37 @@ header p{
   z-index:999;
 }
 
-.side-menu.open{ right:0; }
+.side-menu.open{
+  right:0;
+}
 
-.side-submenu{ display:none; }
-.side-submenu.open{ display:block; }
+.side-submenu{
+  display:none;
+}
 
-/* MOBILE */
+.side-submenu.open{
+  display:block;
+}
+
+/* ---------------- MOBILE ---------------- */
+
 @media(max-width:600px){
   .side-menu{
     width:100%;
     right:-100%;
+  }
+
+  /* Mobile layout for filters */
+  .filters{
+    padding:10px;
+  }
+
+  .filters button{
+    padding:6px 12px;
+    font-size:.75rem;
+  }
+
+  .subfilters{
+    flex-wrap:wrap;
   }
 }
