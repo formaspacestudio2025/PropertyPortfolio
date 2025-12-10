@@ -24,16 +24,15 @@ function showMainFilter(category, btn) {
   document.querySelectorAll('.filters button').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
 
-  // Hide all subfilters
-  document.getElementById("residential-sub").style.display = "none";
-  document.getElementById("commercial-sub").style.display = "none";
+  // Hide subfilters
+  document.querySelectorAll(".subfilters").forEach(sf => sf.classList.remove("show"));
 
-  // Show correct subfilter group
+  // Show relevant subfilter section
   if (category === "residential") {
-    document.getElementById("residential-sub").style.display = "flex";
+    document.getElementById("residential-sub").classList.add("show");
   }
   if (category === "commercial") {
-    document.getElementById("commercial-sub").style.display = "flex";
+    document.getElementById("commercial-sub").classList.add("show");
   }
 
   filterProjects(category);
@@ -57,7 +56,7 @@ function filterProjects(category) {
 }
 
 
-// Keyword search + keep active main category
+// Keyword search that respects the active main filter
 function searchProjects() {
   const activeButton = document.querySelector('.filters button.active');
   const activeCategory = activeButton
