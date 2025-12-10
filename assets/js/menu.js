@@ -20,11 +20,11 @@ document.querySelectorAll('.side-menu a').forEach(link => {
 // Show top-level filter + reveal correct subfilters
 function showMainFilter(category, btn) {
 
-  // Activate the clicked button
+  // Highlight active main button
   document.querySelectorAll('.filters button').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
 
-  // Hide subfilter groups
+  // Hide all subfilters
   document.getElementById("residential-sub").style.display = "none";
   document.getElementById("commercial-sub").style.display = "none";
 
@@ -57,14 +57,12 @@ function filterProjects(category) {
 }
 
 
-// Keyword search + keep active category
+// Keyword search + keep active main category
 function searchProjects() {
-  const keyword = document.getElementById("projectSearch").value.toLowerCase();
-
   const activeButton = document.querySelector('.filters button.active');
   const activeCategory = activeButton
-      ? activeButton.getAttribute('onclick').match(/'(.+?)'/)[1]
-      : "all";
+    ? activeButton.getAttribute('onclick').match(/'(.+?)'/)[1]
+    : "all";
 
   filterProjects(activeCategory);
 }
