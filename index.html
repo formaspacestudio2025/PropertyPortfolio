@@ -63,22 +63,27 @@
   <button onclick="showMainFilter('commercial', this)">Commercial</button>
 </div>
 
-<!-- RESIDENTIAL SUBFILTERS -->
-<div id="residential-sub" class="subfilters">
-  <button onclick="filterProjects('residential')">All Residential</button>
-  <button onclick="filterProjects('villa')">Villas</button>
-  <button onclick="filterProjects('apartment')">Apartments</button>
-  <button onclick="filterProjects('townhouse')">Townhouses</button>
-  <button onclick="filterProjects('res-land')">Land / Plots</button>
-</div>
+<!-- SUBFILTER WRAPPER (keeps layout clean) -->
+<div class="subfilter-area">
 
-<!-- COMMERCIAL SUBFILTERS -->
-<div id="commercial-sub" class="subfilters">
-  <button onclick="filterProjects('commercial')">All Commercial</button>
-  <button onclick="filterProjects('retail')">Retail</button>
-  <button onclick="filterProjects('office')">Office</button>
-  <button onclick="filterProjects('hospitality')">Hospitality</button>
-  <button onclick="filterProjects('com-land')">Land / Plots</button>
+    <!-- RESIDENTIAL SUBFILTERS -->
+    <div id="residential-sub" class="subfilters">
+      <button onclick="filterProjects('residential')">All Residential</button>
+      <button onclick="filterProjects('villa')">Villas</button>
+      <button onclick="filterProjects('apartment')">Apartments</button>
+      <button onclick="filterProjects('townhouse')">Townhouses</button>
+      <button onclick="filterProjects('res-land')">Land / Plots</button>
+    </div>
+
+    <!-- COMMERCIAL SUBFILTERS -->
+    <div id="commercial-sub" class="subfilters">
+      <button onclick="filterProjects('commercial')">All Commercial</button>
+      <button onclick="filterProjects('retail')">Retail</button>
+      <button onclick="filterProjects('office')">Office</button>
+      <button onclick="filterProjects('hospitality')">Hospitality</button>
+      <button onclick="filterProjects('com-land')">Land / Plots</button>
+    </div>
+
 </div>
 
 
@@ -120,6 +125,7 @@
 
 </body>
 </html>
+
 
 
 
