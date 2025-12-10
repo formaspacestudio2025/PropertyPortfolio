@@ -17,18 +17,18 @@ document.querySelectorAll('.side-menu a').forEach(link => {
 
 /* ---------------- FILTER SYSTEM ---------------- */
 
-// Show top-level filter and subcategories
+// Show top-level filter + reveal correct subfilters
 function showMainFilter(category, btn) {
 
-  // Activate correct button
+  // Activate the clicked button
   document.querySelectorAll('.filters button').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
 
-  // Hide all subfilters by default
+  // Hide subfilter groups
   document.getElementById("residential-sub").style.display = "none";
   document.getElementById("commercial-sub").style.display = "none";
 
-  // Show correct group
+  // Show correct subfilter group
   if (category === "residential") {
     document.getElementById("residential-sub").style.display = "flex";
   }
@@ -40,7 +40,7 @@ function showMainFilter(category, btn) {
 }
 
 
-// Main card filter function
+// Filter projects by category + keyword
 function filterProjects(category) {
   const keyword = document.getElementById("projectSearch").value.toLowerCase();
   const cards = document.querySelectorAll('.card');
@@ -57,7 +57,7 @@ function filterProjects(category) {
 }
 
 
-// Keyword search works with active category
+// Keyword search + keep active category
 function searchProjects() {
   const keyword = document.getElementById("projectSearch").value.toLowerCase();
 
