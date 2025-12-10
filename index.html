@@ -113,9 +113,9 @@
   <button onclick="filterProjects('villa', this)">Villas</button>
   <button onclick="filterProjects('apartment', this)">Apartments</button>
   <button onclick="filterProjects('townhouse', this)">Townhouses</button>
-
+  
   <!-- ⭐ New Land / Plot Sub-filter -->
-  <button onclick="filterProjects('land', this)">Land / Plots</button>
+  <button onclick="filterProjects('res-land', this)">Land / Plots</button>
 </div>
 
 <!-- COMMERCIAL SUB-FILTERS -->
@@ -124,16 +124,16 @@
   <button onclick="filterProjects('retail', this)">Retail</button>
   <button onclick="filterProjects('office', this)">Office</button>
   <button onclick="filterProjects('hospitality', this)">Hospitality</button>
-
+  
   <!-- ⭐ New Land / Plot Sub-filter -->
-  <button onclick="filterProjects('land', this)">Land / Plots</button>
+  <button onclick="filterProjects('com-land', this)">Land / Plots</button>
 </div>
 
 
 <main class="grid">
 
-  <!-- EXAMPLE 1: Residential + For Sale -->
-  <div class="card commercial showing">
+  <!-- EXAMPLE 1: Residential + Showing -->
+  <div class="card residential showing">
     <img src="houseboat-Canberra-600pxl.png">
     <div class="card-body">
       <h3>Houseboat Canberra</h3>
@@ -142,7 +142,7 @@
     </div>
   </div>
 
-  <!-- EXAMPLE 2: Commercial + Showing -->
+  <!-- EXAMPLE 2: Commercial + For Sale -->
   <div class="card commercial for-sale">
     <img src="https://lh3.googleusercontent.com/p/AF1QipNjIcfoAH7MovbDUxIiv-5d-w-lX3l2DlueYFNF=s680-w680-h510-rw">
     <div class="card-body">
@@ -200,6 +200,7 @@ function searchProjects(){
 
 </body>
 </html>
+
 
 
 
