@@ -99,18 +99,36 @@
   >
 </div>
 
-<!-- FILTER BUTTONS -->
+<!-- MAIN FILTER BUTTONS -->
 <div class="filters">
-  <button class="active" onclick="filterProjects('all', this)">All</button>
-  <button onclick="filterProjects('residential', this)">Residential</button>
-  <button onclick="filterProjects('commercial', this)">Commercial</button>
+  <button class="active" onclick="showMainFilter('all', this)">All</button>
 
-  <!-- NEW FILTER OPTIONS -->
-  <button onclick="filterProjects('for-sale', this)">For Sale</button>
-  <button onclick="filterProjects('showing', this)">Showing</button>
-  <button onclick="filterProjects('renovation', this)">Renovation</button>
-  <button onclick="filterProjects('luxury', this)">Luxury</button>
+  <button onclick="showMainFilter('residential', this)">Residential</button>
+  <button onclick="showMainFilter('commercial', this)">Commercial</button>
 </div>
+
+<!-- RESIDENTIAL SUB-FILTERS -->
+<div id="residential-sub" class="subfilters" style="display:none;">
+  <button onclick="filterProjects('residential', this)">All Residential</button>
+  <button onclick="filterProjects('villa', this)">Villas</button>
+  <button onclick="filterProjects('apartment', this)">Apartments</button>
+  <button onclick="filterProjects('townhouse', this)">Townhouses</button>
+
+  <!-- ⭐ New Land / Plot Sub-filter -->
+  <button onclick="filterProjects('land', this)">Land / Plots</button>
+</div>
+
+<!-- COMMERCIAL SUB-FILTERS -->
+<div id="commercial-sub" class="subfilters" style="display:none;">
+  <button onclick="filterProjects('commercial', this)">All Commercial</button>
+  <button onclick="filterProjects('retail', this)">Retail</button>
+  <button onclick="filterProjects('office', this)">Office</button>
+  <button onclick="filterProjects('hospitality', this)">Hospitality</button>
+
+  <!-- ⭐ New Land / Plot Sub-filter -->
+  <button onclick="filterProjects('land', this)">Land / Plots</button>
+</div>
+
 
 <main class="grid">
 
@@ -182,6 +200,7 @@ function searchProjects(){
 
 </body>
 </html>
+
 
 
 
