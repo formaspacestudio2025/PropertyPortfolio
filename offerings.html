@@ -9,58 +9,57 @@
   <script src="assets/js/menu.js" defer></script>
 
   <style>
-    /* Page layout */
+    /* ------------------------------
+       SHARED ABOUT-PAGE VISUAL STYLE
+       ------------------------------ */
     body {
+      margin: 0;
       background: #0d0d0d;
       color: #fff;
-      font-family: 'Inter', sans-serif;
-      margin: 0;
-      padding: 0;
+      font-family: "Inter", sans-serif;
+      line-height: 1.7;
     }
 
     header {
       text-align: center;
-      padding: 40px 20px 10px;
+      padding: 60px 20px 20px;
     }
 
     header img {
       width: 120px;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
 
     header h1 {
-      font-size: 32px;
-      letter-spacing: 1px;
+      font-size: 34px;
       margin: 0;
+      letter-spacing: 0.5px;
     }
 
     header p {
-      margin-top: 6px;
       opacity: 0.7;
+      margin-top: 6px;
       font-size: 14px;
     }
 
     .page-content {
-      max-width: 900px;
+      max-width: 860px;
       margin: 0 auto;
-      padding: 40px 16px;
-      line-height: 1.7;
+      padding: 20px 20px 80px;
     }
 
-    .page-content h1 {
-      font-size: 36px;
-      margin-bottom: 40px;
+    .page-title {
+      font-size: 32px;
+      text-align: center;
       text-transform: uppercase;
       letter-spacing: 1px;
-      text-align: center;
+      margin-bottom: 50px;
+      margin-top: 10px;
     }
 
-    .offer-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
+    /* ------------------------------
+       OFFERING LIST STYLING
+       ------------------------------ */
     .offer-item {
       margin-bottom: 60px;
       padding-bottom: 40px;
@@ -68,26 +67,25 @@
     }
 
     .offer-item strong {
-      font-size: 20px;
       display: block;
+      font-size: 20px;
+      font-weight: 600;
       margin-bottom: 10px;
-      color: #fff;
     }
 
-    /* Video thumbnail */
     .video-thumb {
-      position: relative;
       margin-top: 16px;
+      position: relative;
       border-radius: 12px;
       overflow: hidden;
-      cursor: pointer;
       background: #111;
+      cursor: pointer;
     }
 
     .video-thumb img {
       width: 100%;
-      display: block;
       opacity: 0.9;
+      display: block;
     }
 
     .video-thumb:hover img {
@@ -99,26 +97,26 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      font-size: 48px;
       background: rgba(0,0,0,0.6);
       width: 80px;
       height: 80px;
       border-radius: 50%;
+      font-size: 44px;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
     }
 
-    /* Modal video */
+    /* ------------------------------
+       MODAL VIDEO PLAYER
+       ------------------------------ */
     .modal {
       display: none;
       position: fixed;
       z-index: 9999;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.85);
+      inset: 0;
+      background: rgba(0,0,0,0.86);
+      display: none;
       justify-content: center;
       align-items: center;
       padding: 20px;
@@ -136,13 +134,12 @@
       right: 40px;
       font-size: 40px;
       cursor: pointer;
-      color: #fff;
     }
 
     footer {
       text-align: center;
-      padding: 40px;
-      opacity: 0.7;
+      padding: 50px 10px;
+      opacity: 0.6;
       font-size: 13px;
     }
   </style>
@@ -157,7 +154,7 @@
     <span class="close-btn" onclick="toggleMenu()">✕</span>
 
     <a href="about.html">About</a>
-    <a href="offerings.html" class="active">Offerings</a>
+    <a class="active" href="offerings.html">Offerings</a>
     <a href="testimonials.html">Testimonials</a>
 
     <div class="side-dropdown">
@@ -168,7 +165,7 @@
     </div>
   </nav>
 
-  <!-- HEADER -->
+  <!-- PAGE HEADER -->
   <header>
     <img src="logo.webp" alt="Formaspace Studio Logo">
     <h1>Formaspace Studio</h1>
@@ -178,14 +175,13 @@
   <!-- CONTENT -->
   <main class="page-content">
 
-    <h1>Our Offerings</h1>
+    <div class="page-title">Our Offerings</div>
 
     <ul class="offer-list">
 
-      <!-- One service item -->
       <li class="offer-item">
         <strong>3D LiDAR Scanning & Reality Capture</strong>
-        Generation of high-precision digital twins for construction, architectural, and infrastructure environments.
+        High-precision digital twins for construction and architectural environments.
 
         <div class="video-thumb" data-video="3D LiDAR Scanning & Reality Capture.mp4">
           <img src="logo.webp">
@@ -195,7 +191,7 @@
 
       <li class="offer-item">
         <strong>BIM Modelling & Coordination</strong>
-        Fully integrated, clash-free BIM environments supporting multidisciplinary design teams.
+        Integrated multidisciplinary BIM environments with clash-free coordination.
 
         <div class="video-thumb" data-video="BIM Modelling & Coordination.mp4">
           <img src="logo.webp">
@@ -205,7 +201,7 @@
 
       <li class="offer-item">
         <strong>360° Walkthroughs & Visualisation</strong>
-        Immersive virtual tours, aerial perspectives, and photorealistic rendering.
+        Photorealistic rendering, aerial visuals, and immersive virtual tours.
 
         <div class="video-thumb" data-video="360° Virtual Walkthroughs & Visualisation.mp4">
           <img src="logo.webp">
@@ -215,7 +211,7 @@
 
       <li class="offer-item">
         <strong>Project Controls & Construction Management</strong>
-        Scheduling, budgeting, risk, cost control, and QA/QC workflows.
+        Scheduling, budgeting, cost tracking, QA/QC, and risk management.
 
         <div class="video-thumb" data-video="Project Controls & Construction Management.mp4">
           <img src="logo.webp">
@@ -225,7 +221,7 @@
 
       <li class="offer-item">
         <strong>Procurement & Vendor Management</strong>
-        BOQ preparation, vendor screening, tender analysis, negotiation frameworks.
+        BOQs, tender evaluations, negotiations, and vendor qualification.
 
         <div class="video-thumb" data-video="Procurement & Vendor Management.mp4">
           <img src="logo.webp">
@@ -235,7 +231,7 @@
 
       <li class="offer-item">
         <strong>Technical Reporting & Engineering Documentation</strong>
-        RFIs, dashboards, progress reporting, and approval workflows.
+        RFIs, dashboards, progress reports, and formal approval workflows.
 
         <div class="video-thumb" data-video="Technical Reporting & Engineering Documentation.mp4">
           <img src="logo.webp">
@@ -247,31 +243,22 @@
 
   </main>
 
-  <!-- MODAL VIDEO -->
+  <!-- MODAL -->
   <div id="videoModal" class="modal">
     <span class="close">&times;</span>
     <video id="modalVideo" controls autoplay></video>
   </div>
 
-  <!-- FOOTER -->
   <footer>
     © 2025 <strong>Formaspace Studio</strong> — Design · Build · Visualization
   </footer>
 
-  <!-- WHATSAPP FLOAT -->
-  <a href="https://wa.me/919149670483" target="_blank" class="whatsapp-float">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#25D366" width="50" height="50">
-      <path d="M20.52 3.48C18.37 1.33 15.29 0 12 0 5.37 0 0 5.37 0 12c0 2.12.55 4.09 1.52 5.81L0 24l6.43-1.5C8.2 23.45 10.08 24 12 24c6.63 0 12-5.37 12-12 0-3.29-1.33-6.37-3.48-8.52z"/>
-    </svg>
-  </a>
-
   <script>
-    // Video modal logic
-    document.querySelectorAll('.video-thumb').forEach(thumb => {
-      thumb.addEventListener('click', () => {
+    document.querySelectorAll('.video-thumb').forEach(t => {
+      t.addEventListener('click', () => {
         const modal = document.getElementById('videoModal');
         const video = document.getElementById('modalVideo');
-        video.src = thumb.getAttribute('data-video');
+        video.src = t.dataset.video;
         modal.style.display = "flex";
         video.play();
       });
@@ -285,7 +272,7 @@
       video.src = "";
     };
 
-    window.onclick = (e) => {
+    window.onclick = e => {
       const modal = document.getElementById('videoModal');
       if (e.target === modal) {
         modal.style.display = "none";
