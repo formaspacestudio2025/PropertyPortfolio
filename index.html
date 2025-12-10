@@ -7,19 +7,156 @@
 
   <!-- COMMON STYLES -->
   <link rel="stylesheet" href="assets/css/style.css">
-
-  <!-- MENU + FILTER SCRIPT -->
   <script src="assets/js/menu.js" defer></script>
 
-  <!-- MODAL STYLES -->
   <style>
-    .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%;
-      background:rgba(0,0,0,0.6); z-index:9999; justify-content:center; align-items:center; }
-    .modal-content { background:#fff; width:80%; max-width:1000px; height:80%;
-      border-radius:10px; overflow:hidden; position:relative; }
-    .modal .close { position:absolute; top:10px; right:20px; cursor:pointer; z-index:10; }
-    .modal iframe { width:100%; height:100%; border:none; }
+    :root{
+      --bg:#0f1113;
+      --panel:#15181c;
+      --text:#e5e5e5;
+      --muted:#9aa0a6;
+      --accent:#6fa7c9;
+      --accent-soft:#3d5f78;
+    }
+
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:"Segoe UI", Inter, sans-serif;
+      line-height:1.6;
+    }
+
+    /* HEADER */
+    header{
+      padding:40px 30px 20px;
+      text-align:center;
+    }
+    header img{
+      width:110px;
+      margin-bottom:10px;
+    }
+    header h1{
+      font-size:2.2rem;
+      margin-bottom:5px;
+    }
+    header p{
+      color:var(--muted);
+      font-size:1rem;
+    }
+
+    .page-content{
+      padding:40px 30px;
+      max-width:1100px;
+      margin:auto;
+    }
+
+    /* FILTERS MATCHING STYLE */
+    .filters{
+      text-align:center;
+      margin-bottom:20px;
+    }
+    .filters button{
+      background:var(--panel);
+      color:var(--muted);
+      border:1px solid #222;
+      padding:8px 18px;
+      margin:5px;
+      border-radius:6px;
+      cursor:pointer;
+      font-size:0.95rem;
+    }
+    .filters .active{
+      background:var(--accent-soft);
+      color:#fff;
+    }
+
+    .subfilter-area{
+      text-align:center;
+      margin-top:10px;
+      margin-bottom:25px;
+    }
+    .subfilters{
+      display:none;
+    }
+    .subfilters button{
+      background:#1c1f24;
+      color:var(--muted);
+      border:1px solid #222;
+      padding:6px 14px;
+      margin:3px;
+      border-radius:6px;
+      cursor:pointer;
+      font-size:.85rem;
+    }
+
+    /* GRID + CARDS (matching About page cards) */
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+      gap:30px;
+      padding:20px;
+      max-width:1100px;
+      margin:auto;
+    }
+
+    .card{
+      background:var(--panel);
+      border-radius:12px;
+      padding-bottom:15px;
+      overflow:hidden;
+      box-shadow:0 20px 40px rgba(0,0,0,.45);
+    }
+    .card img{
+      width:100%;
+      height:220px;
+      object-fit:cover;
+    }
+    .card-body{
+      padding:20px;
+    }
+    .card-body h3{
+      margin:0 0 8px;
+      font-size:1.3rem;
+    }
+    .card-body p{
+      margin:0 0 15px;
+      color:var(--muted);
+      font-size:.9rem;
+    }
+
+    .btn{
+      background:var(--accent);
+      padding:8px 14px;
+      border-radius:6px;
+      color:#fff;
+      text-decoration:none;
+      font-size:.9rem;
+    }
+    .btn:hover{
+      background:var(--accent-soft);
+    }
+
+    /* SEARCH BOX UNIFIED */
+    .search-box input{
+      background:var(--panel);
+      color:var(--text);
+      border:1px solid #222;
+      padding:10px 12px!important;
+      width:260px!important;
+      border-radius:8px;
+    }
+
+    /* FOOTER */
+    footer{
+      text-align:center;
+      padding:40px;
+      color:var(--muted);
+      font-size:.9rem;
+      margin-top:40px;
+    }
   </style>
+
 </head>
 
 <body>
@@ -29,47 +166,34 @@
 
 <!-- SIDE MENU -->
 <nav id="sideMenu" class="side-menu">
-
   <span class="close-btn" onclick="toggleMenu()">✕</span>
 
   <a href="about.html">About</a>
   <a href="offerings.html">Offerings</a>
   <a href="testimonials.html">Testimonials</a>
 
-  <!-- DROPDOWN -->
   <div class="side-dropdown">
     <div class="dropdown-toggle" onclick="toggleDropdown()">
-      Property Portfolio
-      <span class="arrow">▾</span>
+      Property Portfolio <i class="arrow">▶</i>
     </div>
-
     <div id="portfolioMenu" class="side-submenu">
       <a href="index.html">All Projects</a>
       <a href="index.html?filter=residential">Residential</a>
       <a href="index.html?filter=commercial">Commercial</a>
     </div>
   </div>
-
 </nav>
 
-
-</nav>
-
-</nav>
-
-
-
+<!-- HEADER -->
 <header>
   <img src="logo.webp" alt="Formaspace Studio Logo">
   <h1>Formaspace Studio</h1>
   <p>Design · Build · Visualization</p>
 </header>
 
-<!-- SEARCH BOX -->
+<!-- SEARCH -->
 <div class="search-box" style="text-align:center; margin-bottom:20px;">
-  <input type="text" id="projectSearch" placeholder="Search projects..."
-         onkeyup="searchProjects()"
-         style="padding:8px 12px; border-radius:6px; border:1px solid #ccc; width:250px;">
+  <input type="text" id="projectSearch" placeholder="Search projects..." onkeyup="searchProjects()">
 </div>
 
 <!-- MAIN FILTERS -->
@@ -79,44 +203,36 @@
   <button onclick="showMainFilter('commercial', this)">Commercial</button>
 </div>
 
-<!-- SUBFILTER WRAPPER (keeps layout clean) -->
 <div class="subfilter-area">
+  <div id="residential-sub" class="subfilters">
+    <button onclick="filterProjects('residential')">All Residential</button>
+    <button onclick="filterProjects('villa')">Villas</button>
+    <button onclick="filterProjects('apartment')">Apartments</button>
+    <button onclick="filterProjects('townhouse')">Townhouses</button>
+    <button onclick="filterProjects('res-land')">Land / Plots</button>
+  </div>
 
-    <!-- RESIDENTIAL SUBFILTERS -->
-    <div id="residential-sub" class="subfilters">
-      <button onclick="filterProjects('residential')">All Residential</button>
-      <button onclick="filterProjects('villa')">Villas</button>
-      <button onclick="filterProjects('apartment')">Apartments</button>
-      <button onclick="filterProjects('townhouse')">Townhouses</button>
-      <button onclick="filterProjects('res-land')">Land / Plots</button>
-    </div>
-
-    <!-- COMMERCIAL SUBFILTERS -->
-    <div id="commercial-sub" class="subfilters">
-      <button onclick="filterProjects('commercial')">All Commercial</button>
-      <button onclick="filterProjects('retail')">Retail</button>
-      <button onclick="filterProjects('office')">Office</button>
-      <button onclick="filterProjects('hospitality')">Hospitality</button>
-      <button onclick="filterProjects('com-land')">Land / Plots</button>
-    </div>
-
+  <div id="commercial-sub" class="subfilters">
+    <button onclick="filterProjects('commercial')">All Commercial</button>
+    <button onclick="filterProjects('retail')">Retail</button>
+    <button onclick="filterProjects('office')">Office</button>
+    <button onclick="filterProjects('hospitality')">Hospitality</button>
+    <button onclick="filterProjects('com-land')">Land / Plots</button>
+  </div>
 </div>
 
-
-<!-- PROJECT GRID -->
+<!-- GRID -->
 <main class="grid">
 
-  <!-- Example Residential → Hotel → Showing -->
   <div class="card commercial hospitality showing">
     <img src="houseboat-Canberra-600pxl.png">
     <div class="card-body">
       <h3>Houseboat Canberra</h3>
-      <p>Commercial · Housboat · 2000 sqft</p>
+      <p>Commercial · Houseboat · 2000 sqft</p>
       <a class="btn" href="property/houseboat-canberra.html">View 360° Tour</a>
     </div>
   </div>
 
-  <!-- Example Commercial → Hotel → For Sale -->
   <div class="card commercial hospitality for-sale">
     <img src="https://lh3.googleusercontent.com/p/AF1QipNjIcfoAH7MovbDUxIiv-5d-w-lX3l2DlueYFNF=s680-w680-h510-rw">
     <div class="card-body">
@@ -132,19 +248,5 @@
   © 2025 <strong>Formaspace Studio</strong> — Design · Build · Visualization
 </footer>
 
-<!-- WHATSAPP FLOATING -->
-<a href="https://wa.me/919149670483" target="_blank" class="whatsapp-float">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#25D366" width="50" height="50">
-    <path d="M20.52 3.48C18.37 1.33 15.29 0 12 0 5.37 0 0 5.37 0 12c0 2.12.55 4.09 1.52 5.81L0 24l6.43-1.5C8.2 23.45 10.08 24 12 24c6.63 0 12-5.37 12-12 0-3.29-1.33-6.37-3.48-8.52z"/>
-  </svg>
-</a>
-
 </body>
 </html>
-
-
-
-
-
-
-
