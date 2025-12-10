@@ -8,12 +8,11 @@
   <!-- COMMON STYLES -->
   <link rel="stylesheet" href="assets/css/style.css">
 
-  <!-- MENU SCRIPT -->
+  <!-- MENU + FILTER SCRIPT -->
   <script src="assets/js/menu.js" defer></script>
 
   <!-- MODAL STYLES -->
   <style>
-    /* Modal overlay */
     .modal {
       display: none;
       position: fixed;
@@ -27,7 +26,6 @@
       align-items: center;
     }
 
-    /* Modal content */
     .modal-content {
       background-color: #fff;
       width: 80%;
@@ -41,7 +39,6 @@
       flex-direction: column;
     }
 
-    /* Close button */
     .modal .close {
       position: absolute;
       top: 10px;
@@ -52,7 +49,6 @@
       z-index: 10;
     }
 
-    /* Iframe inside modal */
     .modal iframe {
       width: 100%;
       height: 100%;
@@ -102,7 +98,6 @@
 <!-- MAIN FILTER BUTTONS -->
 <div class="filters">
   <button class="active" onclick="showMainFilter('all', this)">All</button>
-
   <button onclick="showMainFilter('residential', this)">Residential</button>
   <button onclick="showMainFilter('commercial', this)">Commercial</button>
 </div>
@@ -113,8 +108,6 @@
   <button onclick="filterProjects('villa', this)">Villas</button>
   <button onclick="filterProjects('apartment', this)">Apartments</button>
   <button onclick="filterProjects('townhouse', this)">Townhouses</button>
-  
-  <!-- ⭐ New Land / Plot Sub-filter -->
   <button onclick="filterProjects('res-land', this)">Land / Plots</button>
 </div>
 
@@ -124,15 +117,10 @@
   <button onclick="filterProjects('retail', this)">Retail</button>
   <button onclick="filterProjects('office', this)">Office</button>
   <button onclick="filterProjects('hospitality', this)">Hospitality</button>
-  
-  <!-- ⭐ New Land / Plot Sub-filter -->
   <button onclick="filterProjects('com-land', this)">Land / Plots</button>
 </div>
 
-
 <main class="grid">
-
-  <!-- EXAMPLE 1: Residential + Showing -->
   <div class="card residential showing">
     <img src="houseboat-Canberra-600pxl.png">
     <div class="card-body">
@@ -142,7 +130,6 @@
     </div>
   </div>
 
-  <!-- EXAMPLE 2: Commercial + For Sale -->
   <div class="card commercial for-sale">
     <img src="https://lh3.googleusercontent.com/p/AF1QipNjIcfoAH7MovbDUxIiv-5d-w-lX3l2DlueYFNF=s680-w680-h510-rw">
     <div class="card-body">
@@ -151,7 +138,6 @@
       <a class="btn" href="property/Hotel-Duke.html">View 360° Tour</a>
     </div>
   </div>
-
 </main>
 
 <footer>
@@ -164,20 +150,6 @@
     <path d="M20.52 3.48C18.37 1.33 15.29 0 12 0 5.37 0 0 5.37 0 12c0 2.12.55 4.09 1.52 5.81L0 24l6.43-1.5C8.2 23.45 10.08 24 12 24c6.63 0 12-5.37 12-12 0-3.29-1.33-6.37-3.48-8.52zM12 21.82c-1.85 0-3.66-.5-5.22-1.44l-.37-.22-3.82.89.81-3.72-.24-.38C2.68 15.66 2.18 13.85 2.18 12 2.18 6.49 6.49 2.18 12 2.18c5.51 0 9.82 4.31 9.82 9.82 0 5.51-4.31 9.82-9.82 9.82zm5.31-7.88c-.18-.09-1.06-.52-1.22-.58-.16-.06-.28-.09-.4.09-.12.18-.46.58-.56.7-.1.12-.2.14-.37.05-.18-.09-.75-.28-1.42-.88-.52-.46-.87-1.03-.97-1.2-.1-.18-.01-.28.08-.37.08-.08.18-.2.27-.3.09-.1.12-.18.18-.3.06-.12.03-.22-.01-.31-.05-.09-.4-.97-.55-1.32-.14-.35-.28-.3-.4-.31-.1-.01-.22-.01-.34-.01-.12 0-.31.05-.47.22-.16.18-.61.59-.61 1.44 0 .85.62 1.67.71 1.78.09.12 1.22 1.86 2.96 2.6 1.73.73 1.73.49 2.04.46.31-.03 1.02-.42 1.16-.83.14-.41.14-.76.1-.83-.03-.06-.12-.1-.22-.18z"/>
   </svg>
 </a>
+
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
