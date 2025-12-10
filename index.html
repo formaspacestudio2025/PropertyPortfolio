@@ -101,34 +101,36 @@
 
 <!-- FILTER BUTTONS -->
 <div class="filters">
-  <button class="active" onclick="filterProjects('all',this)">All</button>
-  <button onclick="filterProjects('residential',this)">Residential</button>
-  <button onclick="filterProjects('commercial',this)">Commercial</button>
+  <button class="active" onclick="filterProjects('all', this)">All</button>
+  <button onclick="filterProjects('residential', this)">Residential</button>
+  <button onclick="filterProjects('commercial', this)">Commercial</button>
+
+  <!-- NEW FILTER OPTIONS -->
+  <button onclick="filterProjects('for-sale', this)">For Sale</button>
+  <button onclick="filterProjects('showing', this)">Showing</button>
+  <button onclick="filterProjects('renovation', this)">Renovation</button>
+  <button onclick="filterProjects('luxury', this)">Luxury</button>
 </div>
 
 <main class="grid">
 
-  <div class="card residential">
+  <!-- EXAMPLE 1: Residential + For Sale -->
+  <div class="card commercial showing">
     <img src="houseboat-Canberra-600pxl.png">
     <div class="card-body">
       <h3>Houseboat Canberra</h3>
       <p>Residential · 2000 sqft</p>
-      <a class="btn" href="property/houseboat-canberra.html">
-  View 360° Tour
-</a>
-
-      
+      <a class="btn" href="property/houseboat-canberra.html">View 360° Tour</a>
     </div>
   </div>
 
-  <div class="card commercial">
+  <!-- EXAMPLE 2: Commercial + Showing -->
+  <div class="card commercial for-sale">
     <img src="https://lh3.googleusercontent.com/p/AF1QipNjIcfoAH7MovbDUxIiv-5d-w-lX3l2DlueYFNF=s680-w680-h510-rw">
     <div class="card-body">
       <h3>Hotel Duke</h3>
       <p>Commercial · Visualization</p>
-      <a class="btn" href="property/Hotel-Duke.html">
-        View 360° Tour
-      </a>
+      <a class="btn" href="property/Hotel-Duke.html">View 360° Tour</a>
     </div>
   </div>
 
@@ -180,6 +182,7 @@ function searchProjects(){
 
 </body>
 </html>
+
 
 
 
