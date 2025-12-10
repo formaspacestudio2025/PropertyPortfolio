@@ -170,31 +170,98 @@ header p{
   right:-280px;
   width:260px;
   height:100%;
-  background:#111;
-  padding:80px 25px;
+  background:#0d0f11;
+  padding:80px 25px 40px;
   transition:.35s ease;
   z-index:999;
+  box-shadow:-5px 0 25px rgba(0,0,0,0.45);
+  display:flex;
+  flex-direction:column;
+  gap:18px;
 }
 
 .side-menu.open{
   right:0;
 }
 
+/* Main links */
+.side-menu a{
+  color:var(--text);
+  text-decoration:none;
+  font-size:1rem;
+  padding:12px 10px;
+  border-radius:6px;
+  display:block;
+  transition:.25s;
+  background:transparent;
+}
+
+.side-menu a:hover{
+  background:#1b1f24;
+  color:var(--accent);
+}
+
+/* Portfolio dropdown toggle */
+.dropdown-toggle{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  cursor:pointer;
+  color:var(--text);
+  padding:12px 10px;
+  border-radius:6px;
+  transition:.25s;
+}
+
+.dropdown-toggle:hover{
+  background:#1b1f24;
+  color:var(--accent);
+}
+
+/* Arrow icon */
+.dropdown-toggle i{
+  transition:.25s;
+}
+
+.dropdown-toggle.open i{
+  transform:rotate(90deg);
+}
+
+/* ---------------- SUBMENU ---------------- */
 .side-submenu{
   display:none;
+  flex-direction:column;
+  margin-left:10px;
+  padding-left:10px;
+  border-left:2px solid #222;
+  gap:10px;
 }
 
 .side-submenu.open{
-  display:block;
+  display:flex;
+}
+
+/* Submenu item */
+.side-submenu a{
+  font-size:.9rem;
+  color:var(--muted);
+  background:#111;
+  padding:10px;
+  border-radius:6px;
+}
+
+.side-submenu a:hover{
+  background:#222;
+  color:var(--accent);
 }
 
 /* ---------------- MOBILE ---------------- */
-
 @media(max-width:600px){
   .side-menu{
     width:100%;
     right:-100%;
   }
+}
 
   /* Mobile layout for filters */
   .filters{
