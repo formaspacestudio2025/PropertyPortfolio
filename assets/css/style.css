@@ -136,6 +136,17 @@ header p{
   color:#000;
   border-color:var(--accent);
 }
+.subfilters {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.subfilters button {
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
 
 /* =========================
    GRID
