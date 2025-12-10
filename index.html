@@ -29,19 +29,30 @@
 
 <!-- SIDE MENU -->
 <nav id="sideMenu" class="side-menu">
+
   <span class="close-btn" onclick="toggleMenu()">✕</span>
 
   <a href="about.html">About</a>
   <a href="offerings.html">Offerings</a>
   <a href="testimonials.html">Testimonials</a>
 
+  <!-- DROPDOWN -->
   <div class="side-dropdown">
-    <span onclick="toggleDropdown()">Property Portfolio ▾</span>
+    <div class="dropdown-toggle" onclick="toggleDropdown()">
+      Property Portfolio
+      <i class="arrow">▶</i>
+    </div>
+
     <div id="portfolioMenu" class="side-submenu">
       <a href="index.html">All Projects</a>
+      <a href="residential.html">Residential</a>
+      <a href="commercial.html">Commercial</a>
+      <a href="luxury.html">Luxury</a>
     </div>
   </div>
+
 </nav>
+
 
 <header>
   <img src="logo.webp" alt="Formaspace Studio Logo">
@@ -125,6 +136,7 @@
 
 </body>
 </html>
+
 
 
 
