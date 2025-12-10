@@ -7,12 +7,81 @@
 
   <link rel="stylesheet" href="assets/css/style.css">
   <script src="assets/js/menu.js" defer></script>
+
+  <style>
+    :root{
+      --bg:#0f1113;
+      --panel:#15181c;
+      --text:#e5e5e5;
+      --muted:#9aa0a6;
+      --accent:#6fa7c9;
+      --accent-soft:#3d5f78;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{
+      background:var(--bg);
+      color:var(--text);
+      font-family:"Segoe UI",Inter,Helvetica,Arial,sans-serif;
+      line-height:1.6;
+    }
+
+    /* HEADER */
+    header{
+      padding:40px 30px 20px;
+      text-align:center;
+    }
+    header img{
+      width:110px;
+      margin-bottom:10px;
+    }
+    header h1{
+      font-size:2.2rem;
+      margin-bottom:5px;
+    }
+    header p{
+      color:var(--muted);
+      font-size:1rem;
+    }
+
+    /* PAGE CONTENT */
+    .page-content{padding:40px 30px;max-width:1100px;margin:auto;}
+
+    .page-content h1{font-size:2.5rem;margin-bottom:15px;}
+    .page-content h2{font-size:2rem;margin:30px 0 15px;}
+    .page-content h3{font-size:1.4rem;margin:20px 0 10px;}
+    .page-content p{margin-bottom:15px;color:var(--muted);}
+    .page-content ul{margin-left:20px;margin-bottom:20px;color:var(--muted);} 
+    hr{border:0;border-top:1px solid #222;margin:40px 0;}
+
+    .team-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+      gap:30px;
+    }
+    .card{
+      background:var(--panel);
+      padding:25px;
+      border-radius:12px;
+      box-shadow:0 20px 40px rgba(0,0,0,.5);
+    }
+    .card h3{margin:0 0 10px;}
+
+    /* WHATSAPP FLOAT */
+    .whatsapp-float{
+      position:fixed;
+      right:20px;
+      bottom:20px;
+      z-index:9999;
+    }
+
+    footer{
+      text-align:center;
+      padding:40px;
+      color:var(--muted);
+      font-size:.9rem;
+    }
+  </style>
 </head>
-<header>
-  <img src="logo.webp" alt="Formaspace Studio Logo">
-  <h1>Formaspace Studio</h1>
-  <p>Design · Build · Visualization</p>
-</header>
 <body>
 
   <!-- REUSABLE MENU -->
@@ -33,172 +102,81 @@
     </div>
   </nav>
 
+  <!-- HEADER -->
+  <header>
+    <img src="logo.webp" alt="Formaspace Studio Logo">
+    <h1>Formaspace Studio</h1>
+    <p>Design · Build · Visualization</p>
+  </header>
+
   <!-- PAGE CONTENT -->
   <main class="page-content">
+    <h1>About Formaspace Studio</h1>
 
-    <h1>Who We Are</h1>
+    <p><strong>Formaspace Studio</strong> delivers integrated digital–engineering solutions for construction, architecture and infrastructure. We blend real-world engineering experience with modern tools including BIM, LiDAR, virtual walkthroughs and advanced project controls.</p>
 
-    <p>
-      <strong>Formaspace Studio</strong> is a digital-engineering and construction
-      solutions company built on real project experience and advanced technology.
-      Founded by Syed Sajid Kirmani and Nadeem Ahmad, we combine industry-proven
-      engineering methods with modern tools like BIM, LiDAR, and high-fidelity
-      3D visualization.
-    </p>
-
-    <p>
-      From multimillion-euro cleanrooms to complex structural builds, our mission
-      is to deliver accuracy, clarity, and control across every stage of a project.
-    </p>
+    <p>Our goal is simple: <strong>precision, clarity, and control across every stage of your project.</strong></p>
 
     <hr>
 
-    <h2>Nadeem – BIM Lead & Digital Engineering Specialist</h2>
-
-    <p>
-      Nadeem brings deep expertise in BIM, Revit, digital modelling, and coordination.
-      His work ensures accurate, clash-free, and fully integrated digital environments
-      that save clients time, cost, and risk.
-    </p>
-
-    <h3>Core Expertise</h3>
-
-    <ul>
-      <li><strong>BIM Modelling & Coordination</strong>
+    <h2>Leadership</h2>
+    <div class="team-grid">
+      <div class="card">
+        <h3>Nadeem Ahmad — BIM Lead</h3>
+        <p>Nadeem ensures every project is clash‑free, coordinated and engineered with digital precision.</p>
+        <h4>Expertise</h4>
         <ul>
-          <li>Architectural, Structural & MEP BIM Models</li>
+          <li>BIM modelling: Architectural, Structural & MEP</li>
           <li>NAVISworks clash detection</li>
-          <li>Digital coordination meetings</li>
-          <li>As-built modelling and documentation</li>
+          <li>3D drafting, shop drawings & engineering support</li>
+          <li>LiDAR → Scan‑to‑BIM integration</li>
         </ul>
-      </li>
+      </div>
 
-      <li><strong>Technical Drafting & Engineering Support</strong>
+      <div class="card">
+        <h3>Syed Sajid Kirmani — Project Controls Lead</h3>
+        <p>Sajid drives cost control, construction management, risk mitigation & stakeholder coordination.</p>
+        <h4>Expertise</h4>
         <ul>
-          <li>Shop drawings, details, cross-sections</li>
-          <li>Revit families, schedules, and data-rich deliverables</li>
-          <li>Quantity takeoff support</li>
+          <li>Cost, schedule & scope control</li>
+          <li>QA/QC, documentation & site supervision</li>
+          <li>Procurement, BOQs & vendor management</li>
+          <li>Risk analysis & dashboard reporting</li>
         </ul>
-      </li>
-
-      <li><strong>Field-to-Model Accuracy</strong>
-        <ul>
-          <li>Converting LiDAR scans into parametric BIM models</li>
-          <li>Updating live site conditions into Revit</li>
-          <li>Ensuring real-world precision for decision making</li>
-        </ul>
-      </li>
-    </ul>
+      </div>
+    </div>
 
     <hr>
 
-    <h2>Sajid – Project Controls & Construction Management Lead</h2>
-
-    <p>
-      With experience shaped at Hill International, Daiichi Sankyo Europe, and multiple
-      large-scale European projects, Sajid leads the project controls and
-      construction management division of Formaspace Studio.
-    </p>
-
-    <h3>Core Expertise</h3>
-
+    <h2>What We Deliver</h2>
     <ul>
-      <li><strong>Project Controls (Cost, Time, Scope)</strong>
-        <ul>
-          <li>Cost budgeting, tracking, and forecasting</li>
-          <li>Schedule alignment & S-curves</li>
-          <li>KPIs, dashboards, performance reporting</li>
-          <li>Risk analysis & change control (PMP methodology)</li>
-        </ul>
-      </li>
-
-      <li><strong>Construction Control & Quality Oversight</strong>
-        <ul>
-          <li>Daily site supervision</li>
-          <li>Contractor performance monitoring</li>
-          <li>QA/QC, compliance & documentation</li>
-          <li>Civil + MEP coordination</li>
-          <li>Progress & issue resolution reporting</li>
-        </ul>
-      </li>
-
-      <li><strong>Financial Control & Procurement</strong>
-        <ul>
-          <li>BOQ preparation & review</li>
-          <li>Vendor evaluation, negotiation & onboarding</li>
-          <li>Purchase workflows & approval systems</li>
-          <li>Cost compliance & material planning</li>
-        </ul>
-      </li>
-
-      <li><strong>Vendor & Stakeholder Management</strong>
-        <ul>
-          <li>Communication with PMC, consultants & contractors</li>
-          <li>RFIs, submittals, approvals & documentation control</li>
-          <li>Aligning project teams with timelines and budgets</li>
-        </ul>
-      </li>
-    </ul>
-
-    <p>
-      <strong>Summary:</strong> Sajid ensures every project is delivered with
-      financial discipline, technical precision, and complete construction control.
-    </p>
-
-    <hr>
-
-    <h2>What We Do</h2>
-
-    <p>
-      Formaspace Studio delivers an end-to-end blend of engineering control
-      and digital clarity.
-    </p>
-
-    <ul>
-      <li><strong>3D LiDAR Scanning & Reality Capture</strong> — Highly accurate digital twins for construction, architecture, and inspection.</li>
-      <li><strong>BIM Modelling & Coordination</strong> — Integrated, clash-free BIM models for civil, structural, and MEP systems.</li>
-      <li><strong>360° Virtual Walkthroughs & Visual Content</strong> — Immersive walkthroughs, aerial views, and photorealistic visuals.</li>
-      <li><strong>Project Controls & Construction Management</strong> — Budgeting, progress control, risk management, QA/QC, and reporting.</li>
-      <li><strong>Procurement & Vendor Management</strong> — BOQ preparation, vendor evaluation, negotiation & procurement oversight.</li>
-      <li><strong>Technical Reporting & Engineering Documentation</strong> — Site reports, dashboards, RFIs & approval workflows.</li>
+      <li><strong>3D LiDAR Scanning</strong> — High‑accuracy digital twins.</li>
+      <li><strong>BIM Modelling & Coordination</strong> — Integrated A/S/MEP BIM.</li>
+      <li><strong>360° Walkthroughs & Visualisation</strong> — Immersive reviews & client content.</li>
+      <li><strong>Project Controls & Construction Management</strong> — Cost, schedule, QC & reporting.</li>
+      <li><strong>Procurement & Vendor Management</strong> — Structured, compliant workflows.</li>
+      <li><strong>Technical Reporting</strong> — RFIs, dashboards, site reports & documentation.</li>
     </ul>
 
     <hr>
 
-    <h2>Why Work With Us</h2>
-
-    <p>
-      <strong>Technology + Real Engineering Experience</strong><br>
-      We are not just a digital studio. We are engineers who have worked on
-      real sites, real deadlines, and real budgets.
-    </p>
-
-    <p>
-      <strong>Accuracy That Saves Cost</strong><br>
-      Our scans, BIM models, and control systems eliminate errors
-      before they become costly problems.
-    </p>
-
-    <p>
-      <strong>From Site to Model to Delivery</strong><br>
-      We integrate reality capture, BIM, and construction control into
-      one unified workflow.
-    </p>
-
-    <p>
-      <strong>Future-Focused Vision</strong><br>
-      Formaspace Studio is built to support the next generation of
-      engineering, architecture, and infrastructure with digital precision.
-    </p>
-
+    <h2>Why Clients Choose Us</h2>
+    <p><strong>Engineering + Technology</strong> — Real site experience combined with modern digital tools.</p>
+    <p><strong>Cost & Risk Reduction</strong> — Precision models eliminate rework and site conflicts.</p>
+    <p><strong>End‑to‑End Workflow</strong> — From LiDAR → BIM → Construction control.</p>
+    <p><strong>Future‑Ready</strong> — Supporting next‑gen architecture and infrastructure with digital clarity.</p>
   </main>
+
   <footer>
-  © 2025 <strong>Formaspace Studio</strong> — Design · Build · Visualization
-</footer>
-<a href="https://wa.me/919149670483" target="_blank" class="whatsapp-float">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#25D366" width="50" height="50">
-    <path d="M20.52 3.48C18.37 1.33 15.29 0 12 0 5.37 0 0 5.37 0 12c0 2.12.55 4.09 1.52 5.81L0 24l6.43-1.5C8.2 23.45 10.08 24 12 24c6.63 0 12-5.37 12-12 0-3.29-1.33-6.37-3.48-8.52zM12 21.82c-1.85 0-3.66-.5-5.22-1.44l-.37-.22-3.82.89.81-3.72-.24-.38C2.68 15.66 2.18 13.85 2.18 12 2.18 6.49 6.49 2.18 12 2.18c5.51 0 9.82 4.31 9.82 9.82 0 5.51-4.31 9.82-9.82 9.82zm5.31-7.88c-.18-.09-1.06-.52-1.22-.58-.16-.06-.28-.09-.4.09-.12.18-.46.58-.56.7-.1.12-.2.14-.37.05-.18-.09-.75-.28-1.42-.88-.52-.46-.87-1.03-.97-1.2-.1-.18-.01-.28.08-.37.08-.08.18-.2.27-.3.09-.1.12-.18.18-.3.06-.12.03-.22-.01-.31-.05-.09-.4-.97-.55-1.32-.14-.35-.28-.3-.4-.31-.1-.01-.22-.01-.34-.01-.12 0-.31.05-.47.22-.16.18-.61.59-.61 1.44 0 .85.62 1.67.71 1.78.09.12 1.22 1.86 2.96 2.6 1.73.73 1.73.49 2.04.46.31-.03 1.02-.42 1.16-.83.14-.41.14-.76.1-.83-.03-.06-.12-.1-.22-.18z"/>
-  </svg>
-</a>
+    © 2025 <strong>Formaspace Studio</strong> — Design · Build · Visualization
+  </footer>
+
+  <!-- WHATSAPP FLOAT -->
+  <a href="https://wa.me/919149670483" target="_blank" class="whatsapp-float">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="55" height="55" fill="#25D366">
+      <path d="M20.52 3.48C18.37 1.33 15.29 0 12 0 5.37 0 0 5.37 0 12c0 2.12.55 4.09 1.52 5.81L0 24l6.43-1.5C8.2 23.45 10.08 24 12 24c6.63 0 12-5.37 12-12 0-3.29-1.33-6.37-3.48-8.52zM12 21.82c-1.85 0-3.66-.5-5.22-1.44l-.37-.22-3.82.89.81-3.72-.24-.38C2.68 15.66 2.18 13.85 2.18 12 2.18 6.49 6.49 2.18 12 2.18c5.51 0 9.82 4.31 9.82 9.82 0 5.51-4.31 9.82-9.82 9.82zm5.31-7.88c-.18-.09-1.06-.52-1.22-.58-.16-.06-.28-.09-.4.09-.12.18-.46.58-.56.7-.1.12-.2.14-.37.05-.18-.09-.75-.28-1.42-.88-.52-.46-.87-1.03-.97-1.2-.1-.18-.01-.28.08-.37.08-.08.18-.2.27-.3.09-.1.12-.18.18-.3.06-.12.03-.22-.01-.31-.05-.09-.4-.97-.55-1.32-.14-.35-.28-.3-.4-.31-.1-.01-.22-.01-.34-.01-.12 0-.31.05-.47.22-.16.18-.61.59-.61 1.44 0 .85.62 1.67.71 1.78.09.12 1.22 1.86 2.96 2.6 1.73.73 1.73.49 2.04.46.31-.03 1.02-.42 1.16-.83.14-.41.14-.76.1-.83-.03-.06-.12-.1-.22-.18z"/>
+    </svg>
+  </a>
+
 </body>
 </html>
