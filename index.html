@@ -304,46 +304,7 @@
     </svg>
   </a>
 
-
-  <!-- Firebase SDK -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getFirestore, doc, getDoc, setDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-  const firebaseConfig = {
-    apiKey: "YOUR_KEY",
-    authDomain: "YOUR_DOMAIN",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_BUCKET",
-    messagingSenderId: "YOUR_ID",
-    appId: "YOUR_APP_ID"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
-  window.countView = async (tourId) => {
-    const ref = doc(db, "views", tourId);
-    const snap = await getDoc(ref);
-
-    if (snap.exists()) {
-      await updateDoc(ref, { count: increment(1) });
-    } else {
-      await setDoc(ref, { count: 1 });
-    }
-  };
-
-  window.getViews = async (tourId, elementId) => {
-    const ref = doc(db, "views", tourId);
-    const snap = await getDoc(ref);
-
-    if (snap.exists()) {
-      document.getElementById(elementId).innerText = snap.data().count;
-    } else {
-      document.getElementById(elementId).innerText = "0";
-    }
-  };
-</script>
+<script type="module" src="assets/js/firebase-views.js"></script>
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
@@ -352,9 +313,9 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 
-<script type="module" src="assets/js/firebase-views.js"></script>
 </body>
 </html>
+
 
 
 
