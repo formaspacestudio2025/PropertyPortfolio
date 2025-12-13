@@ -73,3 +73,22 @@ function searchProjects() {
 
   filterProjects(activeCategory);
 }
+// Veiw counter
+function countTour(tourKey){
+  fetch(`https://api.countapi.xyz/hit/formaspace/${tourKey}`);
+}
+
+function getViews(tourKey, elementId){
+  fetch(`https://api.countapi.xyz/get/formaspace/${tourKey}`)
+    .then(res => res.json())
+    .then(data => {
+      if(data.value !== undefined){
+        document.getElementById(elementId).innerText = data.value;
+      }
+    });
+}
+
+// Load existing counts
+getViews("houseboat-canberra", "views-houseboat");
+getViews("hotel-duke", "views-hotelduke");
+
