@@ -84,7 +84,7 @@ function hitTour(tourKey){
 
 // Get existing views for cards
 function getViews(tourKey, elementId){
-  fetch(`https://api.countapi.xyz/get/formaspace/${tourKey}`)
+  fetch(`https://countapi.xyz/get/formaspace/${tourKey}`)
     .then(res => res.json())
     .then(data => {
       if(data && data.value !== undefined){
