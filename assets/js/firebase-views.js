@@ -9,12 +9,13 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "REAL_API_KEY",
-  authDomain: "formaspace-portfolio.firebaseapp.com",
-  projectId: "formaspace-portfolio",
-  storageBucket: "formaspace-portfolio.appspot.com",
-  messagingSenderId: "XXXX",
-  appId: "XXXX"
+    apiKey: "AIzaSyAWJiAzdeKwSBDBztdZ8L7vrLEsffZNvHE",
+    authDomain: "formaspace-portfolio.firebaseapp.com",
+    projectId: "formaspace-portfolio",
+    storageBucket: "formaspace-portfolio.firebasestorage.app",
+    messagingSenderId: "80252146548",
+    appId: "1:80252146548:web:ced8d706e151f0f3559221",
+    measurementId: "G-9E3CEN5PZ9"
 };
 
 const app = initializeApp(firebaseConfig);
