@@ -73,29 +73,5 @@ function searchProjects() {
 
   filterProjects(activeCategory);
 }
-/* ---------------- VIEW COUNTER ---------------- */
 
-// Increase count ONLY from property page
-function hitTour(tourKey){
-  fetch(`https://api.countapi.xyz/hit/formaspace/${tourKey}`, {
-    keepalive: true
-  });
-}
-
-// Get existing views for cards
-function getViews(tourKey, elementId){
-  fetch(`https://countapi.xyz/get/formaspace/${tourKey}`)
-    .then(res => res.json())
-    .then(data => {
-      if(data && data.value !== undefined){
-        const el = document.getElementById(elementId);
-        if(el) el.innerText = data.value;
-      }
-    });
-}
-
-
-// Load existing counts
-getViews("houseboat-canberra", "views-houseboat");
-getViews("hotel-duke", "views-hotelduke");
 
