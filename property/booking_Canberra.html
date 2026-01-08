@@ -61,21 +61,68 @@ button{background:#25D366;border:none;font-size:1rem;cursor:pointer}
     <label>Special Requests (Optional)</label>
     <input type="text" id="requests">
 
+    <div id="priceBox"
+     style="margin-top:20px;font-size:1.3rem;color:#25D366">
+    Total Amount: ₹ 0
+
+    </div>
+
+
     <button onclick="book()">Confirm Booking</button>
   </div>
 </div>
 
 <script>
-const API = "PASTE_YOUR_WEB_APP_URL_HERE";
+const API = "https://script.google.com/macros/s/AKfycbwNkee3CSXwJ5uEr5YqUMVBZtaC2QaSdkSiSy7BiXE-r1TP7vl4hyf2Jyt51D7mPK60/exec";
+
+const inputs = [
+  room, meal, checkin, checkout, adults, children
+];
+
+inputs.forEach(i => i.addEventListener("change", calculate));
+
+async function calculate() {
+  if (!checkin.value || !checkout.value) return;
+
+  const payload = {
+    action: "calculate",
+    checkin: checkin.value,
+    checkout: checkout.value,
+    adults: Number(adults.value),
+    children: Number(children.value),
+    room: room.value,
+    meal: meal.value
+  };
+
+  const res = await fetch(API, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
+
+  const data = await res.json();
+  document.getElementById("priceBox").innerText =
+    `Total Amount: ₹ ${data.total}`;
+}
 
 async function book() {
+  if (!checkin.value || !checkout.value) {
+    alert("Please select dates");
+    return;
+  }
+
+  const total = document.getElementById("priceBox")
+    .innerText.replace(/\D/g, "");
+
   const payload = {
+    action: "book",
     checkin: checkin.value,
     checkout: checkout.value,
     adults: adults.value,
     children: children.value,
     room: room.value,
     meal: meal.value,
+    total: total,
     name: name.value,
     phone: phone.value,
     email: email.value,
@@ -89,13 +136,9 @@ async function book() {
   });
 
   const data = await res.json();
-
-  if (data.success) {
-    alert("Booking submitted successfully!");
-  } else {
-    alert("Error submitting booking");
-  }
+  alert(data.success ? "Booking Confirmed!" : "Booking Failed");
 }
 </script>
+
 </body>
 </html>
