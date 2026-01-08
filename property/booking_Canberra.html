@@ -14,6 +14,7 @@ input,select,button{
   background:#222;border:1px solid #333;color:#fff
 }
 button{background:#25D366;border:none;font-size:1rem;cursor:pointer}
+#priceBox{margin-top:20px;font-size:1.3rem;color:#25D366}
 </style>
 </head>
 
@@ -25,16 +26,18 @@ button{background:#25D366;border:none;font-size:1rem;cursor:pointer}
 
     <label>Room Type</label>
     <select id="room">
-      <option value="1 - Deluxe Room">1 - Deluxe Room</option>
-      <option value="2 - Family Suite">2 - Family Suite</option>
+      <!-- VALUE MUST MATCH Base_Rates SHEET -->
+      <option value="Deluxe Room">1 - Deluxe Room</option>
+      <option value="Family Suite">2 - Family Suite</option>
     </select>
 
     <label>Meal Plan</label>
     <select id="meal">
-      <option value="CP - Breakfast Included">EP - Room only</option>
-      <option value="CP - Breakfast Included">CP - Breakfast Included</option>
-      <option value="MAP - Breakfast & Dinner">MAP - Breakfast & Dinner</option>
-      <option value="MAP - Breakfast & Dinner">AP - Breakfast,Lunch & Dinner</option>
+      <!-- VALUE MUST MATCH Meal_Plans SHEET -->
+      <option value="EP">EP - Room Only</option>
+      <option value="CP">CP - Breakfast Included</option>
+      <option value="MAP">MAP - Breakfast & Dinner</option>
+      <option value="AP">AP - Breakfast, Lunch & Dinner</option>
     </select>
 
     <label>Check-in Date</label>
@@ -44,7 +47,7 @@ button{background:#25D366;border:none;font-size:1rem;cursor:pointer}
     <input type="date" id="checkout" required>
 
     <label>Number of Adults</label>
-    <input type="number" id="adults" min="1" required>
+    <input type="number" id="adults" min="1" value="1" required>
 
     <label>Number of Children</label>
     <input type="number" id="children" min="0" value="0">
@@ -61,12 +64,7 @@ button{background:#25D366;border:none;font-size:1rem;cursor:pointer}
     <label>Special Requests (Optional)</label>
     <input type="text" id="requests">
 
-    <div id="priceBox"
-     style="margin-top:20px;font-size:1.3rem;color:#25D366">
-    Total Amount: ₹ 0
-
-    </div>
-
+    <div id="priceBox">Total Amount: ₹ 0</div>
 
     <button onclick="book()">Confirm Booking</button>
   </div>
@@ -75,11 +73,8 @@ button{background:#25D366;border:none;font-size:1rem;cursor:pointer}
 <script>
 const API = "https://script.google.com/macros/s/AKfycbwNkee3CSXwJ5uEr5YqUMVBZtaC2QaSdkSiSy7BiXE-r1TP7vl4hyf2Jyt51D7mPK60/exec";
 
-const inputs = [
-  room, meal, checkin, checkout, adults, children
-];
-
-inputs.forEach(i => i.addEventListener("change", calculate));
+const fields = ["room","meal","checkin","checkout","adults","children"];
+fields.forEach(id => document.getElementById(id).addEventListener("change", calculate));
 
 async function calculate() {
   if (!checkin.value || !checkout.value) return;
@@ -101,18 +96,19 @@ async function calculate() {
   });
 
   const data = await res.json();
+
   document.getElementById("priceBox").innerText =
-    `Total Amount: ₹ ${data.total}`;
+    "Total Amount: ₹ " + data.total;
 }
 
 async function book() {
-  if (!checkin.value || !checkout.value) {
-    alert("Please select dates");
+  const totalText = document.getElementById("priceBox").innerText;
+  const total = Number(totalText.replace(/\D/g, ""));
+
+  if (!total) {
+    alert("Please select valid dates and options");
     return;
   }
-
-  const total = document.getElementById("priceBox")
-    .innerText.replace(/\D/g, "");
 
   const payload = {
     action: "book",
