@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Book | Houseboat Canberra</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body{background:#0f1113;color:#fff;font-family:Inter}
+.container{max-width:900px;margin:auto;padding:40px}
+.panel{background:#15181c;padding:25px;border-radius:12px}
+input,select,button{
+  width:100%;padding:12px;margin-top:10px;
+  background:#222;border:1px solid #333;color:#fff
+}
+button{background:#25D366;border:none;font-size:1rem}
+</style>
+</head>
+
+<body>
+<div class="container">
+  <h1>Book Your Stay</h1>
+
+  <div class="panel">
+    <label>Room</label>
+    <select id="room">
+      <option value="Luxury Suite">Luxury Suite – ₹12,000</option>
+      <option value="Standard Room">Standard Room – ₹8,000</option>
+    </select>
+
+    <label>Check-in</label>
+    <input type="date" id="checkin">
+
+    <label>Check-out</label>
+    <input type="date" id="checkout">
+
+    <label>Guests</label>
+    <input type="number" id="guests" min="1">
+
+    <label>Name</label>
+    <input type="text" id="name">
+
+    <label>Email</label>
+    <input type="email" id="email">
+
+    <label>Phone</label>
+    <input type="tel" id="phone">
+
+    <button onclick="book()">Confirm Booking</button>
+  </div>
+</div>
+
+<script>
+const API = "YOUR_APPS_SCRIPT_WEBAPP_URL";
+
+async function book(){
+  const payload = {
+    action:"createBooking",
+    room:room.value,
+    checkin:checkin.value,
+    checkout:checkout.value,
+    guests:guests.value,
+    name:name.value,
+    email:email.value,
+    phone:phone.value,
+    amount:12000
+  };
+
+  const res = await fetch(API,{
+    method:"POST",
+    body:JSON.stringify(payload)
+  });
+
+  const data = await res.json();
+  alert("Booking Confirmed! ID: "+data.bookingId);
+}
+</script>
+</body>
+</html>
