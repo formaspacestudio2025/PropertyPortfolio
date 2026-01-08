@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>Book | Houseboat Canberra</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <style>
 body{background:#0f1113;color:#fff;font-family:Inter}
 .container{max-width:900px;margin:auto;padding:40px}
@@ -12,7 +13,7 @@ input,select,button{
   width:100%;padding:12px;margin-top:10px;
   background:#222;border:1px solid #333;color:#fff
 }
-button{background:#25D366;border:none;font-size:1rem}
+button{background:#25D366;border:none;font-size:1rem;cursor:pointer}
 </style>
 </head>
 
@@ -21,57 +22,79 @@ button{background:#25D366;border:none;font-size:1rem}
   <h1>Book Your Stay</h1>
 
   <div class="panel">
-    <label>Room</label>
+
+    <label>Room Type</label>
     <select id="room">
-      <option value="Luxury Suite">Luxury Suite – ₹12,000</option>
-      <option value="Standard Room">Standard Room – ₹8,000</option>
+      <option value="1 - Deluxe Room">1 - Deluxe Room</option>
+      <option value="2 - Family Suite">2 - Family Suite</option>
     </select>
 
-    <label>Check-in</label>
-    <input type="date" id="checkin">
+    <label>Meal Plan</label>
+    <select id="meal">
+      <option value="CP - Breakfast Included">EP - Room only</option>
+      <option value="CP - Breakfast Included">CP - Breakfast Included</option>
+      <option value="MAP - Breakfast & Dinner">MAP - Breakfast & Dinner</option>
+      <option value="MAP - Breakfast & Dinner">AP - Breakfast,Lunch & Dinner</option>
+    </select>
 
-    <label>Check-out</label>
-    <input type="date" id="checkout">
+    <label>Check-in Date</label>
+    <input type="date" id="checkin" required>
 
-    <label>Guests</label>
-    <input type="number" id="guests" min="1">
+    <label>Check-out Date</label>
+    <input type="date" id="checkout" required>
 
-    <label>Name</label>
-    <input type="text" id="name">
+    <label>Number of Adults</label>
+    <input type="number" id="adults" min="1" required>
+
+    <label>Number of Children</label>
+    <input type="number" id="children" min="0" value="0">
+
+    <label>Full Name</label>
+    <input type="text" id="name" required>
 
     <label>Email</label>
-    <input type="email" id="email">
+    <input type="email" id="email" required>
 
-    <label>Phone</label>
-    <input type="tel" id="phone">
+    <label>Phone / WhatsApp</label>
+    <input type="tel" id="phone" required>
+
+    <label>Special Requests (Optional)</label>
+    <input type="text" id="requests">
 
     <button onclick="book()">Confirm Booking</button>
   </div>
 </div>
 
 <script>
-const API = "YOUR_APPS_SCRIPT_WEBAPP_URL";
+const API = "PASTE_YOUR_WEB_APP_URL_HERE";
 
-async function book(){
+async function book() {
   const payload = {
-    action:"createBooking",
-    room:room.value,
-    checkin:checkin.value,
-    checkout:checkout.value,
-    guests:guests.value,
-    name:name.value,
-    email:email.value,
-    phone:phone.value,
-    amount:12000
+    checkin: checkin.value,
+    checkout: checkout.value,
+    adults: adults.value,
+    children: children.value,
+    room: room.value,
+    meal: meal.value,
+    name: name.value,
+    phone: phone.value,
+    email: email.value,
+    requests: requests.value
   };
 
-  const res = await fetch(API,{
-    method:"POST",
-    body:JSON.stringify(payload)
+  const res = await fetch(API, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
   });
 
   const data = await res.json();
-  alert("Booking Confirmed! ID: "+data.bookingId);
+
+  if (data.success) {
+    alert("Booking submitted successfully!");
+  } else {
+    alert("Error submitting booking");
+  }
 }
 </script>
 </body>
