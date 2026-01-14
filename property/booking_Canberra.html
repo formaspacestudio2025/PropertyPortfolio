@@ -26,113 +26,127 @@ button{background:#25D366;border:none;font-size:1rem;cursor:pointer}
 
     <label>Room Type</label>
     <select id="room">
-      <!-- VALUE MUST MATCH Base_Rates SHEET -->
-      <option value="Deluxe Room">1 - Deluxe Room</option>
-      <option value="Family Suite">2 - Family Suite</option>
+      <option value="Deluxe Room">Deluxe Room</option>
+      <option value="Family Suite">Family Suite</option>
     </select>
 
     <label>Meal Plan</label>
     <select id="meal">
-      <!-- VALUE MUST MATCH Meal_Plans SHEET -->
       <option value="EP">EP - Room Only</option>
-      <option value="CP">CP - Breakfast Included</option>
+      <option value="CP">CP - Breakfast</option>
       <option value="MAP">MAP - Breakfast & Dinner</option>
-      <option value="AP">AP - Breakfast, Lunch & Dinner</option>
+      <option value="AP">AP - All Meals</option>
     </select>
 
     <label>Check-in Date</label>
-    <input type="date" id="checkin" required>
+    <input type="date" id="checkin">
 
     <label>Check-out Date</label>
-    <input type="date" id="checkout" required>
+    <input type="date" id="checkout">
 
     <label>Number of Adults</label>
-    <input type="number" id="adults" min="1" value="1" required>
+    <input type="number" id="adults" min="1" value="1">
 
     <label>Number of Children</label>
     <input type="number" id="children" min="0" value="0">
 
     <label>Full Name</label>
-    <input type="text" id="name" required>
+    <input type="text" id="name">
 
     <label>Email</label>
-    <input type="email" id="email" required>
+    <input type="email" id="email">
 
     <label>Phone / WhatsApp</label>
-    <input type="tel" id="phone" required>
+    <input type="tel" id="phone">
 
-    <label>Special Requests (Optional)</label>
+    <label>Special Requests</label>
     <input type="text" id="requests">
 
     <div id="priceBox">Total Amount: ₹ 0</div>
 
-    <button onclick="book()">Confirm Booking</button>
+    <button type="button" id="bookBtn">Confirm Booking</button>
   </div>
 </div>
 
 <script>
 const API = "https://script.google.com/macros/s/AKfycbwNkee3CSXwJ5uEr5YqUMVBZtaC2QaSdkSiSy7BiXE-r1TP7vl4hyf2Jyt51D7mPK60/exec";
 
+const $ = id => document.getElementById(id);
+
 const fields = ["room","meal","checkin","checkout","adults","children"];
-fields.forEach(id => document.getElementById(id).addEventListener("change", calculate));
+fields.forEach(id => $(id).addEventListener("change", calculate));
 
 async function calculate() {
-  if (!checkin.value || !checkout.value) return;
+  if (!$("checkin").value || !$("checkout").value) return;
+
+  if (new Date($("checkout").value) <= new Date($("checkin").value)) {
+    $("priceBox").innerText = "Total Amount: ₹ 0";
+    return;
+  }
 
   const payload = {
     action: "calculate",
-    checkin: checkin.value,
-    checkout: checkout.value,
-    adults: Number(adults.value),
-    children: Number(children.value),
-    room: room.value,
-    meal: meal.value
+    checkin: $("checkin").value,
+    checkout: $("checkout").value,
+    adults: Number($("adults").value),
+    children: Number($("children").value),
+    room: $("room").value,
+    meal: $("meal").value
   };
 
-  const res = await fetch(API, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
-  });
+  try {
+    const res = await fetch(API, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
 
-  const data = await res.json();
+    const data = await res.json();
+    $("priceBox").innerText = "Total Amount: ₹ " + data.total;
 
-  document.getElementById("priceBox").innerText =
-    "Total Amount: ₹ " + data.total;
+  } catch (err) {
+    console.error(err);
+    $("priceBox").innerText = "Error calculating price";
+  }
 }
 
-async function book() {
-  const totalText = document.getElementById("priceBox").innerText;
-  const total = Number(totalText.replace(/\D/g, ""));
+document.getElementById("bookBtn").addEventListener("click", book);
 
+async function book() {
+  const total = Number($("priceBox").innerText.replace(/\D/g,""));
   if (!total) {
-    alert("Please select valid dates and options");
+    alert("Please select valid dates first");
     return;
   }
 
   const payload = {
     action: "book",
-    checkin: checkin.value,
-    checkout: checkout.value,
-    adults: adults.value,
-    children: children.value,
-    room: room.value,
-    meal: meal.value,
+    checkin: $("checkin").value,
+    checkout: $("checkout").value,
+    adults: $("adults").value,
+    children: $("children").value,
+    room: $("room").value,
+    meal: $("meal").value,
     total: total,
-    name: name.value,
-    phone: phone.value,
-    email: email.value,
-    requests: requests.value
+    name: $("name").value,
+    phone: $("phone").value,
+    email: $("email").value,
+    requests: $("requests").value
   };
 
-  const res = await fetch(API, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
-  });
+  try {
+    const res = await fetch(API, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
 
-  const data = await res.json();
-  alert(data.success ? "Booking Confirmed!" : "Booking Failed");
+    const data = await res.json();
+    alert(data.success ? "Booking Confirmed!" : "Booking Failed");
+
+  } catch (err) {
+    alert("Server error. Please try again.");
+  }
 }
 </script>
 
