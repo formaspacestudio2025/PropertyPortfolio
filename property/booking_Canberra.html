@@ -77,10 +77,15 @@ const fields = ["room","meal","checkin","checkout","adults","children"];
 fields.forEach(id => $(id).addEventListener("change", calculate));
 
 async function calculate() {
-  if (!$("checkin").value || !$("checkout").value) return;
+  const priceBox = $("priceBox");
+
+  if (!$("checkin").value || !$("checkout").value) {
+    priceBox.innerText = "Total Amount: ₹ 0";
+    return;
+  }
 
   if (new Date($("checkout").value) <= new Date($("checkin").value)) {
-    $("priceBox").innerText = "Total Amount: ₹ 0";
+    priceBox.innerText = "Total Amount: ₹ 0";
     return;
   }
 
@@ -88,8 +93,8 @@ async function calculate() {
     action: "calculate",
     checkin: $("checkin").value,
     checkout: $("checkout").value,
-    adults: Number($("adults").value),
-    children: Number($("children").value),
+    adults: Number($("adults").value || 1),
+    children: Number($("children").value || 0),
     room: $("room").value,
     meal: $("meal").value
   };
@@ -101,12 +106,20 @@ async function calculate() {
       body: JSON.stringify(payload)
     });
 
-    const data = await res.json();
-    $("priceBox").innerText = "Total Amount: ₹ " + data.total;
+    const raw = await res.text();
+    console.log("RAW RESPONSE:", raw);
+
+    const data = JSON.parse(raw);
+
+    if (!data || typeof data.total !== "number") {
+      throw new Error(data.error || "Invalid server response");
+    }
+
+    priceBox.innerText = "Total Amount: ₹ " + data.total;
 
   } catch (err) {
     console.error(err);
-    $("priceBox").innerText = "Error calculating price";
+    priceBox.innerText = "Error calculating price";
   }
 }
 
@@ -114,6 +127,7 @@ document.getElementById("bookBtn").addEventListener("click", book);
 
 async function book() {
   const total = Number($("priceBox").innerText.replace(/\D/g,""));
+
   if (!total) {
     alert("Please select valid dates first");
     return;
@@ -141,7 +155,9 @@ async function book() {
       body: JSON.stringify(payload)
     });
 
-    const data = await res.json();
+    const raw = await res.text();
+    const data = JSON.parse(raw);
+
     alert(data.success ? "Booking Confirmed!" : "Booking Failed");
 
   } catch (err) {
