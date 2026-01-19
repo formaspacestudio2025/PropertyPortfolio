@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <title>Book | Houseboat Canberra</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
 <style>
 body{background:#0f1113;color:#fff;font-family:Inter}
 .container{max-width:900px;margin:auto;padding:40px}
@@ -26,14 +25,10 @@ button{background:#25D366;border:none;cursor:pointer}
   <div class="panel">
 
     <label>Room Type</label>
-    <select id="room">
-      <option value="">Loading...</option>
-    </select>
+    <select id="room"><option>Loading...</option></select>
 
     <label>Meal Plan</label>
-    <select id="meal">
-      <option value="">Loading...</option>
-    </select>
+    <select id="meal"><option>Loading...</option></select>
 
     <label>Check-in Date</label>
     <input type="date" id="checkin">
@@ -60,9 +55,7 @@ button{background:#25D366;border:none;cursor:pointer}
     <input type="text" id="requests">
 
     <div id="priceBox">Total Amount: ₹ 0</div>
-
     <button type="button" id="bookBtn">Confirm Booking</button>
-
   </div>
 </div>
 
@@ -72,7 +65,7 @@ const $ = id => document.getElementById(id);
 
 let lastTotal = 0;
 
-// Load room types and meal plans dynamically
+// Load dynamic room and meal options
 async function loadOptions() {
   try {
     const res = await fetch(API, {
@@ -81,38 +74,34 @@ async function loadOptions() {
     });
     const data = await res.json();
 
-    // Populate rooms
+    // Rooms
     const roomSelect = $("room");
     roomSelect.innerHTML = '';
-    if (data.rooms && data.rooms.length) {
-      data.rooms.forEach(r => {
-        const opt = document.createElement("option");
-        opt.value = r; // Room_Type
-        opt.textContent = r;
-        roomSelect.appendChild(opt);
-      });
-    }
+    data.rooms.forEach(r => {
+      const opt = document.createElement("option");
+      opt.value = r;
+      opt.textContent = r;
+      roomSelect.appendChild(opt);
+    });
 
-    // Populate meals
+    // Meals
     const mealSelect = $("meal");
     mealSelect.innerHTML = '';
-    if (data.meals && data.meals.length) {
-      data.meals.forEach(m => {
-        const opt = document.createElement("option");
-        opt.value = m.code;      // Meal code (EP, CP, etc)
-        opt.textContent = `${m.code} - ${m.name}`;
-        mealSelect.appendChild(opt);
-      });
-    }
+    data.meals.forEach(m => {
+      const opt = document.createElement("option");
+      opt.value = m.code;
+      opt.textContent = `${m.code} - ${m.name}`;
+      mealSelect.appendChild(opt);
+    });
 
-    calculate(); // calculate initial price
+    calculate(); // initial calculation
 
   } catch(err) {
     console.error("Error loading options:", err);
   }
 }
 
-// Attach calculate on input changes
+// Attach calculate on change
 ["room","meal","checkin","checkout","adults","children"]
   .forEach(id => $(id).addEventListener("change", calculate));
 
@@ -140,19 +129,14 @@ async function calculate() {
   };
 
   try {
-    const res = await fetch(API, {
-      method: "POST",
-      body: JSON.stringify(payload)
-    });
+    const res = await fetch(API, { method: "POST", body: JSON.stringify(payload) });
     const data = await res.json();
-
     if (data.error) throw new Error(data.error);
     if (typeof data.total !== "number") throw new Error("Invalid server response");
 
     lastTotal = data.total;
     priceBox.className = "";
     priceBox.innerText = `Total Amount: ₹ ${data.total}`;
-
   } catch(err) {
     console.error("CALC ERROR:", err);
     priceBox.className = "error";
@@ -160,11 +144,9 @@ async function calculate() {
   }
 }
 
-document.getElementById("bookBtn").addEventListener("click", async () => {
-  if (!lastTotal) {
-    alert("Please calculate price before booking.");
-    return;
-  }
+// Booking
+$("bookBtn").addEventListener("click", async () => {
+  if (!lastTotal) { alert("Please calculate price before booking."); return; }
 
   const payload = {
     action: "book",
@@ -182,10 +164,7 @@ document.getElementById("bookBtn").addEventListener("click", async () => {
   };
 
   try {
-    const res = await fetch(API, {
-      method: "POST",
-      body: JSON.stringify(payload)
-    });
+    const res = await fetch(API, { method: "POST", body: JSON.stringify(payload) });
     const data = await res.json();
     alert(data.success ? "Booking Confirmed!" : "Booking Failed");
   } catch(err) {
