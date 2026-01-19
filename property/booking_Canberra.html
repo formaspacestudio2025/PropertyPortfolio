@@ -70,7 +70,6 @@ button{background:#25D366;border:none;font-size:1rem;cursor:pointer}
 
 <script>
 const API = "https://script.google.com/macros/s/AKfycbwNkee3CSXwJ5uEr5YqUMVBZtaC2QaSdkSiSy7BiXE-r1TP7vl4hyf2Jyt51D7mPK60/exec";
-
 const $ = id => document.getElementById(id);
 
 const fields = ["room","meal","checkin","checkout","adults","children"];
@@ -109,10 +108,15 @@ async function calculate() {
     const raw = await res.text();
     console.log("RAW RESPONSE:", raw);
 
-    const data = JSON.parse(raw);
+    let data;
+    try {
+      data = JSON.parse(raw);
+    } catch {
+      throw new Error("Invalid JSON from server");
+    }
 
-    if (!data || typeof data.total !== "number") {
-      throw new Error(data.error || "Invalid server response");
+    if (typeof data.total !== "number") {
+      throw new Error(data.error || "Calculation failed");
     }
 
     priceBox.innerText = "Total Amount: ₹ " + data.total;
@@ -128,8 +132,8 @@ document.getElementById("bookBtn").addEventListener("click", book);
 async function book() {
   const total = Number($("priceBox").innerText.replace(/\D/g,""));
 
-  if (!total) {
-    alert("Please select valid dates first");
+  if (isNaN(total)) {
+    alert("Price calculation failed");
     return;
   }
 
@@ -156,7 +160,12 @@ async function book() {
     });
 
     const raw = await res.text();
-    const data = JSON.parse(raw);
+    let data;
+    try {
+      data = JSON.parse(raw);
+    } catch {
+      throw new Error("Invalid JSON");
+    }
 
     alert(data.success ? "Booking Confirmed!" : "Booking Failed");
 
