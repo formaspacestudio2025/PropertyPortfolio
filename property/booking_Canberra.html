@@ -229,22 +229,22 @@ document.addEventListener("DOMContentLoaded", () => {
       // Clear existing options
       room.innerHTML = "";
       meal.innerHTML = "";
-
       // Populate rooms
       data.rooms.forEach(r => {
         const opt = document.createElement("option");
-        opt.value = r[0];
-        opt.textContent = r[1];
+        opt.value = r[0];      // R1, R2  ✅
+        opt.textContent = r[1]; // Deluxe Room
         room.appendChild(opt);
       });
-
+      
       // Populate meals
       data.meals.forEach(m => {
         const opt = document.createElement("option");
-        opt.value = m[0];
+        opt.value = m[0];      // EP, CP, MAP ✅
         opt.textContent = m[1];
         meal.appendChild(opt);
       });
+
 
       // Enable dropdowns now
       room.disabled = false;
