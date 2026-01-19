@@ -205,17 +205,26 @@ document.addEventListener("DOMContentLoaded", () => {
   const room = document.getElementById("room");
   const meal = document.getElementById("meal");
 
-  fetch(API + "?action=init")
-    .then(res => res.json())
+  // Disable dropdowns while loading
+  room.disabled = true;
+  meal.disabled = true;
+
+  fetch(`${API}?action=init`)
+    .then(res => {
+      if (!res.ok) throw new Error(`Network error: ${res.status}`);
+      return res.json();
+    })
     .then(data => {
 
       if (!data.rooms || !data.meals) {
-        throw new Error("Invalid API response");
+        throw new Error("Invalid API response: missing rooms or meals");
       }
 
+      // Clear existing options
       room.innerHTML = "";
       meal.innerHTML = "";
 
+      // Populate rooms
       data.rooms.forEach(r => {
         const opt = document.createElement("option");
         opt.value = r[0];
@@ -223,6 +232,7 @@ document.addEventListener("DOMContentLoaded", () => {
         room.appendChild(opt);
       });
 
+      // Populate meals
       data.meals.forEach(m => {
         const opt = document.createElement("option");
         opt.value = m[0];
@@ -230,16 +240,17 @@ document.addEventListener("DOMContentLoaded", () => {
         meal.appendChild(opt);
       });
 
-      // ✅ IMPORTANT
+      // Enable dropdowns now
       room.disabled = false;
       meal.disabled = false;
 
     })
     .catch(err => {
       console.error("INIT LOAD ERROR:", err);
-      room.innerHTML = "<option>Error loading rooms</option>";
-      meal.innerHTML = "<option>Error loading meals</option>";
+      room.innerHTML = "<option disabled>Error loading rooms</option>";
+      meal.innerHTML = "<option disabled>Error loading meals</option>";
     });
+
 });
 </script>
 
