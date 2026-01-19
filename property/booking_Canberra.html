@@ -198,39 +198,43 @@ button:disabled{
 </div>
 
 <script>
-const API = "https://script.google.com/macros/s/AKfycbwe8HXWyDzrSYtqDNqX4bShBNll8uJ427_-Cj3cpwHJO2S9wS41UWFenpytZOl1GwP7/exec";
+document.addEventListener("DOMContentLoaded", () => {
 
-/* Load rooms & meals */
-fetch(API + "?action=init")
-.then(r => r.json())
-.then(d => {
-  room.innerHTML = d.rooms.map(r =>
-    `<option value="${r[0]}">${r[1]}</option>`
-  ).join("");
+  const API = "https://script.google.com/macros/s/AKfycbwe8HXWyDzrSYtqDNqX4bShBNll8uJ427_-Cj3cpwHJO2S9wS41UWFenpytZOl1GwP7/exec";
 
-  meal.innerHTML = d.meals.map(m =>
-    `<option value="${m[0]}">${m[1]}</option>`
-  ).join("");
+  const room = document.getElementById("room");
+  const meal = document.getElementById("meal");
+
+  fetch(API + "?action=init")
+    .then(res => res.json())
+    .then(data => {
+
+      room.innerHTML = "";
+      meal.innerHTML = "";
+
+      data.rooms.forEach(r => {
+        const opt = document.createElement("option");
+        opt.value = r[0];
+        opt.textContent = r[1];
+        room.appendChild(opt);
+      });
+
+      data.meals.forEach(m => {
+        const opt = document.createElement("option");
+        opt.value = m[0];
+        opt.textContent = m[1];
+        meal.appendChild(opt);
+      });
+
+    })
+    .catch(err => {
+      console.error("INIT LOAD ERROR:", err);
+      room.innerHTML = "<option>Error loading</option>";
+      meal.innerHTML = "<option>Error loading</option>";
+    });
 });
-
-/* Calculate price */
-function updatePrice(){
-  if(!checkin.value || !checkout.value) return;
-
-  fetch(`${API}?action=calculate&room=${room.value}&meal=${meal.value}&adults=${adults.value}&children=${children.value}&checkin=${checkin.value}&checkout=${checkout.value}`)
-  .then(r => r.json())
-  .then(d => priceBox.innerText = "₹ " + d.total);
-}
-
-["room","meal","adults","children","checkin","checkout"]
-.forEach(id => document.getElementById(id).addEventListener("change", updatePrice));
-
-/* Confirm booking */
-bookBtn.onclick = () => {
-  fetch(`${API}?action=book&room=${room.value}&meal=${meal.value}&adults=${adults.value}&children=${children.value}&checkin=${checkin.value}&checkout=${checkout.value}&total=${priceBox.innerText.replace("₹ ","")}&name=${name.value}&phone=${phone.value}&email=${email.value}&requests=${requests.value}`)
-  .then(() => alert("Booking confirmed!"));
-};
 </script>
+
 
 </body>
 </html>
