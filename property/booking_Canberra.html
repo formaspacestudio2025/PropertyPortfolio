@@ -209,6 +209,10 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(res => res.json())
     .then(data => {
 
+      if (!data.rooms || !data.meals) {
+        throw new Error("Invalid API response");
+      }
+
       room.innerHTML = "";
       meal.innerHTML = "";
 
@@ -226,14 +230,19 @@ document.addEventListener("DOMContentLoaded", () => {
         meal.appendChild(opt);
       });
 
+      // ✅ IMPORTANT
+      room.disabled = false;
+      meal.disabled = false;
+
     })
     .catch(err => {
       console.error("INIT LOAD ERROR:", err);
-      room.innerHTML = "<option>Error loading</option>";
-      meal.innerHTML = "<option>Error loading</option>";
+      room.innerHTML = "<option>Error loading rooms</option>";
+      meal.innerHTML = "<option>Error loading meals</option>";
     });
 });
 </script>
+
 
 
 </body>
