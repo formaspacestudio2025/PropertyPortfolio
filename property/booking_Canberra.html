@@ -198,108 +198,39 @@ button:disabled{
 </div>
 
 <script>
-/************ CONFIG ************/
-const API = "https://script.google.com/macros/s/YOUR_DEPLOYED_SCRIPT_ID/exec";
-const CURRENCY = "$";
+const API = "https://script.google.com/macros/s/AKfycbwe8HXWyDzrSYtqDNqX4bShBNll8uJ427_-Cj3cpwHJO2S9wS41UWFenpytZOl1GwP7/exec";
 
-/************ HELPERS ************/
-const $ = id => document.getElementById(id);
-let lastTotal = 0;
+/* Load rooms & meals */
+fetch(API + "?action=init")
+.then(r => r.json())
+.then(d => {
+  room.innerHTML = d.rooms.map(r =>
+    `<option value="${r[0]}">${r[1]}</option>`
+  ).join("");
 
-/************ AUTO CHECKOUT ************/
-$("checkin").addEventListener("change", e => {
-  const d = new Date(e.target.value);
-  d.setDate(d.getDate() + 1);
-  $("checkout").value = d.toISOString().split("T")[0];
+  meal.innerHTML = d.meals.map(m =>
+    `<option value="${m[0]}">${m[1]}</option>`
+  ).join("");
 });
 
-/************ LOAD OPTIONS ************/
-async function loadOptions(){
-  const res = await fetch(API,{
-    method:"POST",
-    headers:{ "Content-Type":"application/json" },
-    body:JSON.stringify({action:"getOptions"})
-  });
-  const data = await res.json();
+/* Calculate price */
+function updatePrice(){
+  if(!checkin.value || !checkout.value) return;
 
-  $("room").innerHTML = data.rooms.map(r=>`<option>${r}</option>`).join("");
-  $("meal").innerHTML = data.meals.map(m=>`<option value="${m.code}">${m.code} - ${m.name}</option>`).join("");
-
-  $("room").disabled = false;
-  $("meal").disabled = false;
+  fetch(`${API}?action=calculate&room=${room.value}&meal=${meal.value}&adults=${adults.value}&children=${children.value}&checkin=${checkin.value}&checkout=${checkout.value}`)
+  .then(r => r.json())
+  .then(d => priceBox.innerText = "₹ " + d.total);
 }
 
-["room","meal","checkin","checkout","adults","children"]
-.forEach(id=>$(id).addEventListener("change",calculate));
+["room","meal","adults","children","checkin","checkout"]
+.forEach(id => document.getElementById(id).addEventListener("change", updatePrice));
 
-/************ CALCULATE ************/
-async function calculate(){
-  $("bookBtn").disabled = true;
-  lastTotal = 0;
-
-  if(!$("checkin").value || !$("checkout").value) return;
-
-  const payload={
-    action:"calculate",
-    checkin:$("checkin").value,
-    checkout:$("checkout").value,
-    adults:+$("adults").value,
-    children:+$("children").value,
-    room:$("room").value,
-    meal:$("meal").value
-  };
-
-  const res = await fetch(API,{
-    method:"POST",
-    headers:{ "Content-Type":"application/json" },
-    body:JSON.stringify(payload)
-  });
-
-  const data = await res.json();
-  if(data.error) return;
-
-  lastTotal = data.total;
-  $("priceBox").innerText = `${CURRENCY} ${data.total}`;
-  $("priceBox").classList.add("updated");
-  setTimeout(()=>$("priceBox").classList.remove("updated"),200);
-
-  $("nightInfo").innerText = `${data.nights} night(s) stay`;
-  $("bookBtn").disabled = false;
-}
-
-/************ BOOK ************/
-$("bookBtn").onclick = async ()=>{
-  if(!$("name").value || !$("phone").value){
-    alert("Please enter name and phone");
-    return;
-  }
-
-  const payload={
-    action:"book",
-    checkin:$("checkin").value,
-    checkout:$("checkout").value,
-    room:$("room").value,
-    meal:$("meal").value,
-    adults:$("adults").value,
-    children:$("children").value,
-    total:lastTotal,
-    name:$("name").value,
-    phone:$("phone").value,
-    email:$("email").value,
-    requests:$("requests").value
-  };
-
-  const res = await fetch(API,{
-    method:"POST",
-    headers:{ "Content-Type":"application/json" },
-    body:JSON.stringify(payload)
-  });
-
-  const data = await res.json();
-  alert(data.success ? "Booking Confirmed!" : "Booking Failed");
+/* Confirm booking */
+bookBtn.onclick = () => {
+  fetch(`${API}?action=book&room=${room.value}&meal=${meal.value}&adults=${adults.value}&children=${children.value}&checkin=${checkin.value}&checkout=${checkout.value}&total=${priceBox.innerText.replace("₹ ","")}&name=${name.value}&phone=${phone.value}&email=${email.value}&requests=${requests.value}`)
+  .then(() => alert("Booking confirmed!"));
 };
-
-loadOptions();
 </script>
+
 </body>
 </html>
