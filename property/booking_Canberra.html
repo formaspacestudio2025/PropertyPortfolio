@@ -30,18 +30,12 @@ body{
   padding:40px 20px;
 }
 
-h1{
-  font-size:2rem;
-  margin-bottom:5px;
-}
-.subtitle{
-  color:var(--muted);
-  margin-bottom:30px;
-}
+h1{font-size:2rem;margin-bottom:5px}
+.subtitle{color:var(--muted);margin-bottom:30px}
 
 .grid{
   display:grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns:2fr 1fr;
   gap:30px;
 }
 
@@ -52,18 +46,11 @@ h1{
   padding:24px;
 }
 
-.card h2{
-  font-size:1.2rem;
-  margin-bottom:20px;
-}
+.card h2{font-size:1.2rem;margin-bottom:20px}
 
-.field{
-  margin-bottom:15px;
-}
-label{
-  font-size:.9rem;
-  color:var(--muted);
-}
+.field{margin-bottom:15px}
+label{font-size:.9rem;color:var(--muted)}
+
 input,select{
   width:100%;
   padding:12px;
@@ -81,22 +68,18 @@ input,select{
   gap:15px;
 }
 
-.summary{
-  position:sticky;
-  top:20px;
-}
+.summary{position:sticky;top:20px}
 
 .price{
   font-size:2rem;
   font-weight:700;
   color:var(--accent);
   margin:10px 0;
+  transition:transform .25s ease;
 }
+.price.updated{transform:scale(1.05)}
 
-.small{
-  font-size:.85rem;
-  color:var(--muted);
-}
+.small{font-size:.85rem;color:var(--muted)}
 
 button{
   width:100%;
@@ -110,13 +93,12 @@ button{
   cursor:pointer;
 }
 
-button:hover{
-  opacity:.9;
+button:disabled{
+  opacity:.4;
+  cursor:not-allowed;
 }
 
-.error{
-  color:#ff6b6b;
-}
+.error{color:#ff6b6b}
 
 @media(max-width:900px){
   .grid{grid-template-columns:1fr}
@@ -130,19 +112,23 @@ button:hover{
   <div class="subtitle">Secure your houseboat experience in just a few steps</div>
 
   <div class="grid">
-    
-    <!-- LEFT: BOOKING FORM -->
+
+    <!-- LEFT -->
     <div class="card">
       <h2>Stay Details</h2>
 
       <div class="field">
         <label>Room Type</label>
-        <select id="room"><option>Loading...</option></select>
+        <select id="room" disabled>
+          <option>Loading room types…</option>
+        </select>
       </div>
 
       <div class="field">
         <label>Meal Plan</label>
-        <select id="meal"><option>Loading...</option></select>
+        <select id="meal" disabled>
+          <option>Loading meal plans…</option>
+        </select>
       </div>
 
       <div class="row">
@@ -155,6 +141,8 @@ button:hover{
           <input type="date" id="checkout">
         </div>
       </div>
+
+      <div class="small" id="nightInfo"></div>
 
       <div class="row">
         <div class="field">
@@ -190,14 +178,14 @@ button:hover{
       </div>
     </div>
 
-    <!-- RIGHT: PRICE SUMMARY -->
+    <!-- RIGHT -->
     <div class="card summary">
       <h2>Price Summary</h2>
       <div class="small">Total payable amount</div>
-      <div id="priceBox" class="price">₹ 0</div>
+      <div id="priceBox" class="price">$ 0</div>
       <div class="small">Inclusive of taxes</div>
 
-      <button id="bookBtn">Confirm Booking</button>
+      <button id="bookBtn" disabled>Confirm Booking</button>
 
       <div class="small" style="margin-top:15px">
         ✔ Instant confirmation<br>
@@ -209,12 +197,109 @@ button:hover{
   </div>
 </div>
 
-<!-- 🔹 YOUR EXISTING JS LOGIC GOES BELOW (UNCHANGED) -->
 <script>
-/* KEEP YOUR SAME JS CODE HERE
-   Just replace YOUR_DEPLOYED_SCRIPT_ID
-*/
-</script>
+/************ CONFIG ************/
+const API = "https://script.google.com/macros/s/YOUR_DEPLOYED_SCRIPT_ID/exec";
+const CURRENCY = "$";
 
+/************ HELPERS ************/
+const $ = id => document.getElementById(id);
+let lastTotal = 0;
+
+/************ AUTO CHECKOUT ************/
+$("checkin").addEventListener("change", e => {
+  const d = new Date(e.target.value);
+  d.setDate(d.getDate() + 1);
+  $("checkout").value = d.toISOString().split("T")[0];
+});
+
+/************ LOAD OPTIONS ************/
+async function loadOptions(){
+  const res = await fetch(API,{
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body:JSON.stringify({action:"getOptions"})
+  });
+  const data = await res.json();
+
+  $("room").innerHTML = data.rooms.map(r=>`<option>${r}</option>`).join("");
+  $("meal").innerHTML = data.meals.map(m=>`<option value="${m.code}">${m.code} - ${m.name}</option>`).join("");
+
+  $("room").disabled = false;
+  $("meal").disabled = false;
+}
+
+["room","meal","checkin","checkout","adults","children"]
+.forEach(id=>$(id).addEventListener("change",calculate));
+
+/************ CALCULATE ************/
+async function calculate(){
+  $("bookBtn").disabled = true;
+  lastTotal = 0;
+
+  if(!$("checkin").value || !$("checkout").value) return;
+
+  const payload={
+    action:"calculate",
+    checkin:$("checkin").value,
+    checkout:$("checkout").value,
+    adults:+$("adults").value,
+    children:+$("children").value,
+    room:$("room").value,
+    meal:$("meal").value
+  };
+
+  const res = await fetch(API,{
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body:JSON.stringify(payload)
+  });
+
+  const data = await res.json();
+  if(data.error) return;
+
+  lastTotal = data.total;
+  $("priceBox").innerText = `${CURRENCY} ${data.total}`;
+  $("priceBox").classList.add("updated");
+  setTimeout(()=>$("priceBox").classList.remove("updated"),200);
+
+  $("nightInfo").innerText = `${data.nights} night(s) stay`;
+  $("bookBtn").disabled = false;
+}
+
+/************ BOOK ************/
+$("bookBtn").onclick = async ()=>{
+  if(!$("name").value || !$("phone").value){
+    alert("Please enter name and phone");
+    return;
+  }
+
+  const payload={
+    action:"book",
+    checkin:$("checkin").value,
+    checkout:$("checkout").value,
+    room:$("room").value,
+    meal:$("meal").value,
+    adults:$("adults").value,
+    children:$("children").value,
+    total:lastTotal,
+    name:$("name").value,
+    phone:$("phone").value,
+    email:$("email").value,
+    requests:$("requests").value
+  };
+
+  const res = await fetch(API,{
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body:JSON.stringify(payload)
+  });
+
+  const data = await res.json();
+  alert(data.success ? "Booking Confirmed!" : "Booking Failed");
+};
+
+loadOptions();
+</script>
 </body>
 </html>
