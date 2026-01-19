@@ -15,6 +15,7 @@ input,select,button{
 }
 button{background:#25D366;border:none;font-size:1rem;cursor:pointer}
 #priceBox{margin-top:20px;font-size:1.3rem;color:#25D366}
+.error{color:#ff6b6b}
 </style>
 </head>
 
@@ -74,8 +75,8 @@ const $ = id => document.getElementById(id);
 
 let lastTotal = 0;
 
-const fields = ["room","meal","checkin","checkout","adults","children"];
-fields.forEach(id => $(id).addEventListener("change", calculate));
+["room","meal","checkin","checkout","adults","children"]
+  .forEach(id => $(id).addEventListener("change", calculate));
 
 async function calculate() {
   const priceBox = $("priceBox");
@@ -86,6 +87,7 @@ async function calculate() {
 
   if (!checkin || !checkout || new Date(checkout) <= new Date(checkin)) {
     priceBox.innerText = "Total Amount: ₹ 0";
+    priceBox.className = "";
     return;
   }
 
@@ -102,20 +104,27 @@ async function calculate() {
   try {
     const res = await fetch(API, {
       method: "POST",
-      body: JSON.stringify(payload)   // ✅ NO HEADERS
+      body: JSON.stringify(payload)
     });
 
-    const data = await res.json();
+    const text = await res.text();
+    const data = JSON.parse(text);
 
-    if (typeof data.total !== "number" || data.total <= 0) {
-      throw new Error(data.error || "Invalid total");
+    if (data.error) {
+      throw new Error(data.error);
+    }
+
+    if (typeof data.total !== "number") {
+      throw new Error("Invalid server response");
     }
 
     lastTotal = data.total;
-    priceBox.innerText = "Total Amount: ₹ " + data.total;
+    priceBox.className = "";
+    priceBox.innerText = `Total Amount: ₹ ${data.total}`;
 
   } catch (err) {
     console.error("CALC ERROR:", err);
+    priceBox.className = "error";
     priceBox.innerText = "Error calculating price";
   }
 }
@@ -123,7 +132,7 @@ async function calculate() {
 document.getElementById("bookBtn").addEventListener("click", book);
 
 async function book() {
-  if (!lastTotal || lastTotal <= 0) {
+  if (!lastTotal) {
     alert("Please calculate price before booking.");
     return;
   }
@@ -146,10 +155,10 @@ async function book() {
   try {
     const res = await fetch(API, {
       method: "POST",
-      body: JSON.stringify(payload)   // ✅ NO HEADERS
+      body: JSON.stringify(payload)
     });
 
-    const data = await res.json();
+    const data = JSON.parse(await res.text());
 
     alert(data.success ? "Booking Confirmed!" : "Booking Failed");
 
