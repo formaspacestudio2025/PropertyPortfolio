@@ -204,11 +204,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const room = document.getElementById("room");
   const meal = document.getElementById("meal");
+  const checkin = document.getElementById("checkin");
+  const checkout = document.getElementById("checkout");
+  const adults = document.getElementById("adults");
+  const children = document.getElementById("children");
+  const priceBox = document.getElementById("price");
 
   // Disable dropdowns while loading
   room.disabled = true;
   meal.disabled = true;
 
+  // Load rooms and meals
   fetch(`${API}?action=init`)
     .then(res => {
       if (!res.ok) throw new Error(`Network error: ${res.status}`);
@@ -244,6 +250,8 @@ document.addEventListener("DOMContentLoaded", () => {
       room.disabled = false;
       meal.disabled = false;
 
+      // Trigger initial price calculation
+      calculatePrice();
     })
     .catch(err => {
       console.error("INIT LOAD ERROR:", err);
@@ -251,8 +259,45 @@ document.addEventListener("DOMContentLoaded", () => {
       meal.innerHTML = "<option disabled>Error loading meals</option>";
     });
 
+  // Listen to changes on inputs to recalc price
+  [room, meal, checkin, checkout, adults, children].forEach(el => {
+    el.addEventListener("change", calculatePrice);
+  });
+
+  function calculatePrice() {
+    // Basic validation
+    if (!checkin.value || !checkout.value || !room.value || !meal.value) {
+      priceBox.textContent = "$ 0";
+      return;
+    }
+
+    const url = `${API}?action=calculate` +
+      `&checkin=${encodeURIComponent(checkin.value)}` +
+      `&checkout=${encodeURIComponent(checkout.value)}` +
+      `&room=${encodeURIComponent(room.value)}` +
+      `&meal=${encodeURIComponent(meal.value)}` +
+      `&adults=${encodeURIComponent(adults.value || 0)}` +
+      `&children=${encodeURIComponent(children.value || 0)}`;
+
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        if (data.error) {
+          console.error("PRICE CALC ERROR:", data.error);
+          priceBox.textContent = "Error calculating price";
+          return;
+        }
+        priceBox.textContent = "$ " + data.total;
+      })
+      .catch(err => {
+        console.error("PRICE CALC FETCH ERROR:", err);
+        priceBox.textContent = "Error calculating price";
+      });
+  }
+
 });
 </script>
+
 
 
 
