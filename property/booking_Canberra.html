@@ -72,7 +72,6 @@ button{background:#25D366;border:none;font-size:1rem;cursor:pointer}
 const API = "https://script.google.com/macros/s/AKfycbwNkee3CSXwJ5uEr5YqUMVBZtaC2QaSdkSiSy7BiXE-r1TP7vl4hyf2Jyt51D7mPK60/exec";
 const $ = id => document.getElementById(id);
 
-// Store last calculated total safely
 let lastTotal = 0;
 
 const fields = ["room","meal","checkin","checkout","adults","children"];
@@ -85,12 +84,7 @@ async function calculate() {
   const checkin = $("checkin").value;
   const checkout = $("checkout").value;
 
-  if (!checkin || !checkout) {
-    priceBox.innerText = "Total Amount: ₹ 0";
-    return;
-  }
-
-  if (new Date(checkout) <= new Date(checkin)) {
+  if (!checkin || !checkout || new Date(checkout) <= new Date(checkin)) {
     priceBox.innerText = "Total Amount: ₹ 0";
     return;
   }
@@ -108,8 +102,7 @@ async function calculate() {
   try {
     const res = await fetch(API, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload)   // ✅ NO HEADERS
     });
 
     const data = await res.json();
@@ -153,8 +146,7 @@ async function book() {
   try {
     const res = await fetch(API, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload)   // ✅ NO HEADERS
     });
 
     const data = await res.json();
