@@ -267,20 +267,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* ---------- UPDATE ADULTS AND CHILDREN LIMITS BASED ON ROOM SELECTION ---------- */
   function updateAdultsAndChildrenLimits() {
-    // No need to differentiate by room, as we are using the same limits across all rooms
+    // Apply the same limits across all rooms
     const maxAdults = roomCapacity.adults;
     const maxChildren = roomCapacity.children;
 
-    // Update the adults and children limits based on selection
+    // Update the adults and children limits based on room selection
     adults.max = maxAdults;
     children.max = maxChildren;
 
-    // Automatically adjust the values if the user exceeds the allowed limits
+    // Automatically adjust values if the user exceeds the allowed limits
     if (parseInt(adults.value) > maxAdults) {
       adults.value = maxAdults;
     }
     if (parseInt(children.value) > maxChildren) {
       children.value = maxChildren;
+    }
+
+    // Restrict the children input if the adults count is 3 (Max adults: 3, Min children: 0)
+    if (parseInt(adults.value) === 3) {
+      children.value = 0;  // Set children to 0 if 3 adults are selected
+      children.disabled = true; // Disable the children input if there are 3 adults
+    } else {
+      children.disabled = false; // Enable children input if less than 3 adults
     }
   }
 
