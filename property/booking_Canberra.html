@@ -215,6 +215,12 @@ document.addEventListener("DOMContentLoaded", () => {
   meal.disabled = true;
   bookBtn.disabled = true;
 
+  // Global room capacity limits
+  let roomCapacity = {
+    adults: 3,   // Max adults: 3
+    children: 2  // Max children: 2
+  };
+
   /* ---------- INIT LOAD ---------- */
   fetch(`${API}?action=init`)
     .then(res => res.json())
@@ -246,6 +252,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
   /* ---------- EVENT LISTENERS ---------- */
+  room.addEventListener("change", () => {
+    updateAdultsAndChildrenLimits();
+    checkAvailabilityBeforePrice();
+  });
+
   [room, checkin, checkout].forEach(el => {
     el.addEventListener("change", checkAvailabilityBeforePrice);
   });
@@ -253,6 +264,25 @@ document.addEventListener("DOMContentLoaded", () => {
   [meal, adults, children].forEach(el => {
     el.addEventListener("change", calculatePrice);
   });
+
+  /* ---------- UPDATE ADULTS AND CHILDREN LIMITS BASED ON ROOM SELECTION ---------- */
+  function updateAdultsAndChildrenLimits() {
+    // No need to differentiate by room, as we are using the same limits across all rooms
+    const maxAdults = roomCapacity.adults;
+    const maxChildren = roomCapacity.children;
+
+    // Update the adults and children limits based on selection
+    adults.max = maxAdults;
+    children.max = maxChildren;
+
+    // Automatically adjust the values if the user exceeds the allowed limits
+    if (parseInt(adults.value) > maxAdults) {
+      adults.value = maxAdults;
+    }
+    if (parseInt(children.value) > maxChildren) {
+      children.value = maxChildren;
+    }
+  }
 
   /* ---------- AVAILABILITY CHECK ---------- */
   function checkAvailabilityBeforePrice() {
@@ -270,9 +300,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Fetch availability and handle response
     fetch(`${API}?action=availability`
-      + `&room=${room.value}`
-      + `&checkin=${checkin.value}`
-      + `&checkout=${checkout.value}`)
+      + `&room=${room.value}` + `&checkin=${checkin.value}` + `&checkout=${checkout.value}`)
       .then(res => res.json())
       .then(data => {
         if (!data.available) {
