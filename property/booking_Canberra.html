@@ -222,8 +222,15 @@ document.addEventListener("DOMContentLoaded", () => {
       room.innerHTML = "";
       meal.innerHTML = "";
 
+      // Dynamically add room types
       data.rooms.forEach(r => {
-        room.add(new Option(r[1], r[0]));
+        if (r[0] === 'R1') {
+          room.add(new Option("Deluxe Room 1", 'R1'));
+        } else if (r[0] === 'R2') {
+          room.add(new Option("Deluxe Room 2", 'R2'));
+        } else if (r[0] === 'R3') {
+          room.add(new Option("Family Suite", 'R3'));
+        }
       });
 
       data.meals.forEach(m => {
@@ -312,9 +319,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 });
-
 </script>
-
 
 
 
