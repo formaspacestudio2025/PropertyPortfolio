@@ -242,7 +242,7 @@ button:disabled{
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  const API = "https://script.google.com/macros/s/AKfycbwe8HXWyDzrSYtqDNqX4bShBNll8uJ427_-Cj3cpwHJO2S9wS41UWFenpytZOl1GwP7/exec";
+  const API = "https://script.google.com/macros/s/YOUR_DEPLOYED_SCRIPT_ID/exec";
 
   const room = document.getElementById("room");
   const meal = document.getElementById("meal");
@@ -263,131 +263,77 @@ document.addEventListener("DOMContentLoaded", () => {
   const popupClose = document.getElementById("popupClose");
 
   popupClose.onclick = () => popup.style.display = "none";
-  window.onclick = e => { if (e.target === popup) popup.style.display = "none"; };
-
-  function showPopup(title, message) {
-    popupTitle.textContent = title;
-    popupMessage.textContent = message;
-    popup.style.display = "block";
-  }
+  window.onclick = e => { if(e.target===popup) popup.style.display="none"; };
+  function showPopup(title,msg){popupTitle.textContent=title;popupMessage.textContent=msg;popup.style.display="block";}
 
   /* ---------- INIT ---------- */
-  fetch(`${API}?action=init`)
-    .then(res => res.json())
-    .then(data => {
-      room.innerHTML = "";
-      meal.innerHTML = "";
-
-      data.rooms.forEach(r => {
-        if (r[0] === "R1") room.add(new Option("Deluxe Room 1", "R1"));
-        if (r[0] === "R2") room.add(new Option("Deluxe Room 2", "R2"));
-        if (r[0] === "R3") room.add(new Option("Family Suite", "R3"));
-      });
-
-      data.meals.forEach(m => meal.add(new Option(m[1], m[0])));
+  fetch(`${API}?action=init`).then(r=>r.json()).then(data=>{
+    room.innerHTML=""; meal.innerHTML="";
+    data.rooms.forEach(r=>{
+      if(r[0]==='R1') room.add(new Option("Deluxe Room 1",'R1'));
+      if(r[0]==='R2') room.add(new Option("Deluxe Room 2",'R2'));
+      if(r[0]==='R3') room.add(new Option("Family Suite",'R3'));
     });
+    data.meals.forEach(m=>meal.add(new Option(m[1],m[0])));
+  });
 
-  /* ---------- AVAILABILITY ---------- */
-  function checkAvailabilityBeforePrice() {
-    bookBtn.disabled = true;
-    priceBox.textContent = "$ 0";
-
-    if (!room.value || !checkin.value || !checkout.value) return;
-
-    if (new Date(checkout.value) <= new Date(checkin.value)) {
-      priceBox.textContent = "Invalid date range";
-      return;
-    }
-
+  function checkAvailabilityBeforePrice(){
+    bookBtn.disabled=true; priceBox.textContent="$ 0";
+    if(!room.value||!checkin.value||!checkout.value) return;
+    if(new Date(checkout.value)<=new Date(checkin.value)){priceBox.textContent="Invalid date range";return;}
     fetch(`${API}?action=availability&room=${room.value}&checkin=${checkin.value}&checkout=${checkout.value}`)
-      .then(res => res.json())
-      .then(data => {
-        if (!data.available) {
-          priceBox.textContent = "Not available";
-          bookBtn.disabled = true;
-          return;
-        }
-        calculatePrice();
-        bookBtn.disabled = false;
+      .then(r=>r.json()).then(data=>{
+        if(!data.available){priceBox.textContent="Not available";bookBtn.disabled=true;return;}
+        calculatePrice(); bookBtn.disabled=false;
       });
   }
 
-  /* ---------- PRICE ---------- */
-  function calculatePrice() {
-    if (!checkin.value || !checkout.value || !room.value || !meal.value) return;
-
+  function calculatePrice(){
+    if(!checkin.value||!checkout.value||!room.value||!meal.value){priceBox.textContent="$ 0"; return;}
     fetch(`${API}?action=calculate&checkin=${checkin.value}&checkout=${checkout.value}&room=${room.value}&meal=${meal.value}&adults=${adults.value}&children=${children.value}`)
-      .then(res => res.json())
-      .then(data => {
-        priceBox.textContent = data.error ? "Price error" : "$ " + data.total;
-      });
+      .then(r=>r.json()).then(data=>{priceBox.textContent=data.error?"Price error":"$ "+data.total;});
   }
 
-  room.addEventListener("change", checkAvailabilityBeforePrice);
-  checkin.addEventListener("change", checkAvailabilityBeforePrice);
-  checkout.addEventListener("change", checkAvailabilityBeforePrice);
-  meal.addEventListener("change", calculatePrice);
-  adults.addEventListener("change", calculatePrice);
-  children.addEventListener("change", calculatePrice);
+  [room,checkin,checkout].forEach(el=>el.addEventListener("change",checkAvailabilityBeforePrice));
+  [meal,adults,children].forEach(el=>el.addEventListener("change",calculatePrice));
 
-  /* ---------- SAVE BOOKING (FIXED) ---------- */
-  bookBtn.addEventListener("click", () => {
-    if (!room.value || !meal.value || !checkin.value || !checkout.value || !name.value) {
-      showPopup("Oops!", "Please fill all required fields!");
-      return;
-    }
-
+  bookBtn.addEventListener("click",()=>{
+    if(!room.value||!meal.value||!checkin.value||!checkout.value||!name.value){showPopup("Oops!","Please fill all required fields!"); return;}
     const payload = {
-      action: "save",
-      room: room.value,
-      meal: meal.value,
-      checkin: checkin.value,
-      checkout: checkout.value,
-      adults: adults.value,
-      children: children.value,
-      name: name.value,
-      email: email.value,
-      phone: phone.value,
-      requests: requests.value,
-      total: priceBox.textContent.replace("$ ", "")
+      action:"save",
+      room:room.value,
+      meal:meal.value,
+      checkin:checkin.value,
+      checkout:checkout.value,
+      adults:adults.value,
+      children:children.value,
+      name:name.value,
+      email:email.value,
+      phone:phone.value,
+      requests:requests.value,
+      total:priceBox.textContent.replace("$ ","")
     };
 
     const formData = new URLSearchParams(payload);
 
-    fetch(API, {
-      method: "POST",
-      body: formData
-    })
-    .then(res => res.json())
-    .then(data => {
-      if (data.status === "success") {
-        showPopup("Thank You!", "Your booking is confirmed ✅ Dates blocked in calendar.");
+    fetch(API,{method:"POST",body:formData})
+      .then(r=>r.json()).then(data=>{
+        if(data.status==="success"){
+          showPopup("Thank You!","Your booking is confirmed ✅ Dates blocked in calendar.");
+          const phoneNumber = phone.value.replace(/\D/g,"");
+          const message=encodeURIComponent(`Hello ${name.value}, your booking for ${room.value} from ${checkin.value} to ${checkout.value} is confirmed!`);
+          window.open(`https://wa.me/${phoneNumber}?text=${message}`,"_blank");
 
-        const phoneNumber = phone.value.replace(/\D/g, "");
-        const message = encodeURIComponent(
-          `Hello ${name.value}, your booking for ${room.value} from ${checkin.value} to ${checkout.value} is confirmed!`
-        );
-        window.open(`https://wa.me/${phoneNumber}?text=${message}`, "_blank");
-
-        room.value = "";
-        meal.value = "";
-        checkin.value = "";
-        checkout.value = "";
-        adults.value = 1;
-        children.value = 0;
-        priceBox.textContent = "$ 0";
-        bookBtn.disabled = true;
-      } else {
-        showPopup("Sorry!", data.error || "Booking failed");
-      }
-    })
-    .catch(err => {
-      console.error(err);
-      showPopup("Server Error", "Please try again later.");
-    });
+          room.value=""; meal.value=""; checkin.value=""; checkout.value="";
+          adults.value=1; children.value=0; priceBox.textContent="$ 0"; bookBtn.disabled=true;
+        } else showPopup("Sorry!",data.error||"Booking failed");
+      })
+      .catch(err=>{console.error(err); showPopup("Server Error","Please try again later.");});
   });
+
 });
 </script>
+
 
 </body>
 </html>
