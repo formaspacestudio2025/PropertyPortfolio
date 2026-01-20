@@ -208,80 +208,106 @@ document.addEventListener("DOMContentLoaded", () => {
   const checkout = document.getElementById("checkout");
   const adults = document.getElementById("adults");
   const children = document.getElementById("children");
-  const priceBox = document.getElementById("priceBox"); // ✅ FIXED
+  const priceBox = document.getElementById("priceBox");
+  const bookBtn = document.getElementById("bookBtn");
 
   room.disabled = true;
   meal.disabled = true;
+  bookBtn.disabled = true;
 
+  /* ---------- INIT LOAD ---------- */
   fetch(`${API}?action=init`)
-    .then(res => {
-      if (!res.ok) throw new Error(`Network error: ${res.status}`);
-      return res.json();
-    })
+    .then(res => res.json())
     .then(data => {
-      if (!data.rooms || !data.meals) {
-        throw new Error("Invalid API response");
-      }
 
       room.innerHTML = "";
       meal.innerHTML = "";
 
       data.rooms.forEach(r => {
-        const opt = document.createElement("option");
-        opt.value = r[0];      // R1, R2
-        opt.textContent = r[1];
-        room.appendChild(opt);
+        room.add(new Option(r[1], r[0]));
       });
 
       data.meals.forEach(m => {
-        const opt = document.createElement("option");
-        opt.value = m[0];      // EP, CP, MAP
-        opt.textContent = m[1];
-        meal.appendChild(opt);
+        meal.add(new Option(m[1], m[0]));
       });
 
       room.disabled = false;
       meal.disabled = false;
-
-      calculatePrice();
     })
-    .catch(err => {
-      console.error("INIT LOAD ERROR:", err);
-      room.innerHTML = "<option disabled>Error loading rooms</option>";
-      meal.innerHTML = "<option disabled>Error loading meals</option>";
+    .catch(() => {
+      room.innerHTML = "<option>Error loading rooms</option>";
+      meal.innerHTML = "<option>Error loading meals</option>";
     });
 
-  [room, meal, checkin, checkout, adults, children].forEach(el => {
+  /* ---------- EVENT LISTENERS ---------- */
+  [room, checkin, checkout].forEach(el => {
+    el.addEventListener("change", checkAvailabilityBeforePrice);
+  });
+
+  [meal, adults, children].forEach(el => {
     el.addEventListener("change", calculatePrice);
   });
 
+  /* ---------- AVAILABILITY CHECK ---------- */
+  function checkAvailabilityBeforePrice() {
+
+    bookBtn.disabled = true;
+    priceBox.textContent = "$ 0";
+
+    if (!room.value || !checkin.value || !checkout.value) return;
+
+    if (new Date(checkout.value) <= new Date(checkin.value)) {
+      priceBox.textContent = "Invalid date range";
+      return;
+    }
+
+    fetch(`${API}?action=availability`
+      + `&room=${room.value}`
+      + `&checkin=${checkin.value}`
+      + `&checkout=${checkout.value}`)
+      .then(res => res.json())
+      .then(data => {
+
+        if (!data.available) {
+          priceBox.textContent = "Not available";
+          return;
+        }
+
+        calculatePrice();
+        bookBtn.disabled = false;
+      })
+      .catch(() => {
+        priceBox.textContent = "Availability error";
+      });
+  }
+
+  /* ---------- PRICE CALCULATION ---------- */
   function calculatePrice() {
+
     if (!checkin.value || !checkout.value || !room.value || !meal.value) {
       priceBox.textContent = "$ 0";
       return;
     }
 
-    const url = `${API}?action=calculate`
+    fetch(`${API}?action=calculate`
       + `&checkin=${checkin.value}`
       + `&checkout=${checkout.value}`
       + `&room=${room.value}`
       + `&meal=${meal.value}`
       + `&adults=${adults.value}`
-      + `&children=${children.value}`;
-
-    fetch(url)
+      + `&children=${children.value}`)
       .then(res => res.json())
       .then(data => {
+
         if (data.error) {
-          console.error(data.error);
-          priceBox.textContent = "Error calculating price";
+          priceBox.textContent = "Price error";
           return;
         }
+
         priceBox.textContent = "$ " + data.total;
       })
-      .catch(err => {
-        console.error(err);
-        priceBox.textContent = "Error calculating price";
+      .catch(() => {
+        priceBox.textContent = "Price error";
       });
   }
 
