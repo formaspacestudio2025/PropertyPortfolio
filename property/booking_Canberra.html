@@ -201,6 +201,45 @@ button:disabled{
   </div>
 </div>
 
+<!-- Capacity Note -->
+<div id="capacityNote" style="margin-bottom:8px; color:#555; font-size:14px;"></div>
+
+<!-- Booking Modal -->
+<div id="bookingPopup" class="popup">
+  <div class="popup-content">
+    <span id="popupClose" class="close">&times;</span>
+    <h2 id="popupTitle"></h2>
+    <p id="popupMessage"></p>
+  </div>
+</div>
+
+<style>
+.popup {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.6);
+}
+.popup-content {
+  background-color: #15181c;
+  margin: 15% auto;
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 450px;
+  text-align: center;
+  color: #fff;
+}
+.popup-content h2 { color: #25D366; }
+.close {
+  color: #fff;
+  float: right;
+  font-size: 28px;
+  cursor: pointer;
+}
+</style>
+
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   const API = "https://script.google.com/macros/s/AKfycbwe8HXWyDzrSYtqDNqX4bShBNll8uJ427_-Cj3cpwHJO2S9wS41UWFenpytZOl1GwP7/exec";
@@ -218,94 +257,78 @@ document.addEventListener("DOMContentLoaded", () => {
   const priceBox = document.getElementById("priceBox");
   const bookBtn = document.getElementById("bookBtn");
 
-  // Room capacity limits
   const roomCapacity = { adults: 3, children: 2 };
 
   room.disabled = true;
   meal.disabled = true;
   bookBtn.disabled = true;
 
+  const popup = document.getElementById("bookingPopup");
+  const popupTitle = document.getElementById("popupTitle");
+  const popupMessage = document.getElementById("popupMessage");
+  const popupClose = document.getElementById("popupClose");
+
+  popupClose.onclick = () => popup.style.display = "none";
+  window.onclick = (e) => { if (e.target === popup) popup.style.display = "none"; };
+
+  function showPopup(title, message) {
+    popupTitle.textContent = title;
+    popupMessage.textContent = message;
+    popup.style.display = "block";
+  }
+
   // Initialize rooms and meals
-  fetch(`${API}?action=init`)
-    .then(res => res.json())
-    .then(data => {
-      room.innerHTML = "";
-      meal.innerHTML = "";
-
-      data.rooms.forEach(r => {
-        if (r[0] === 'R1') room.add(new Option("Deluxe Room 1", 'R1'));
-        if (r[0] === 'R2') room.add(new Option("Deluxe Room 2", 'R2'));
-        if (r[0] === 'R3') room.add(new Option("Family Suite", 'R3'));
-      });
-
-      data.meals.forEach(m => meal.add(new Option(m[1], m[0])));
-
-      room.disabled = false;
-      meal.disabled = false;
+  fetch(`${API}?action=init`).then(res => res.json()).then(data => {
+    room.innerHTML = ""; meal.innerHTML = "";
+    data.rooms.forEach(r => {
+      if (r[0]==='R1') room.add(new Option("Deluxe Room 1",'R1'));
+      if (r[0]==='R2') room.add(new Option("Deluxe Room 2",'R2'));
+      if (r[0]==='R3') room.add(new Option("Family Suite",'R3'));
     });
+    data.meals.forEach(m => meal.add(new Option(m[1], m[0])));
+    room.disabled = false; meal.disabled = false;
+  });
 
-  // Update limits for adults and children
+  // Adults & Children limits
   function updateAdultsAndChildrenLimits() {
     const maxAdults = roomCapacity.adults;
     const maxChildren = roomCapacity.children;
 
     adults.max = maxAdults;
     children.max = maxChildren;
+    document.getElementById("capacityNote").textContent = 
+      `Max ${maxAdults} adults, ${maxChildren} children OR 3 adults, 0 children`;
 
-    // Capacity note
-    const capacityNote = document.getElementById("capacityNote");
-    capacityNote.textContent = `Max ${maxAdults} adults, ${maxChildren} children OR 3 adults, 0 children`;
-
-    // Adjust values
     if (parseInt(adults.value) > maxAdults) adults.value = maxAdults;
     if (parseInt(children.value) > maxChildren) children.value = maxChildren;
 
-    // Restrict children input if 3 adults
     if (parseInt(adults.value) === 3) {
-      children.value = 0;
-      children.disabled = true;
-    } else {
-      children.disabled = false;
-    }
+      children.value = 0; children.disabled = true;
+    } else children.disabled = false;
   }
 
-  // Availability check
   function checkAvailabilityBeforePrice() {
     bookBtn.disabled = true;
     priceBox.textContent = "$ 0";
     if (!room.value || !checkin.value || !checkout.value) return;
     if (new Date(checkout.value) <= new Date(checkin.value)) {
-      priceBox.textContent = "Invalid date range";
-      return;
+      priceBox.textContent = "Invalid date range"; return;
     }
 
     fetch(`${API}?action=availability&room=${room.value}&checkin=${checkin.value}&checkout=${checkout.value}`)
-      .then(res => res.json())
-      .then(data => {
-        if (!data.available) {
-          priceBox.textContent = "Not available";
-          bookBtn.disabled = true;
-          return;
-        }
-        calculatePrice();
-        bookBtn.disabled = false;
+      .then(res => res.json()).then(data => {
+        if (!data.available) { priceBox.textContent="Not available"; bookBtn.disabled=true; return; }
+        calculatePrice(); bookBtn.disabled=false;
       });
   }
 
-  // Price calculation
   function calculatePrice() {
     if (!checkin.value || !checkout.value || !room.value || !meal.value) {
-      priceBox.textContent = "$ 0";
-      return;
+      priceBox.textContent="$ 0"; return;
     }
     fetch(`${API}?action=calculate&checkin=${checkin.value}&checkout=${checkout.value}&room=${room.value}&meal=${meal.value}&adults=${adults.value}&children=${children.value}`)
-      .then(res => res.json())
-      .then(data => {
-        if (data.error) {
-          priceBox.textContent = "Price error";
-          return;
-        }
-        priceBox.textContent = "$ " + data.total;
+      .then(res=>res.json()).then(data=>{
+        priceBox.textContent = data.error ? "Price error" : "$ "+data.total;
       });
   }
 
@@ -318,7 +341,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Confirm booking
   bookBtn.addEventListener("click", () => {
     if (!room.value || !meal.value || !checkin.value || !checkout.value || !name.value) {
-      alert("Please fill all required fields!");
+      showPopup("Oops!", "Please fill all required fields!");
       return;
     }
 
@@ -334,31 +357,30 @@ document.addEventListener("DOMContentLoaded", () => {
       email: email.value,
       phone: phone.value,
       requests: requests.value,
-      total: priceBox.textContent.replace("$ ", "")
+      total: priceBox.textContent.replace("$ ","")
     });
 
     fetch(`${API}?${params.toString()}`)
       .then(res => res.json())
       .then(data => {
         if (data.status === "success") {
-          alert("Booking confirmed! ✅ Dates blocked in calendar.");
+          showPopup("Thank You!", "Your booking is confirmed ✅ Dates blocked in calendar.");
+
+          // WhatsApp link
+          const phoneNumber = phone.value.replace(/\D/g,'');
+          const message = encodeURIComponent(`Hello ${name.value}, your booking for ${room.value} from ${checkin.value} to ${checkout.value} is confirmed!`);
+          window.open(`https://wa.me/${phoneNumber}?text=${message}`, "_blank");
+
           // Reset form
-          room.value = "";
-          meal.value = "";
-          checkin.value = "";
-          checkout.value = "";
-          adults.value = 1;
-          children.value = 0;
-          priceBox.textContent = "$ 0";
-          bookBtn.disabled = true;
-        } else {
-          alert("Error: " + (data.error || "Unknown"));
-        }
+          room.value=""; meal.value=""; checkin.value=""; checkout.value="";
+          adults.value=1; children.value=0; priceBox.textContent="$ 0"; bookBtn.disabled=true;
+        } else showPopup("Sorry!", `Booking failed: ${data.error||"Unknown error"}`);
       })
-      .catch(() => alert("Server error, try again."));
+      .catch(()=>showPopup("Sorry!","Server error, try again."));
   });
 });
 </script>
+
 
 </body>
 </html>
