@@ -201,9 +201,6 @@ button:disabled{
   </div>
 </div>
 
-<!-- Capacity Note -->
-<div id="capacityNote" style="margin-bottom:8px; color:#555; font-size:14px;"></div>
-
 <!-- Booking Modal -->
 <div id="bookingPopup" class="popup">
   <div class="popup-content">
@@ -239,10 +236,10 @@ button:disabled{
   cursor: pointer;
 }
 </style>
+
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 
-  /* 🔙🔧 Use the latest deployed web-app URL */
   const API = "https://script.google.com/macros/s/AKfycbwe8HXWyDzrSYtqDNqX4bShBNll8uJ427_-Cj3cpwHJO2S9wS41UWFenpytZOl1GwP7/exec";
 
   const room = document.getElementById("room");
@@ -256,9 +253,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const phone = document.getElementById("phone");
   const requests = document.getElementById("requests");
   const priceBox = document.getElementById("priceBox");
+  const nightInfo = document.getElementById("nightInfo");
   const bookBtn = document.getElementById("bookBtn");
-
-  bookBtn.disabled = true;
 
   const popup = document.getElementById("bookingPopup");
   const popupTitle = document.getElementById("popupTitle");
@@ -275,44 +271,41 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ---------- INIT ---------- */
-  room.innerHTML = `<option>Loading room types…</option>`;
-  meal.innerHTML = `<option>Loading meal plans…</option>`;
-
   fetch(`${API}?action=init`)
     .then(res => res.json())
     .then(data => {
-      console.log("INIT RESPONSE:", data); // DEBUG: make sure rooms & meals are returned
-
       if (!data.rooms || !data.meals) throw new Error("Invalid init data");
 
       room.innerHTML = `<option value="">Select Room</option>`;
       meal.innerHTML = `<option value="">Select Meal</option>`;
 
-      data.rooms.forEach(r => {
-        // Assuming your backend returns: [["R1","Deluxe Room 1"],["R2","Deluxe Room 2"],["R3","Family Suite"]]
-        room.add(new Option(r[1], r[0]));
-      });
+      data.rooms.forEach(r => room.add(new Option(r[1], r[0])));
+      data.meals.forEach(m => meal.add(new Option(m[1], m[0])));
 
-      data.meals.forEach(m => {
-        // Assuming your backend returns: [["EP","Room Only"],["CP","Breakfast"]]
-        meal.add(new Option(m[1], m[0]));
-      });
-
+      room.disabled = false;
+      meal.disabled = false;
     })
     .catch(err => {
       console.error("INIT ERROR:", err);
-      room.innerHTML = `<option>Error loading rooms</option>`;
-      meal.innerHTML = `<option>Error loading meals</option>`;
       showPopup("Server Error", "Unable to load booking data");
     });
 
   /* ---------- AVAILABILITY ---------- */
+  function updateNights() {
+    if(checkin.value && checkout.value){
+      const nights = Math.ceil((new Date(checkout.value)-new Date(checkin.value))/(1000*60*60*24));
+      nightInfo.textContent = nights > 0 ? `${nights} night(s)` : '';
+    } else {
+      nightInfo.textContent = '';
+    }
+  }
+
   function checkAvailabilityBeforePrice() {
     bookBtn.disabled = true;
     priceBox.textContent = "$ 0";
+    updateNights();
 
     if (!room.value || !checkin.value || !checkout.value) return;
-
     if (new Date(checkout.value) <= new Date(checkin.value)) {
       priceBox.textContent = "Invalid date range";
       return;
@@ -345,12 +338,15 @@ document.addEventListener("DOMContentLoaded", () => {
           bookBtn.disabled = true;
         } else {
           priceBox.textContent = "$ " + data.total;
+          priceBox.classList.add("updated");
+          setTimeout(()=>priceBox.classList.remove("updated"),300);
         }
       });
   }
 
   [room, checkin, checkout].forEach(el => el.addEventListener("change", checkAvailabilityBeforePrice));
   [meal, adults, children].forEach(el => el.addEventListener("change", calculatePrice));
+  [checkin, checkout].forEach(el => el.addEventListener("change", updateNights));
 
   /* ---------- SAVE BOOKING ---------- */
   bookBtn.addEventListener("click", () => {
@@ -371,7 +367,7 @@ document.addEventListener("DOMContentLoaded", () => {
       email: email.value,
       phone: phone.value,
       requests: requests.value,
-      total: priceBox.textContent.replace("$ ", "")
+      total: priceBox.textContent.replace("$ ","")
     });
 
     fetch(API, { method: "POST", body: payload })
@@ -388,6 +384,7 @@ document.addEventListener("DOMContentLoaded", () => {
           room.value = meal.value = checkin.value = checkout.value = "";
           adults.value = 1; children.value = 0;
           priceBox.textContent = "$ 0";
+          nightInfo.textContent = '';
           bookBtn.disabled = true;
         } else {
           showPopup("Sorry!", data.error || "Booking failed");
@@ -401,8 +398,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 </script>
-
-
 
 </body>
 </html>
