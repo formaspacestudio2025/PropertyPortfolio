@@ -147,6 +147,9 @@ button:disabled{
       <div class="row">
         <div class="field">
           <label>Adults</label>
+          <div id="capacityNote" class="small" style="margin-bottom:4px; color:var(--muted);">
+            Max 3 adults, 2 children
+          </div>
           <input type="number" id="adults" min="1" value="1">
         </div>
         <div class="field">
@@ -154,6 +157,7 @@ button:disabled{
           <input type="number" id="children" min="0" value="0">
         </div>
       </div>
+
 
       <h2 style="margin-top:30px">Guest Information</h2>
 
@@ -267,30 +271,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* ---------- UPDATE ADULTS AND CHILDREN LIMITS BASED ON ROOM SELECTION ---------- */
   function updateAdultsAndChildrenLimits() {
-    // Apply the same limits across all rooms
-    const maxAdults = roomCapacity.adults;
-    const maxChildren = roomCapacity.children;
+  const maxAdults = roomCapacity.adults;
+  const maxChildren = roomCapacity.children;
 
-    // Update the adults and children limits based on room selection
-    adults.max = maxAdults;
-    children.max = maxChildren;
+  adults.max = maxAdults;
+  children.max = maxChildren;
 
-    // Automatically adjust values if the user exceeds the allowed limits
-    if (parseInt(adults.value) > maxAdults) {
-      adults.value = maxAdults;
-    }
-    if (parseInt(children.value) > maxChildren) {
-      children.value = maxChildren;
-    }
+  // Update the capacity note dynamically
+  const capacityNote = document.getElementById("capacityNote");
+  capacityNote.textContent = `Max ${maxAdults} adults, ${maxChildren} children OR 3 adults, 0 children`;
 
-    // Restrict the children input if the adults count is 3 (Max adults: 3, Min children: 0)
-    if (parseInt(adults.value) === 3) {
-      children.value = 0;  // Set children to 0 if 3 adults are selected
-      children.disabled = true; // Disable the children input if there are 3 adults
-    } else {
-      children.disabled = false; // Enable children input if less than 3 adults
-    }
+  // Automatically adjust values if the user exceeds the allowed limits
+  if (parseInt(adults.value) > maxAdults) {
+    adults.value = maxAdults;
   }
+  if (parseInt(children.value) > maxChildren) {
+    children.value = maxChildren;
+  }
+
+  // Restrict children input if 3 adults are selected
+  if (parseInt(adults.value) === 3) {
+    children.value = 0;  
+    children.disabled = true; 
+  } else {
+    children.disabled = false; 
+  }
+}
 
   /* ---------- AVAILABILITY CHECK ---------- */
   function checkAvailabilityBeforePrice() {
