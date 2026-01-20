@@ -239,11 +239,10 @@ button:disabled{
   cursor: pointer;
 }
 </style>
-
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 
-  /* 🔙🔧 IMPORTANT: replace with your latest deployed web-app URL */
+  /* 🔙🔧 Use the latest deployed web-app URL */
   const API = "https://script.google.com/macros/s/AKfycbwe8HXWyDzrSYtqDNqX4bShBNll8uJ427_-Cj3cpwHJO2S9wS41UWFenpytZOl1GwP7/exec";
 
   const room = document.getElementById("room");
@@ -261,7 +260,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   bookBtn.disabled = true;
 
-  /* ---------- POPUP ---------- */
   const popup = document.getElementById("bookingPopup");
   const popupTitle = document.getElementById("popupTitle");
   const popupMessage = document.getElementById("popupMessage");
@@ -281,25 +279,25 @@ document.addEventListener("DOMContentLoaded", () => {
   meal.innerHTML = `<option>Loading meal plans…</option>`;
 
   fetch(`${API}?action=init`)
-    .then(res => {
-      if (!res.ok) throw new Error("Init failed");
-      return res.json();
-    })
+    .then(res => res.json())
     .then(data => {
-      room.innerHTML = `<option value="">Select Room</option>`;
-      meal.innerHTML = `<option value="">Select Meal</option>`;
+      console.log("INIT RESPONSE:", data); // DEBUG: make sure rooms & meals are returned
 
       if (!data.rooms || !data.meals) throw new Error("Invalid init data");
 
+      room.innerHTML = `<option value="">Select Room</option>`;
+      meal.innerHTML = `<option value="">Select Meal</option>`;
+
       data.rooms.forEach(r => {
-        if (r[0] === "R1") room.add(new Option("Deluxe Room 1", "R1"));
-        if (r[0] === "R2") room.add(new Option("Deluxe Room 2", "R2"));
-        if (r[0] === "R3") room.add(new Option("Family Suite", "R3"));
+        // Assuming your backend returns: [["R1","Deluxe Room 1"],["R2","Deluxe Room 2"],["R3","Family Suite"]]
+        room.add(new Option(r[1], r[0]));
       });
 
       data.meals.forEach(m => {
+        // Assuming your backend returns: [["EP","Room Only"],["CP","Breakfast"]]
         meal.add(new Option(m[1], m[0]));
       });
+
     })
     .catch(err => {
       console.error("INIT ERROR:", err);
