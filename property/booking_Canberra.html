@@ -208,49 +208,41 @@ document.addEventListener("DOMContentLoaded", () => {
   const checkout = document.getElementById("checkout");
   const adults = document.getElementById("adults");
   const children = document.getElementById("children");
-  const priceBox = document.getElementById("price");
+  const priceBox = document.getElementById("priceBox"); // ✅ FIXED
 
-  // Disable dropdowns while loading
   room.disabled = true;
   meal.disabled = true;
 
-  // Load rooms and meals
   fetch(`${API}?action=init`)
     .then(res => {
       if (!res.ok) throw new Error(`Network error: ${res.status}`);
       return res.json();
     })
     .then(data => {
-
       if (!data.rooms || !data.meals) {
-        throw new Error("Invalid API response: missing rooms or meals");
+        throw new Error("Invalid API response");
       }
 
-      // Clear existing options
       room.innerHTML = "";
       meal.innerHTML = "";
-      // Populate rooms
+
       data.rooms.forEach(r => {
         const opt = document.createElement("option");
-        opt.value = r[0];      // R1, R2  ✅
-        opt.textContent = r[1]; // Deluxe Room
+        opt.value = r[0];      // R1, R2
+        opt.textContent = r[1];
         room.appendChild(opt);
       });
-      
-      // Populate meals
+
       data.meals.forEach(m => {
         const opt = document.createElement("option");
-        opt.value = m[0];      // EP, CP, MAP ✅
+        opt.value = m[0];      // EP, CP, MAP
         opt.textContent = m[1];
         meal.appendChild(opt);
       });
 
-
-      // Enable dropdowns now
       room.disabled = false;
       meal.disabled = false;
 
-      // Trigger initial price calculation
       calculatePrice();
     })
     .catch(err => {
@@ -259,38 +251,36 @@ document.addEventListener("DOMContentLoaded", () => {
       meal.innerHTML = "<option disabled>Error loading meals</option>";
     });
 
-  // Listen to changes on inputs to recalc price
   [room, meal, checkin, checkout, adults, children].forEach(el => {
     el.addEventListener("change", calculatePrice);
   });
 
   function calculatePrice() {
-    // Basic validation
     if (!checkin.value || !checkout.value || !room.value || !meal.value) {
       priceBox.textContent = "$ 0";
       return;
     }
 
-    const url = `${API}?action=calculate` +
-      `&checkin=${encodeURIComponent(checkin.value)}` +
-      `&checkout=${encodeURIComponent(checkout.value)}` +
-      `&room=${encodeURIComponent(room.value)}` +
-      `&meal=${encodeURIComponent(meal.value)}` +
-      `&adults=${encodeURIComponent(adults.value || 0)}` +
-      `&children=${encodeURIComponent(children.value || 0)}`;
+    const url = `${API}?action=calculate`
+      + `&checkin=${checkin.value}`
+      + `&checkout=${checkout.value}`
+      + `&room=${room.value}`
+      + `&meal=${meal.value}`
+      + `&adults=${adults.value}`
+      + `&children=${children.value}`;
 
     fetch(url)
       .then(res => res.json())
       .then(data => {
         if (data.error) {
-          console.error("PRICE CALC ERROR:", data.error);
+          console.error(data.error);
           priceBox.textContent = "Error calculating price";
           return;
         }
         priceBox.textContent = "$ " + data.total;
       })
       .catch(err => {
-        console.error("PRICE CALC FETCH ERROR:", err);
+        console.error(err);
         priceBox.textContent = "Error calculating price";
       });
   }
