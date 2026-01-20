@@ -256,12 +256,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const requests = document.getElementById("requests");
   const priceBox = document.getElementById("priceBox");
   const bookBtn = document.getElementById("bookBtn");
-
   const roomCapacity = { adults: 3, children: 2 };
-
-  room.disabled = true;
-  meal.disabled = true;
-  bookBtn.disabled = true;
 
   const popup = document.getElementById("bookingPopup");
   const popupTitle = document.getElementById("popupTitle");
@@ -270,7 +265,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   popupClose.onclick = () => popup.style.display = "none";
   window.onclick = (e) => { if (e.target === popup) popup.style.display = "none"; };
-
   function showPopup(title, message) {
     popupTitle.textContent = title;
     popupMessage.textContent = message;
@@ -291,22 +285,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Adults & Children limits
   function updateAdultsAndChildrenLimits() {
-    const maxAdults = roomCapacity.adults;
-    const maxChildren = roomCapacity.children;
-
-    adults.max = maxAdults;
-    children.max = maxChildren;
+    adults.max = roomCapacity.adults;
+    children.max = roomCapacity.children;
     document.getElementById("capacityNote").textContent = 
-      `Max ${maxAdults} adults, ${maxChildren} children OR 3 adults, 0 children`;
+      `Max ${roomCapacity.adults} adults, ${roomCapacity.children} children OR 3 adults, 0 children`;
 
-    if (parseInt(adults.value) > maxAdults) adults.value = maxAdults;
-    if (parseInt(children.value) > maxChildren) children.value = maxChildren;
-
-    if (parseInt(adults.value) === 3) {
-      children.value = 0; children.disabled = true;
-    } else children.disabled = false;
+    if (parseInt(adults.value) > roomCapacity.adults) adults.value = roomCapacity.adults;
+    if (parseInt(children.value) > roomCapacity.children) children.value = roomCapacity.children;
+    children.disabled = parseInt(adults.value) === 3;
+    if (parseInt(adults.value) === 3) children.value = 0;
   }
 
+  // Check availability
   function checkAvailabilityBeforePrice() {
     bookBtn.disabled = true;
     priceBox.textContent = "$ 0";
@@ -317,15 +307,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
     fetch(`${API}?action=availability&room=${room.value}&checkin=${checkin.value}&checkout=${checkout.value}`)
       .then(res => res.json()).then(data => {
-        if (!data.available) { priceBox.textContent="Not available"; bookBtn.disabled=true; return; }
-        calculatePrice(); bookBtn.disabled=false;
+        if (!data.available) { 
+          priceBox.textContent="Not available"; 
+          bookBtn.disabled=true; 
+          return; 
+        }
+        calculatePrice(); 
+        bookBtn.disabled=false;
       });
   }
 
+  // Calculate price
   function calculatePrice() {
     if (!checkin.value || !checkout.value || !room.value || !meal.value) {
       priceBox.textContent="$ 0"; return;
     }
+
     fetch(`${API}?action=calculate&checkin=${checkin.value}&checkout=${checkout.value}&room=${room.value}&meal=${meal.value}&adults=${adults.value}&children=${children.value}`)
       .then(res=>res.json()).then(data=>{
         priceBox.textContent = data.error ? "Price error" : "$ "+data.total;
@@ -338,14 +335,13 @@ document.addEventListener("DOMContentLoaded", () => {
   [meal, adults, children].forEach(el => el.addEventListener("change", calculatePrice));
   [adults, children].forEach(el => el.addEventListener("change", updateAdultsAndChildrenLimits));
 
-  // Confirm booking
+  // Confirm booking with POST
   bookBtn.addEventListener("click", () => {
     if (!room.value || !meal.value || !checkin.value || !checkout.value || !name.value) {
-      showPopup("Oops!", "Please fill all required fields!");
-      return;
+      showPopup("Oops!", "Please fill all required fields!"); return;
     }
 
-    const params = new URLSearchParams({
+    const payload = {
       action: "save",
       room: room.value,
       meal: meal.value,
@@ -358,25 +354,33 @@ document.addEventListener("DOMContentLoaded", () => {
       phone: phone.value,
       requests: requests.value,
       total: priceBox.textContent.replace("$ ","")
+    };
+
+    fetch(API, {
+      method: "POST",
+      body: JSON.stringify(payload),
+      headers: { "Content-Type": "application/json" }
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.status === "success") {
+        showPopup("Thank You!", "Your booking is confirmed ✅ Dates blocked in calendar.");
+
+        // WhatsApp message
+        const phoneNumber = phone.value.replace(/\D/g,'');
+        const message = encodeURIComponent(`Hello ${name.value}, your booking for ${room.value} from ${checkin.value} to ${checkout.value} is confirmed!`);
+        window.open(`https://wa.me/${phoneNumber}?text=${message}`, "_blank");
+
+        // Reset form
+        room.value=""; meal.value=""; checkin.value=""; checkout.value="";
+        adults.value=1; children.value=0; priceBox.textContent="$ 0"; bookBtn.disabled=true;
+
+      } else showPopup("Sorry!", `Booking failed: ${data.error||"Unknown error"}`);
+    })
+    .catch(err => {
+      console.error(err);
+      showPopup("Server Error","Check console for details.");
     });
-
-    fetch(`${API}?${params.toString()}`)
-      .then(res => res.json())
-      .then(data => {
-        if (data.status === "success") {
-          showPopup("Thank You!", "Your booking is confirmed ✅ Dates blocked in calendar.");
-
-          // WhatsApp link
-          const phoneNumber = phone.value.replace(/\D/g,'');
-          const message = encodeURIComponent(`Hello ${name.value}, your booking for ${room.value} from ${checkin.value} to ${checkout.value} is confirmed!`);
-          window.open(`https://wa.me/${phoneNumber}?text=${message}`, "_blank");
-
-          // Reset form
-          room.value=""; meal.value=""; checkin.value=""; checkout.value="";
-          adults.value=1; children.value=0; priceBox.textContent="$ 0"; bookBtn.disabled=true;
-        } else showPopup("Sorry!", `Booking failed: ${data.error||"Unknown error"}`);
-      })
-      .catch(()=>showPopup("Sorry!","Server error, try again."));
   });
 });
 </script>
