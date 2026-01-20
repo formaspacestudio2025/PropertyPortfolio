@@ -219,7 +219,6 @@ document.addEventListener("DOMContentLoaded", () => {
   fetch(`${API}?action=init`)
     .then(res => res.json())
     .then(data => {
-
       room.innerHTML = "";
       meal.innerHTML = "";
 
@@ -250,71 +249,42 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* ---------- AVAILABILITY CHECK ---------- */
   function checkAvailabilityBeforePrice() {
-  bookBtn.disabled = true;
-  priceBox.textContent = "$ 0";
-
-  // Ensure room, checkin, and checkout are all provided
-  if (!room.value || !checkin.value || !checkout.value) return;
-
-  // Ensure valid date range
-  if (new Date(checkout.value) <= new Date(checkin.value)) {
-    priceBox.textContent = "Invalid date range";
-    return;
-  }
-
-  // Fetch availability and handle response
-  fetch(`${API}?action=availability`
-    + `&room=${room.value}`
-    + `&checkin=${checkin.value}`
-    + `&checkout=${checkout.value}`)
-    .then(res => res.json())
-    .then(data => {
-      if (!data.available) {
-        priceBox.textContent = "Not available";
-        return;
-      }
-
-      // If available, calculate the price and enable the book button
-      calculatePrice();
-      bookBtn.disabled = false;
-    })
-    .catch(() => {
-      priceBox.textContent = "Availability error";
-    });
-}
-
-// Price calculation based on user input (adults, children, etc.)
-function calculatePrice() {
-  if (!checkin.value || !checkout.value || !room.value || !meal.value) {
+    bookBtn.disabled = true;
     priceBox.textContent = "$ 0";
-    return;
+
+    // Ensure room, checkin, and checkout are all provided
+    if (!room.value || !checkin.value || !checkout.value) return;
+
+    // Ensure valid date range
+    if (new Date(checkout.value) <= new Date(checkin.value)) {
+      priceBox.textContent = "Invalid date range";
+      return;
+    }
+
+    // Fetch availability and handle response
+    fetch(`${API}?action=availability`
+      + `&room=${room.value}`
+      + `&checkin=${checkin.value}`
+      + `&checkout=${checkout.value}`)
+      .then(res => res.json())
+      .then(data => {
+        if (!data.available) {
+          priceBox.textContent = "Not available";
+          bookBtn.disabled = true;
+          return;
+        }
+
+        // If available, calculate the price and enable the book button
+        calculatePrice();
+        bookBtn.disabled = false;
+      })
+      .catch(() => {
+        priceBox.textContent = "Availability error";
+      });
   }
-
-  fetch(`${API}?action=calculate`
-    + `&checkin=${checkin.value}`
-    + `&checkout=${checkout.value}`
-    + `&room=${room.value}`
-    + `&meal=${meal.value}`
-    + `&adults=${adults.value}`
-    + `&children=${children.value}`)
-    .then(res => res.json())
-    .then(data => {
-      if (data.error) {
-        priceBox.textContent = "Price error";
-        return;
-      }
-
-      priceBox.textContent = "$ " + data.total;
-    })
-    .catch(() => {
-      priceBox.textContent = "Price error";
-    });
-}
-
 
   /* ---------- PRICE CALCULATION ---------- */
   function calculatePrice() {
-
     if (!checkin.value || !checkout.value || !room.value || !meal.value) {
       priceBox.textContent = "$ 0";
       return;
@@ -329,7 +299,6 @@ function calculatePrice() {
       + `&children=${children.value}`)
       .then(res => res.json())
       .then(data => {
-
         if (data.error) {
           priceBox.textContent = "Price error";
           return;
@@ -343,6 +312,7 @@ function calculatePrice() {
   }
 
 });
+
 </script>
 
 
